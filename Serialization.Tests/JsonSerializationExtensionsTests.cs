@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
-using Cartomatic.Utils.Serialisation;
+using Cartomatic.Utils.Serialization;
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -14,13 +14,14 @@ namespace Cartomatic.Serialization.Tests
     public class JsonSerializationExtensionsTests
     {
         [Test]
-        public void FromJson_WhenPassedArbitraryObject_DeserializesItProperly()
+        public void DeserializeFromJson_WhenPassedArbitraryObject_DeserializesItProperly()
         {
             string json = MakeTestJson();
             var refObj = MakeTestObject();
 
             var obj = json.DeserializeFromJson<TestObjectWithSimpleTypes>();
 
+            obj.Should().NotBeNull();
             obj.ShouldBeEquivalentTo(refObj);
         }
 
@@ -43,7 +44,7 @@ namespace Cartomatic.Serialization.Tests
         }
 
         [Test]
-        public void ToJson_WhenCalledOnArbitraryObject_SerializesItProperly()
+        public void SerializeToJson_WhenCalledOnArbitraryObject_SerializesItProperly()
         {
             var obj = MakeTestObject();
             var refJson = MakeTestJson();
@@ -75,32 +76,5 @@ namespace Cartomatic.Serialization.Tests
             return "{PropBool: 'x', PropEnum: 1, PropInt: 666, PropDbl: 1.234, PropString: 'someText'}";
         }
 
-
-        [DataContract]
-        private class TestObjectWithSimpleTypes
-        {
-            [DataMember]
-            public bool PropBool { get; set; }
-
-            [DataMember]
-            public TestEnum PropEnum { get; set; }
-
-            [DataMember]
-            public int PropInt { get; set; }
-
-            [DataMember]
-            public double PropDbl { get; set; }
-
-            [DataMember]
-            public string PropString { get; set; }
-
-        }
-
-
-        public enum TestEnum
-        {
-            Value1,
-            Value2
-        }
     }
 }

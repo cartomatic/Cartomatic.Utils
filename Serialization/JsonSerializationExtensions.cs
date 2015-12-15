@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Cartomatic.Utils.Serialisation
+namespace Cartomatic.Utils.Serialization
 {
     public static class JsonSerializationExtensions
     {
@@ -32,7 +27,7 @@ namespace Cartomatic.Utils.Serialisation
                 {
                     output = JsonConvert.DeserializeObject(json, destinationType);
                 }
-                catch (Exception ex)
+                catch
                 {
                     if (!silent)
                     {
