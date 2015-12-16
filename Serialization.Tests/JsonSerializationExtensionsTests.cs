@@ -51,7 +51,7 @@ namespace Cartomatic.Utils.Serialization.Tests
 
             string json = obj.SerializeToJson();
 
-            json.Should().BeSameAs(refJson);
+            json.Should().BeEquivalentTo(refJson);
         }
 
         private TestObjectWithSimpleTypes MakeTestObject()
@@ -68,7 +68,7 @@ namespace Cartomatic.Utils.Serialization.Tests
 
         private string MakeTestJson()
         {
-            return "{PropBool: true, PropEnum: 1, PropInt: 666, PropDbl: 1.234, PropString: 'someText'}";
+            return "{\"PropBool\":true,\"PropEnum\":1,\"PropInt\":666,\"PropDbl\":1.234,\"PropString\":\"someText\"}";
         }
 
         private string MakeInvalidTestJson()
