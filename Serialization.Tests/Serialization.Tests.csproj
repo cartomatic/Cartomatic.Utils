@@ -7,8 +7,8 @@
     <ProjectGuid>{1F835DE8-FA2F-4BF6-B65F-47CDDA7A27FE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Serialization.Tests</RootNamespace>
-    <AssemblyName>Serialization.Tests</AssemblyName>
+    <RootNamespace>Cartomatic.Utils.Serialization.Tests</RootNamespace>
+    <AssemblyName>Cartomatic.Utils.Serialization.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

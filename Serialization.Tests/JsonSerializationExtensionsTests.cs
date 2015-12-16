@@ -8,7 +8,7 @@ using Cartomatic.Utils.Serialization;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace Cartomatic.Serialization.Tests
+namespace Cartomatic.Utils.Serialization.Tests
 {
     [TestFixture]
     public class JsonSerializationExtensionsTests

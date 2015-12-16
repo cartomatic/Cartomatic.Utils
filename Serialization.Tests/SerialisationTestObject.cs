@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 
-namespace Cartomatic.Serialization.Tests
+namespace Cartomatic.Utils.Serialization.Tests
 {
     [DataContract]
     public class TestObjectWithSimpleTypes
