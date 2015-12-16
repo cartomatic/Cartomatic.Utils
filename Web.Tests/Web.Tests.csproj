@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8CB98617-791F-487A-AE03-6BA7C58D073B}</ProjectGuid>
+    <ProjectGuid>{3540D1E4-2CB4-490A-A714-6760EE069A4E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cartomatic.Utils.Serialization.Tests</RootNamespace>
-    <AssemblyName>Cartomatic.Utils.Serialization.Tests</AssemblyName>
+    <RootNamespace>Web.Tests</RootNamespace>
+    <AssemblyName>Web.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -44,7 +44,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -52,18 +51,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SerialisationTestObject.cs" />
-    <Compile Include="XmlSerializationExtensionsTests.cs" />
-    <Compile Include="JsonSerializationExtensionsTests.cs" />
+    <Compile Include="WebExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Serialization\Serialization.csproj">
-      <Project>{31f8205f-b091-46d8-b6db-5ef738eb8a26}</Project>
-      <Name>Serialization</Name>
+    <ProjectReference Include="..\Web\Web.csproj">
+      <Project>{45666acc-c047-4608-8213-f109504ee551}</Project>
+      <Name>Web</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
