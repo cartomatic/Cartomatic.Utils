@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8CB98617-791F-487A-AE03-6BA7C58D073B}</ProjectGuid>
+    <ProjectGuid>{1F835DE8-FA2F-4BF6-B65F-47CDDA7A27FE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Cartomatic.Utils.Serialization.Tests</RootNamespace>
