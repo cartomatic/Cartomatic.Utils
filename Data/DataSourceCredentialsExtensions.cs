@@ -41,9 +41,10 @@ namespace Cartomatic.Utils.Data
                     output = new System.Data.SqlClient.SqlConnection(dbc.GetConnectionString());
                     break;
 
-                case DataSourceType.Oracle:
-                    output = null; //new System.Data.OracleClient.OracleConnection(dbc.connectionString);
-                    break;
+                //case DataSourceType.Oracle:
+                //    //TODO - when implementing oracle make it dynamically resolve assemblies as pgsql code does
+                //    output = null; //new System.Data.OracleClient.OracleConnection(dbc.connectionString);
+                //    break;
             }
 
             return output;
@@ -68,9 +69,10 @@ namespace Cartomatic.Utils.Data
                     output = new System.Data.SqlClient.SqlCommand();
                     break;
 
-                case DataSourceType.Oracle:
-                    output = null; //new System.Data.OracleClient.OracleCommand();
-                    break;
+                //case DataSourceType.Oracle:
+                //    //TODO - when implementing oracle make it dynamically resolve assemblies as pgsql code does
+                //    output = null; //new System.Data.OracleClient.OracleCommand();
+                //    break;
             }
 
             return output;
@@ -95,9 +97,10 @@ namespace Cartomatic.Utils.Data
                     output = new System.Data.SqlClient.SqlDataAdapter();
                     break;
 
-                case DataSourceType.Oracle:
-                    output = null; //new System.Data.OracleClient.OracleDataAdapter();
-                    break;
+                //case DataSourceType.Oracle:
+                //    //TODO - when implementing oracle make it dynamically resolve assemblies as pgsql code does
+                //    output = null; //new System.Data.OracleClient.OracleDataAdapter();
+                //    break;
             }
 
             return output;
