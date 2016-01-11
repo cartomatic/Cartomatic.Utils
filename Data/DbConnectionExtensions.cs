@@ -7,7 +7,7 @@ using System.Data;
 
 namespace Cartomatic.Utils.Data
 {
-    public static class IDbConnectionExtensions
+    public static class DbConnectionExtensions
     {
         /// <summary>
         /// Closes db connection 
