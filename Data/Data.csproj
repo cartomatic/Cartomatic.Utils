@@ -43,8 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IDataSourceCredentialsExtensions.cs" />
-    <Compile Include="IDbConnectionExtensions.cs" />
+    <Compile Include="DataSourceCredentialsExtensions.cs" />
+    <Compile Include="DbConnectionExtensions.cs" />
     <Compile Include="DataSource.cs" />
     <Compile Include="DataSourceType.cs" />
     <Compile Include="IDataSourceCredentials.cs" />

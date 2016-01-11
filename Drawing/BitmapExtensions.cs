@@ -11,6 +11,23 @@ namespace Cartomatic.Utils.Drawing
 {
     public static class BitmapExtensions
     {
+        /// <summary>
+        /// Sets opacity of a bitmap
+        /// </summary>
+        /// <param name="bitmap"></param>
+        /// <param name="opacity"></param>
+        /// <returns></returns>
+        public static Bitmap SetBitmapOpacity(this Bitmap bitmap, double opacity)
+        {
+            return bitmap.SetBitmapOpacity((float) opacity);
+        }
+
+        /// <summary>
+        /// Sets opacity of a bitmap
+        /// </summary>
+        /// <param name="bitmap"></param>
+        /// <param name="opacity"></param>
+        /// <returns></returns>
         public static Bitmap SetBitmapOpacity(this Bitmap bitmap, float opacity)
         {
             float op = opacity.FitInRange(0, 1);
@@ -45,15 +62,26 @@ namespace Cartomatic.Utils.Drawing
             return output;
         }
 
+        /// <summary>
+        /// Overlays a bitmap over the other one with a specified opacity
+        /// </summary>
+        /// <param name="baseBitmap"></param>
+        /// <param name="overlayBitmap"></param>
+        /// <param name="opacity"></param>
+        /// <returns></returns>
+        public static Bitmap OverlayBitmapWithOpacity(this Bitmap baseBitmap, Bitmap overlayBitmap, double opacity)
+        {
+            return baseBitmap.OverlayBitmapWithOpacity(overlayBitmap, (float) opacity);
+        }
 
         /// <summary>
         /// Overlays a bitmap over the other one with a specified opacity
         /// </summary>
         /// <param name="baseBitmap"></param>
-        /// <param name="opaqueBitmap"></param>
+        /// <param name="overlayBitmap"></param>
         /// <param name="opacity"></param>
         /// <returns></returns>
-        public static Bitmap OverlayBitmapWithOpacity(this Bitmap baseBitmap, Bitmap opaqueBitmap, float opacity)
+        public static Bitmap OverlayBitmapWithOpacity(this Bitmap baseBitmap, Bitmap overlayBitmap, float opacity)
         {
             Bitmap output = new Bitmap(baseBitmap.Width, baseBitmap.Height, PixelFormat.Format32bppArgb);
 
@@ -72,10 +100,10 @@ namespace Cartomatic.Utils.Drawing
                 g.DrawImage(baseBitmap, new Rectangle(0, 0, baseBitmap.Width, baseBitmap.Height), new Rectangle(0, 0, baseBitmap.Width, baseBitmap.Height), GraphicsUnit.Pixel);
 
                 //then the transparent one
-                g.DrawImage(opaqueBitmap, new Rectangle(0, 0, baseBitmap.Width, baseBitmap.Height), 0, 0, opaqueBitmap.Width, opaqueBitmap.Height, GraphicsUnit.Pixel, ia);
+                g.DrawImage(overlayBitmap, new Rectangle(0, 0, baseBitmap.Width, baseBitmap.Height), 0, 0, overlayBitmap.Width, overlayBitmap.Height, GraphicsUnit.Pixel, ia);
             }
 
-            return baseBitmap;
+            return output;
         }
     }
 }

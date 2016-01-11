@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataSourceCredentialsExtensionsTests.cs" />
     <Compile Include="DataSourceTests.cs" />
     <Compile Include="IDbConnectionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
