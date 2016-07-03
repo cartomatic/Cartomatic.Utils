@@ -14,24 +14,45 @@ namespace Data.Tests
     public class IDbConnectionTests
     {
         [Test]
-        public void ConnectionClose_WhenCalled_ProperlyClosesConnection()
+        public void ConnectionClose_WhenCalled_ProperlyClosesConnectionWithoutDispose()
         {
             var conn = new Connection();
             conn.Open();
             var stateAfterOpen = conn.State;
 
-            conn.CloseConnection();
+            conn.CloseConnection(dispose: false);
             var stateAfterClose = conn.State;
 
             stateAfterOpen.Should().Be(ConnectionState.Open);
             stateAfterClose.Should().Be(ConnectionState.Closed);
         }
 
-        class Connection : IDbConnection
+        [Test]
+        public void ConnectionClose_WhenCalled_ProperlyClosesAndDisposesConnection()
         {
+            var conn = new Connection();
+            conn.Open();
+            var stateAfterOpen = conn.State;
+            var disposeAfterOpen = conn.Disposed;
+
+            conn.CloseConnection(dispose: true);
+            var stateAfterClose = conn.State;
+            var disposeAfterClose = conn.Disposed;
+
+            stateAfterOpen.Should().Be(ConnectionState.Open);
+            stateAfterClose.Should().Be(ConnectionState.Closed);
+
+            disposeAfterOpen.Should().Be(false);
+            disposeAfterClose.Should().Be(true);
+        }
+
+        class Connection : IDbConnection, IDisposable
+        {
+            public bool Disposed { get; set; }
+        
             public void Dispose()
             {
-                throw new NotImplementedException();
+                Disposed = true;
             }
 
             public IDbTransaction BeginTransaction()
