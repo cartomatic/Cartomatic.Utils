@@ -21,9 +21,9 @@ namespace Cartomatic.Utils.EF
         /// <typeparam name="T"></typeparam>
         /// <param name="dbCtx"></param>
         /// <returns></returns>
-        public static string GetTableName<T>(this System.Data.Entity.DbContext dbCtx)
+        public static string GetTableName<T>(this System.Data.Entity.DbContext dbCtx, T obj)
         {
-            var mappings = dbCtx.GetMappings<T>();
+            var mappings = dbCtx.GetMappings(obj);
 
             // Find the storage entity set (table) that the entity is mapped
             var table = mappings
@@ -41,9 +41,9 @@ namespace Cartomatic.Utils.EF
         /// <typeparam name="T"></typeparam>
         /// <param name="dbCtx"></param>
         /// <returns></returns>
-        public static string GetTableSchema<T>(this System.Data.Entity.DbContext dbCtx)
+        public static string GetTableSchema<T>(this System.Data.Entity.DbContext dbCtx, T obj)
         {
-            var mappings = dbCtx.GetMappings<T>();
+            var mappings = dbCtx.GetMappings(obj);
 
             // Find the storage entity set (table) that the entity is mapped
             var table = mappings
@@ -61,9 +61,9 @@ namespace Cartomatic.Utils.EF
         /// </summary>
         /// <param name="dbCtx"></param>
         /// <returns></returns>
-        public static string GetTableColumnName<T>(this System.Data.Entity.DbContext dbCtx, string propertyName)
+        public static string GetTableColumnName<T>(this System.Data.Entity.DbContext dbCtx, T obj, string propertyName)
         {
-            var mappings = dbCtx.GetMappings<T>();
+            var mappings = dbCtx.GetMappings(obj);
 
             // Find the storage property (column) that the property is mapped
             var columnName = mappings
@@ -85,9 +85,10 @@ namespace Cartomatic.Utils.EF
         /// <typeparam name="T"></typeparam>
         /// <param name="dbCtx"></param>
         /// <returns></returns>
-        public static EntitySetMapping GetMappings<T>(this System.Data.Entity.DbContext dbCtx)
+        public static EntitySetMapping GetMappings<T>(this System.Data.Entity.DbContext dbCtx, T obj)
         {
-            var type = typeof(T);
+            //var type = typeof(T);
+            var type = obj.GetType();
 
             //do a cache loolup first
             if (MappingsCache.ContainsKey(dbCtx) && MappingsCache[dbCtx] != null && MappingsCache[dbCtx].ContainsKey(type))
