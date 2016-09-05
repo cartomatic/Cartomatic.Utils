@@ -13,11 +13,15 @@ namespace Cartomatic.Utils.Data
         /// Closes db connection 
         /// </summary>
         /// <param name="conn">Database connection object</param>
-        public static void CloseConnection(this IDbConnection conn)
+        /// <param name="dispose"></param>
+        public static void CloseConnection(this IDbConnection conn, bool dispose = true)
         {
             if (conn != null && conn.State == ConnectionState.Open)
             {
                 conn.Close();
+
+                if(dispose)
+                    conn.Dispose();
             }
         }
     }
