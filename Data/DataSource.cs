@@ -95,5 +95,14 @@ namespace Cartomatic.Utils.Data
 
             return conn;
         }
+
+        /// <summary>
+        /// Creates a copy of the object
+        /// </summary>
+        /// <returns></returns>
+        public DataSourceCredentials Clone()
+        {
+            return (DataSourceCredentials)MemberwiseClone();
+        }
     }
 }
