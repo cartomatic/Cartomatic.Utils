@@ -11,7 +11,9 @@
         string ServiceDb { get; set; }
         string UserName { get; set; }
         string Pass { get; set; }
+        string ServiceUserName { get; set; }
+        string ServiceUserPass { get; set; }
 
-        string GetConnectionString();
+        string GetConnectionString(bool useServiceUserCredentials = false);
     }
 }

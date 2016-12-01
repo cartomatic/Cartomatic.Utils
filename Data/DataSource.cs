@@ -28,6 +28,10 @@ namespace Cartomatic.Utils.Data
 
         public string Pass { get; set; }
 
+        public string ServiceUserName { get; set; }
+
+        public string ServiceUserPass { get; set; }
+
         
 
         /// <summary>
@@ -65,7 +69,7 @@ namespace Cartomatic.Utils.Data
         /// Returns a connection string for the configured data source type
         /// </summary>
         /// <returns></returns>
-        public string GetConnectionString()
+        public string GetConnectionString(bool useServiceCredentials = false)
         {
             string conn = "INVALID CONNECTION STRING";
             
@@ -76,15 +80,15 @@ namespace Cartomatic.Utils.Data
                         "Server=" + ServerHost + ";" +
                         "Port=" + ServerPort + ";" +
                         "Database=" + (string.IsNullOrEmpty(DbName) ? (UseDefaultServiceDb ? "postgres" : "") : DbName) + ";" +
-                        "user id=" + UserName + ";" +
-                        "password=" + Pass + ";";
+                        "user id=" + (useServiceCredentials ? (string.IsNullOrEmpty(ServiceUserName) ? "postgres" : ServiceUserName) :  UserName) + ";" +
+                        "password=" + (useServiceCredentials ? (string.IsNullOrEmpty(ServiceUserPass) ? "postgres" : ServiceUserPass) : Pass) + ";";
                     break;
 
                     case DataSourceType.SqlServer:
                         conn =
                             "server=" + ServerHost + (ServerPort.HasValue ? "," + ServerPort : "") + ";" +
-                            "user id=" + UserName + ";" +
-                            "password=" + Pass + ";" +
+                            "user id=" + (useServiceCredentials ? ServiceUserName : UserName) + ";" +
+                            "password=" + (useServiceCredentials ? ServiceUserPass : Pass) + ";" +
                             "database=" + DbName + ";";
                     break;
 
