@@ -14,6 +14,6 @@
         string ServiceUserName { get; set; }
         string ServiceUserPass { get; set; }
 
-        string GetConnectionString(bool useServiceUserCredentials = false);
+        string GetConnectionString(bool serviceDatabase = false, bool superUser = false);
     }
 }

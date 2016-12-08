@@ -32,14 +32,14 @@ namespace Cartomatic.Utils.Data
 
         public string ServiceUserPass { get; set; }
 
-        
+
 
         /// <summary>
-        /// Whethet or not default service Db name should be used when db name not provided - applicable to PgSql only
+        /// Whether or not default service Db name should be used when db name not provided - applicable to PgSql only
         /// </summary>
         public bool UseDefaultServiceDb { get; set; }
 
-        
+
 
 
         public DataSourceCredentials()
@@ -69,31 +69,31 @@ namespace Cartomatic.Utils.Data
         /// Returns a connection string for the configured data source type
         /// </summary>
         /// <returns></returns>
-        public string GetConnectionString(bool useServiceCredentials = false)
+        public string GetConnectionString(bool serviceDatabase = false, bool superUser = false)
         {
             string conn = "INVALID CONNECTION STRING";
-            
+
             switch (DataSourceType)
             {
                 case DataSourceType.PgSql:
                     conn =
                         "Server=" + ServerHost + ";" +
                         "Port=" + ServerPort + ";" +
-                        "Database=" + (string.IsNullOrEmpty(DbName) ? (UseDefaultServiceDb ? "postgres" : "") : DbName) + ";" +
-                        "user id=" + (useServiceCredentials ? (string.IsNullOrEmpty(ServiceUserName) ? "postgres" : ServiceUserName) :  UserName) + ";" +
-                        "password=" + (useServiceCredentials ? (string.IsNullOrEmpty(ServiceUserPass) ? "postgres" : ServiceUserPass) : Pass) + ";";
+                        "Database=" + (serviceDatabase ? (string.IsNullOrEmpty(ServiceDb) ? "postgres" : ServiceDb) : (string.IsNullOrEmpty(DbName) ? (UseDefaultServiceDb ? "postgres" : "") : DbName)) + ";" +
+                        "user id=" + (serviceDatabase || superUser ? (string.IsNullOrEmpty(ServiceUserName) ? "postgres" : ServiceUserName) : UserName) + ";" +
+                        "password=" + (serviceDatabase || superUser ? (string.IsNullOrEmpty(ServiceUserPass) ? "postgres" : ServiceUserPass) : Pass) + ";";
                     break;
 
-                    case DataSourceType.SqlServer:
-                        conn =
-                            "server=" + ServerHost + (ServerPort.HasValue ? "," + ServerPort : "") + ";" +
-                            "user id=" + (useServiceCredentials ? ServiceUserName : UserName) + ";" +
-                            "password=" + (useServiceCredentials ? ServiceUserPass : Pass) + ";" +
-                            "database=" + DbName + ";";
+                case DataSourceType.SqlServer:
+                    conn =
+                        "server=" + ServerHost + (ServerPort.HasValue ? "," + ServerPort : "") + ";" +
+                        "user id=" + (serviceDatabase || superUser ? ServiceUserName : UserName) + ";" +
+                        "password=" + (serviceDatabase || superUser ? ServiceUserPass : Pass) + ";" +
+                        "database=" + (serviceDatabase ? ServiceDb : DbName) + ";";
                     break;
 
-                    case DataSourceType.Oracle:
-                        throw new NotImplementedException();
+                case DataSourceType.Oracle:
+                    throw new NotImplementedException();
                     break;
             }
 
