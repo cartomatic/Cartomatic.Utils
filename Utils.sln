@@ -16,7 +16,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{4
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Tests", "Web.Tests\Web.Tests.csproj", "{3540D1E4-2CB4-490A-A714-6760EE069A4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Path.Tests", "Path.Tests\Path.Tests.csproj", "{1455D60A-C15C-4FF1-9145-5F37FB1F0C44}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cartomatic.Utils.Path.Tests", "Path.Tests\Cartomatic.Utils.Path.Tests.csproj", "{1455D60A-C15C-4FF1-9145-5F37FB1F0C44}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{EAA4225A-2D5B-4AFB-B861-3FEC188E7CE7}"
 EndProject
