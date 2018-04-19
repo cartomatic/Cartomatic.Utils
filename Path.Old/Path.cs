@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,25 +51,6 @@ namespace Cartomatic.Utils.Path
             }
 
             return fixedPath;
-        }
-
-        /// <summary>
-        /// Checks whether a spe
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        public static bool IsDirectory(this string path)
-        {
-            //dr exists, so obviously a dir...
-            if (System.IO.Directory.Exists(path))
-                return true;
-
-            //file, so not a dir...
-            if (System.IO.File.Exists(path))
-                return false;
-
-            //neither an existing file or dir, so just check the extension an assume no extension means a dir
-            return !System.IO.Path.HasExtension(path);
         }
     }
 }
