@@ -8,7 +8,7 @@ using Cartomatic.Utils.Path;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace Path.Tests
+namespace Cartomatic.Utils.Path.Tests
 {
     [TestFixture]
     public class PathTests
@@ -82,6 +82,39 @@ namespace Path.Tests
         {
             var invalidPath = @"<>!#$%test\path.txt";
             invalidPath.SolvePath().Should().Be(null);
+        }
+
+
+        [Test(Description = "Windows only test!")]
+        public void IsDirectory_WhenExists_ShouldBeTrue()
+        {
+            var path = @"c:\windows";
+
+            path.IsDirectory().Should().BeTrue();
+        }
+
+        [Test(Description = "Windows only test!")]
+        public void IsDirectory_WhenIsRealFile_ShouldBeFalse()
+        {
+            var path = @"c:\windows\regedit.exe";
+
+            path.IsDirectory().Should().BeFalse();
+        }
+
+        [Test]
+        public void IsDirectory_WhenNotExistsButLooksLikeDir_ShouldBeTrue()
+        {
+            var path = System.IO.Path.Combine(@"c:\", Guid.NewGuid().ToString());
+
+            path.IsDirectory().Should().BeTrue();
+        }
+
+        [Test]
+        public void IsDirectory_WhenNotExistsAndLooksLikeFile_ShouldBeFalse()
+        {
+            var path = $@"c:\{Guid.NewGuid().ToString()}.txt";
+
+            path.IsDirectory().Should().BeFalse();
         }
     }
 }
