@@ -9,7 +9,7 @@ using Cartomatic.Utils.Number;
 
 namespace Cartomatic.Utils.Drawing
 {
-    public static class BitmapExtensions
+    public static partial class BitmapExtensions
     {
         /// <summary>
         /// Sets opacity of a bitmap
