@@ -10,7 +10,7 @@ using RestSharp;
 using RestSharp.Deserializers;
 using RestSharp.Serializers;
 
-namespace Emapa.Utils.RestSharpSerializers
+namespace Cartomatic.Utils.RestSharpSerializers
 {
     /// <summary>
     /// Custom RestSharp serializer utilising NewtonSoft.JSON
