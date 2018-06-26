@@ -8,12 +8,14 @@ use at your own risk...</Description>
     <RepositoryUrl>https://github.com/cartomatic/Utils</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/cartomatic/Utils/blob/master/license.txt</PackageLicenseUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.0-dev0020</Version>
+    <Version>1.0.0-dev0025</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="msbump" Version="2.3.2" />
+    <PackageReference Include="newtonsoft.json" Version="11.0.2" />
     <PackageReference Include="npgsql" Version="4.0.0" />
+    <PackageReference Include="restsharp" Version="106.3.1" />
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.5.1" />
   </ItemGroup>
