@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net452</TargetFrameworks>
+    <Description>some utils simplifying common tasks
+use at your own risk...</Description>
+    <RepositoryUrl>https://github.com/cartomatic/Utils</RepositoryUrl>
+    <PackageLicenseUrl>https://github.com/cartomatic/Utils/blob/master/license.txt</PackageLicenseUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.0-dev0002</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="msbump" Version="2.3.2" />
+  </ItemGroup>
+
+</Project>
