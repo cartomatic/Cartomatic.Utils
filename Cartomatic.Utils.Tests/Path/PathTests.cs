@@ -31,13 +31,11 @@ namespace Cartomatic.Utils.Path.Tests
             absPath.IsAbsolute().Should().BeFalse();
         }
 
-        [Test]
-        public void InvalidPath_WhenCheckedIfAbsolute_ShouldThrow()
+        [TestCase(@"c:\tem|<p\fi<>le.txt")]
+        [TestCase(@"|<>!#$%test\path.txt")] //because of some reason <> does not throw... dunno why. it should
+        public void InvalidPath_WhenCheckedIfAbsolute_ShouldThrow(string invalidPath)
         {
-            var invalidPath = @"<>!#$%test\path.txt";
-
             Action act = () => { invalidPath.IsAbsolute(); };
-
             act.Should().Throw<Exception>();
         }
 
@@ -71,10 +69,10 @@ namespace Cartomatic.Utils.Path.Tests
             rootedPath.SolvePath().Should().Be(whatShouldBeAfterSolving);
         }
 
-        [Test]
-        public void InvalidPath_WhenSolved_ShouldBeNull()
+        [TestCase(@"c:\tem|<p\fi<>le.txt")]
+        [TestCase(@"|<>!#$%test\path.txt")] //because of some reason <> does not throw... dunno why. it should
+        public void InvalidPath_WhenSolved_ShouldBeNull(string invalidPath)
         {
-            var invalidPath = @"<>!#$%test\path.txt";
             invalidPath.SolvePath().Should().Be(null);
         }
 

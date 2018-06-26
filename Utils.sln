@@ -16,12 +16,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{4
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Tests", "Web.Tests\Web.Tests.csproj", "{3540D1E4-2CB4-490A-A714-6760EE069A4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cartomatic.Utils.Path.Tests", "Path.Tests\Cartomatic.Utils.Path.Tests.csproj", "{1455D60A-C15C-4FF1-9145-5F37FB1F0C44}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{EAA4225A-2D5B-4AFB-B861-3FEC188E7CE7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data.Tests", "Data.Tests\Data.Tests.csproj", "{5243781F-5EB6-4B1B-9868-5B3526DE76A6}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Drawing", "Drawing\Drawing.csproj", "{AD9B722F-07BD-45A5-9E1B-CAD777C7629F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Drawing.Tests", "Drawing.Tests\Drawing.Tests.csproj", "{4A56184A-E13A-453F-90D3-8B089C7C2E10}"
@@ -36,11 +30,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crypto.Tests", "Crypto.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EF", "EF\EF.csproj", "{9E8E9125-ACB3-47F6-9A83-C52B5CFC99E8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cartomatic.Utils.Path", "Path\Cartomatic.Utils.Path.csproj", "{B5952627-FED6-4DDB-BB6F-13C3842FE4C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cartomatic.Utils", "Utils\Cartomatic.Utils.csproj", "{358DAD2A-34AB-44D5-83EB-6F94784F0E56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cartomatic.Utils", "Utils\Cartomatic.Utils.csproj", "{358DAD2A-34AB-44D5-83EB-6F94784F0E56}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cartomatic.Utils.Tests", "Cartomatic.Utils.Tests\Cartomatic.Utils.Tests.csproj", "{7ED7A7FE-D65A-4842-A390-38793B3FF35E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cartomatic.Utils.Tests", "Cartomatic.Utils.Tests\Cartomatic.Utils.Tests.csproj", "{7ED7A7FE-D65A-4842-A390-38793B3FF35E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -64,18 +56,6 @@ Global
 		{3540D1E4-2CB4-490A-A714-6760EE069A4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3540D1E4-2CB4-490A-A714-6760EE069A4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3540D1E4-2CB4-490A-A714-6760EE069A4E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1455D60A-C15C-4FF1-9145-5F37FB1F0C44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1455D60A-C15C-4FF1-9145-5F37FB1F0C44}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1455D60A-C15C-4FF1-9145-5F37FB1F0C44}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1455D60A-C15C-4FF1-9145-5F37FB1F0C44}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EAA4225A-2D5B-4AFB-B861-3FEC188E7CE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EAA4225A-2D5B-4AFB-B861-3FEC188E7CE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EAA4225A-2D5B-4AFB-B861-3FEC188E7CE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EAA4225A-2D5B-4AFB-B861-3FEC188E7CE7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5243781F-5EB6-4B1B-9868-5B3526DE76A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5243781F-5EB6-4B1B-9868-5B3526DE76A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5243781F-5EB6-4B1B-9868-5B3526DE76A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5243781F-5EB6-4B1B-9868-5B3526DE76A6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AD9B722F-07BD-45A5-9E1B-CAD777C7629F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AD9B722F-07BD-45A5-9E1B-CAD777C7629F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD9B722F-07BD-45A5-9E1B-CAD777C7629F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -104,10 +84,6 @@ Global
 		{9E8E9125-ACB3-47F6-9A83-C52B5CFC99E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E8E9125-ACB3-47F6-9A83-C52B5CFC99E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E8E9125-ACB3-47F6-9A83-C52B5CFC99E8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B5952627-FED6-4DDB-BB6F-13C3842FE4C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B5952627-FED6-4DDB-BB6F-13C3842FE4C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B5952627-FED6-4DDB-BB6F-13C3842FE4C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B5952627-FED6-4DDB-BB6F-13C3842FE4C0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{358DAD2A-34AB-44D5-83EB-6F94784F0E56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{358DAD2A-34AB-44D5-83EB-6F94784F0E56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{358DAD2A-34AB-44D5-83EB-6F94784F0E56}.Release|Any CPU.ActiveCfg = Release|Any CPU
