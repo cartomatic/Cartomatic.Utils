@@ -8,7 +8,7 @@ use at your own risk...</Description>
     <RepositoryUrl>https://github.com/cartomatic/Utils</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/cartomatic/Utils/blob/master/license.txt</PackageLicenseUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.0-dev0032</Version>
+    <Version>1.0.0-dev0040</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,6 +26,9 @@ use at your own risk...</Description>
     </PackageReference>
     <PackageReference Include="Microsoft.Build.Utilities.Core">
       <Version>15.7.179</Version>
+    </PackageReference>
+    <PackageReference Include="System.Drawing.Common">
+      <Version>4.5.0</Version>
     </PackageReference>
   </ItemGroup>
 
