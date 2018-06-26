@@ -8,7 +8,7 @@ use at your own risk...</Description>
     <RepositoryUrl>https://github.com/cartomatic/Utils</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/cartomatic/Utils/blob/master/license.txt</PackageLicenseUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.0-dev0040</Version>
+    <Version>1.0.0-dev0044</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,7 +20,13 @@ use at your own risk...</Description>
     <PackageReference Include="System.Data.SqlClient" Version="4.5.1" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+
+  <!--.NET standard 2.0 refs, compilation flags & build opts-->
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
+    <DefineConstants>NETCORE;NETSTANDARD;NETSTANDARD2_0</DefineConstants>
+  </PropertyGroup>
+  
+<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <PackageReference Include="Microsoft.Build.Framework">
       <Version>15.7.179</Version>
     </PackageReference>
@@ -30,6 +36,20 @@ use at your own risk...</Description>
     <PackageReference Include="System.Drawing.Common">
       <Version>4.5.0</Version>
     </PackageReference>
+
+  <PackageReference Include="Microsoft.AspNetCore.Mvc">
+    <Version>2.0.3</Version>
+  </PackageReference>
+  </ItemGroup>
+
+
+  <!--NET 4.6.1 refs, compilation flags & build opts-->
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net46'">
+    <DefineConstants>NET46;NETFULL</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net46' ">
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.6" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.6" />
   </ItemGroup>
 
 
