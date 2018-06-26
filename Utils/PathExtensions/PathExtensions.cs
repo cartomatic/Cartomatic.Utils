@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cartomatic.Utils.Path
+namespace Cartomatic.Utils
 {
     /// <summary>
     /// Path utils

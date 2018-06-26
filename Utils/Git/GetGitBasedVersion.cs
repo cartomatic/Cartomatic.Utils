@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using Cartomatic.Utils.Path;
+using Cartomatic.Utils;
 
 namespace Cartomatic.Utils
 {

@@ -2,10 +2,10 @@
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace Cartomatic.Utils.Path.Tests
+namespace Cartomatic.Utils.PathExtensions.Tests
 {
     [TestFixture]
-    public class PathTests
+    public class PathExtensionsTests
     {
         [Test]
         public void AbsolutePath_WhenCheckedIfAbsolute_ShouldReturnTrue()
