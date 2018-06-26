@@ -7,7 +7,7 @@ using NUnit.Framework;
 using Cartomatic.Utils.Crypto;
 using FluentAssertions;
 
-namespace Crypto.Tests
+namespace Cartomatic.Utils.Crypto.Tests
 {
     [TestFixture]
     public class GeneratorTests

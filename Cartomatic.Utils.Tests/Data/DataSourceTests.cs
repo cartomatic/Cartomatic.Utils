@@ -7,7 +7,7 @@ using Cartomatic.Utils.Data;
 using NUnit.Framework;
 using FluentAssertions;
 
-namespace Data.Tests
+namespace Cartomatic.Utils.Data.Tests
 {
     [TestFixture]
     public class DataSourcerTests

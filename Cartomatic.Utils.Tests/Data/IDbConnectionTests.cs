@@ -8,7 +8,7 @@ using FluentAssertions;
 using NUnit.Framework;
 using Cartomatic.Utils.Data;
 
-namespace Data.Tests
+namespace Cartomatic.Utils.Data.Tests
 {
     [TestFixture]
     public class IDbConnectionTests
