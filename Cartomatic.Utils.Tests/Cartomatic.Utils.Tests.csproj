@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="fluentassertions" Version="5.4.1" />
+    <PackageReference Include="nsubstitute" Version="3.1.0" />
     <PackageReference Include="nunit" Version="3.10.1" />
   </ItemGroup>
 
