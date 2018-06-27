@@ -19,9 +19,9 @@ using System.Data.Entity.Core.Metadata.Edm;
 using System.Data.Entity.Infrastructure;
 #endif
 
-namespace Cartomatic.Utils.EF
+namespace Cartomatic.Utils.Ef
 {
-    public static class DbContextExtensions
+    public static partial class DbContextExtensions
     {
 
 #if NETSTANDARD

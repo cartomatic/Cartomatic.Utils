@@ -15,9 +15,9 @@ using System.Data.Entity;
 using Microsoft.EntityFrameworkCore;
 #endif
 
-namespace MapHive.Server.Core.DAL.Extensions
+namespace Cartomatic.Utils.Ef
 {
-    public static class DbContextExtensions
+    public static partial class DbContextExtensions
     {
 
         /// <summary>
