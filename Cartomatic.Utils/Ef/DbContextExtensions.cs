@@ -5,6 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+#if NETSTANDARD
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore.Storage;
+#endif
+
 #if NETFULL
 using System.Data.Entity.Core.Mapping;
 using System.Data.Entity.Core.Metadata.Edm;
@@ -15,6 +23,89 @@ namespace Cartomatic.Utils.EF
 {
     public static class DbContextExtensions
     {
+
+#if NETSTANDARD
+
+        private static readonly Dictionary<Microsoft.EntityFrameworkCore.DbContext, Dictionary<Type, Microsoft.EntityFrameworkCore.Metadata.IEntityType>> EntitiesMetadataCache = new Dictionary<Microsoft.EntityFrameworkCore.DbContext, Dictionary<Type, Microsoft.EntityFrameworkCore.Metadata.IEntityType>>();
+
+        /// <summary>
+        /// Gets the entity table name
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dbCtx"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static string GetTableName<T>(this DbContext dbCtx, T obj)
+        {
+            var metaData = dbCtx.GetEntityMetadata(obj);
+            var relationalMetaData = metaData.Relational();
+
+            return relationalMetaData.TableName;
+        }
+
+        /// <summary>
+        /// Gets table schema
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dbCtx"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static string GetTableSchema<T>(this DbContext dbCtx, T obj)
+        {
+            var metaData = dbCtx.GetEntityMetadata(obj);
+            var relationalMetaData = metaData.Relational();
+
+            return relationalMetaData.Schema;
+        }
+
+        /// <summary>
+        /// Gets a mapped column name
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dbCtx"></param>
+        /// <param name="obj"></param>
+        /// <param name="propertyName"></param>
+        /// <returns></returns>
+        public static string GetTableColumnName<T>(this Microsoft.EntityFrameworkCore.DbContext dbCtx, T obj, string propertyName)
+        {
+            var metaData = dbCtx.GetEntityMetadata(obj);
+            return metaData.GetProperties().FirstOrDefault(p => p.Name == propertyName)?.Relational().ColumnName;
+        }
+
+
+        /// <summary>
+        /// Gets the entity metadata for specified db ctx;
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dbCtx"></param>
+        /// <returns></returns>
+        private static Microsoft.EntityFrameworkCore.Metadata.IEntityType GetEntityMetadata<T>(this Microsoft.EntityFrameworkCore.DbContext dbCtx, T obj)
+        {
+            //var type = typeof(T);
+            var type = obj.GetType();
+
+            //do a cache loolup first
+            if (EntitiesMetadataCache.ContainsKey(dbCtx) && EntitiesMetadataCache[dbCtx] != null &&
+                EntitiesMetadataCache[dbCtx].ContainsKey(type))
+            {
+                return EntitiesMetadataCache[dbCtx][type];
+            }
+
+            var mapping = dbCtx.Model.FindEntityType(type);
+
+            //cache the results
+            if (!EntitiesMetadataCache.ContainsKey(dbCtx))
+            {
+                EntitiesMetadataCache[dbCtx] = new Dictionary<Type, Microsoft.EntityFrameworkCore.Metadata.IEntityType>();
+            }
+            EntitiesMetadataCache[dbCtx].Add(type, mapping);
+
+            return mapping;
+        }
+
+#endif
+
+
 #if NETFULL
 
         private static Dictionary<System.Data.Entity.DbContext, Dictionary<Type, EntitySetMapping>> MappingsCache = new Dictionary<System.Data.Entity.DbContext, Dictionary<Type, EntitySetMapping>>();
@@ -186,5 +277,5 @@ public static IEnumerable<string> GetTableName(Type type, DbContext context)
 }
          */
 #endif
-    }
+        }
 }
