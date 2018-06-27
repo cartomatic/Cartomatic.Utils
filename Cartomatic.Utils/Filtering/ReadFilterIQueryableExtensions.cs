@@ -158,7 +158,7 @@ namespace Cartomatic.Utils.Filtering
                     .FirstOrDefault(
                         p => string.Equals(p.Name, filter.Property, StringComparison.CurrentCultureIgnoreCase));
             if (propertyToFilterBy == null)
-                throw new InvalidEnumArgumentException(
+                throw new ArgumentException(
                     $"The property {targetType}.{filter.Property} is not defined for the model!");
 
             //work out what sort of filtering should be applied for a property...
@@ -197,7 +197,7 @@ namespace Cartomatic.Utils.Filtering
 
                     //make sure the type of the property to filter by is ok
                     if (propertyToFilterBy.PropertyType != typeof(string))
-                        throw new InvalidEnumArgumentException(
+                        throw new ArgumentException(
                             $"The property {targetType}.{propertyToFilterBy.Name} is not of 'string' type.");
 
 
@@ -271,7 +271,7 @@ namespace Cartomatic.Utils.Filtering
                 }
                 catch (Exception ex)
                 {
-                    throw new InvalidEnumArgumentException("Property: " + propertyToFilterBy.Name + ", " + ex.Message,
+                    throw new ArgumentException("Property: " + propertyToFilterBy.Name + ", " + ex.Message,
                         ex.InnerException);
                 }
             }
@@ -330,14 +330,14 @@ namespace Cartomatic.Utils.Filtering
                 }
                 catch (Exception ex)
                 {
-                    throw new InvalidEnumArgumentException("Property: " + propertyToFilterBy.Name + ", " + ex.Message,
+                    throw new ArgumentException("Property: " + propertyToFilterBy.Name + ", " + ex.Message,
                         ex.InnerException);
                 }
             }
             
             // If no expression generated then throw exception
             if (filterExpression == null)
-                throw new InvalidEnumArgumentException(
+                throw new ArgumentException(
                     $"Filter operator: {filter.Operator} for type: {filter.Value.GetType()} is not implemented (property: {propertyToFilterBy.Name} should be {propertyToFilterBy.PropertyType})");
 
 

@@ -13,7 +13,7 @@ using System.Runtime.Remoting.Messaging;
 using System.Web;
 #endif
 
-namespace MapHive.Server.Core.Utils
+namespace Cartomatic.Utils
 {
     public static class Identity
     {
@@ -125,7 +125,7 @@ namespace MapHive.Server.Core.Utils
         }
 
         /// <summary>
-        /// Impersonates a user via HttpContext object. Useful when entering WebGIS API via WebAPI
+        /// Impersonates a user via HttpContext object. Useful when entering MapHive API via WebAPI
         /// </summary>
         public static void ImpersonateUserViaHttpContext(Guid? uuid = null)
         {

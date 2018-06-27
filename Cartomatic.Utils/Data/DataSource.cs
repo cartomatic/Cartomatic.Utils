@@ -12,7 +12,7 @@ namespace Cartomatic.Utils.Data
         /// <summary>
         /// Type of the data source the credentials apply to
         /// </summary>
-        public DataSourceType DataSourceType { get; set; }
+        public DataSourceProvider DataSourceProvider { get; set; }
 
         public string ServerHost { get; set; }
 
@@ -35,7 +35,7 @@ namespace Cartomatic.Utils.Data
 
 
         /// <summary>
-        /// Whether or not default service Db name should be used when db name not provided - applicable to PgSql only
+        /// Whether or not default service Db name should be used when db name not provided - applicable to Npgsql only
         /// </summary>
         public bool UseDefaultServiceDb { get; set; }
 
@@ -55,9 +55,9 @@ namespace Cartomatic.Utils.Data
         {
             string dbName = string.Empty;
 
-            switch (DataSourceType)
+            switch (DataSourceProvider)
             {
-                case DataSourceType.PgSql:
+                case DataSourceProvider.Npgsql:
                     dbName = "postgres";
                     break;
             }
@@ -73,9 +73,9 @@ namespace Cartomatic.Utils.Data
         {
             string conn = "INVALID CONNECTION STRING";
 
-            switch (DataSourceType)
+            switch (DataSourceProvider)
             {
-                case DataSourceType.PgSql:
+                case DataSourceProvider.Npgsql:
                     conn =
                         "Server=" + ServerHost + ";" +
                         "Port=" + ServerPort + ";" +
@@ -84,7 +84,7 @@ namespace Cartomatic.Utils.Data
                         "password=" + (serviceDatabase || superUser ? (string.IsNullOrEmpty(ServiceUserPass) ? "postgres" : ServiceUserPass) : Pass) + ";";
                     break;
 
-                case DataSourceType.SqlServer:
+                case DataSourceProvider.SqlServer:
                     conn =
                         "server=" + ServerHost + (ServerPort.HasValue ? "," + ServerPort : "") + ";" +
                         "user id=" + (serviceDatabase || superUser ? ServiceUserName : UserName) + ";" +
@@ -92,7 +92,7 @@ namespace Cartomatic.Utils.Data
                         "database=" + (serviceDatabase ? ServiceDb : DbName) + ";";
                     break;
 
-                case DataSourceType.Oracle:
+                case DataSourceProvider.Oracle:
                     throw new NotImplementedException();
                     break;
             }

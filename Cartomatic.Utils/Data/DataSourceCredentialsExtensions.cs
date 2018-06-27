@@ -23,9 +23,9 @@ namespace Cartomatic.Utils.Data
         {
             IDbConnection output = null;
 
-            switch (dbc.DataSourceType)
+            switch (dbc.DataSourceProvider)
             {
-                case DataSourceType.PgSql:
+                case DataSourceProvider.Npgsql:
 
                     //TODO - make it dynamically resolve types! So the util is not so tightly coupled with different drivers as it sucks!
                     //Assembly assembly = Assembly.Load("Npgsql");
@@ -37,11 +37,11 @@ namespace Cartomatic.Utils.Data
                     output = new NpgsqlConnection(dbc.GetConnectionString());
                     break;
 
-                case DataSourceType.SqlServer:
+                case DataSourceProvider.SqlServer:
                     output = new System.Data.SqlClient.SqlConnection(dbc.GetConnectionString());
                     break;
 
-                //case DataSourceType.Oracle:
+                //case DataSourceProvider.Oracle:
                 //    //TODO - when implementing oracle make it dynamically resolve assemblies as pgsql code does
                 //    output = null; //new System.Data.OracleClient.OracleConnection(dbc.connectionString);
                 //    break;
@@ -59,17 +59,17 @@ namespace Cartomatic.Utils.Data
         {
             IDbCommand output = null;
 
-            switch (dbc.DataSourceType)
+            switch (dbc.DataSourceProvider)
             {
-                case DataSourceType.PgSql:
+                case DataSourceProvider.Npgsql:
                     output = new NpgsqlCommand();
                     break;
 
-                case DataSourceType.SqlServer:
+                case DataSourceProvider.SqlServer:
                     output = new System.Data.SqlClient.SqlCommand();
                     break;
 
-                //case DataSourceType.Oracle:
+                //case DataSourceProvider.Oracle:
                 //    //TODO - when implementing oracle make it dynamically resolve assemblies as pgsql code does
                 //    output = null; //new System.Data.OracleClient.OracleCommand();
                 //    break;
@@ -87,17 +87,17 @@ namespace Cartomatic.Utils.Data
         {
             IDbDataAdapter output = null;
 
-            switch (dbc.DataSourceType)
+            switch (dbc.DataSourceProvider)
             {
-                case DataSourceType.PgSql:
+                case DataSourceProvider.Npgsql:
                     output = new NpgsqlDataAdapter();
                     break;
 
-                case DataSourceType.SqlServer:
+                case DataSourceProvider.SqlServer:
                     output = new System.Data.SqlClient.SqlDataAdapter();
                     break;
 
-                //case DataSourceType.Oracle:
+                //case DataSourceProvider.Oracle:
                 //    //TODO - when implementing oracle make it dynamically resolve assemblies as pgsql code does
                 //    output = null; //new System.Data.OracleClient.OracleDataAdapter();
                 //    break;

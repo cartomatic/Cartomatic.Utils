@@ -2,7 +2,7 @@
 {
     public interface IDataSourceCredentials
     {
-        DataSourceType DataSourceType { get; set; }
+        DataSourceProvider DataSourceProvider { get; set; }
 
         string ServerHost { get; set; }
         string ServerName { get; set; }

@@ -1,9 +1,9 @@
 ﻿namespace Cartomatic.Utils.Data
 {
-    public enum DataSourceType
+    public enum DataSourceProvider
     {
         Unknown = 0,
-        PgSql = 1,
+        Npgsql = 1,
         SqlServer = 2,
         Oracle = 3
 

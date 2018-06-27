@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Cartomatic.Utils.JsonSerializableObjects
 {
-    public class SerializableDictionaryOfObject : SerializableDictionary<object>
+    public class SerializableDictionaryOfString : SerializableDictionary<string>
     {
     }
 }
