@@ -8,7 +8,7 @@ use at your own risk...</Description>
     <RepositoryUrl>https://github.com/cartomatic/Utils</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/cartomatic/Utils/blob/master/license.txt</PackageLicenseUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.0-dev0078</Version>
+    <Version>1.0.0-dev0080</Version>
   </PropertyGroup>
 
   <ItemGroup>
