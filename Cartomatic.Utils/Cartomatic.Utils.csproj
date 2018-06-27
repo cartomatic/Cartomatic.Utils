@@ -2,13 +2,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net462</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net452;net462</TargetFrameworks>
     <Description>some utils simplifying common tasks
 use at your own risk...</Description>
     <RepositoryUrl>https://github.com/cartomatic/Utils</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/cartomatic/Utils/blob/master/license.txt</PackageLicenseUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.0-dev0053</Version>
+    <Version>1.0.0-dev0058</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -42,8 +42,16 @@ use at your own risk...</Description>
   </PackageReference>
   </ItemGroup>
 
+  <!--NET 4.5.2 refs, compilation flags & build opts-->
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net452'">
+    <DefineConstants>NET452;NETFULL</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net452' ">
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.5" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.5" />
+  </ItemGroup>
 
-  <!--NET 4.6.1 refs, compilation flags & build opts-->
+  <!--NET 4.6.2 refs, compilation flags & build opts-->
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net462'">
     <DefineConstants>NET462;NETFULL</DefineConstants>
   </PropertyGroup>
