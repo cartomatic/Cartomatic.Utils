@@ -4,10 +4,12 @@ using System.IO;
 using System.Net;
 using System.Text;
 
+#if NETSTANDARD
 using Microsoft.Build.Framework;
 
 namespace MSBuildTasks
 {
+
     public class SetEnvName : Microsoft.Build.Utilities.Task
     {
         private string DefaultEnvName { get; set; } = "Development";
@@ -37,4 +39,6 @@ namespace MSBuildTasks
             return true;
         }
     }
+
 }
+#endif

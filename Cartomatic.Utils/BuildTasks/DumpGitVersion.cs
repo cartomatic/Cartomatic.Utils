@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using Cartomatic.Utils;
+
+#if NETSTANDARD
 using Microsoft.Build.Framework;
 
 namespace MSBuildTasks
 {
+
     public class DumpGitVersion : Microsoft.Build.Utilities.Task
     {
         public string GitPath { get; set; }
@@ -20,4 +23,6 @@ namespace MSBuildTasks
             return true;
         }
     }
+
 }
+#endif

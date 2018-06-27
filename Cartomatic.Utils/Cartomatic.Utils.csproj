@@ -8,14 +8,8 @@ use at your own risk...</Description>
     <RepositoryUrl>https://github.com/cartomatic/Utils</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/cartomatic/Utils/blob/master/license.txt</PackageLicenseUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.0-dev0068</Version>
+    <Version>1.0.0-dev0070</Version>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="BuildTasks\**" />
-    <EmbeddedResource Remove="BuildTasks\**" />
-    <None Remove="BuildTasks\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="msbump" Version="2.3.2" />
@@ -46,6 +40,13 @@ use at your own risk...</Description>
   <PackageReference Include="Microsoft.AspNetCore.Mvc">
     <Version>2.0.3</Version>
   </PackageReference>
+
+  <PackageReference Include="Microsoft.Build.Framework" Version="15.7.179" />
+  <PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.7.179" />
+
+
+  <PackageReference Include="Microsoft.Build.Framework" Version="15.7.179" />
+  <PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.7.179" />
   </ItemGroup>
 
   <!--NET 4.5.2 refs, compilation flags & build opts-->
