@@ -8,10 +8,11 @@ use at your own risk...</Description>
     <RepositoryUrl>https://github.com/cartomatic/Utils</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/cartomatic/Utils/blob/master/license.txt</PackageLicenseUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.0-dev0080</Version>
+    <Version>1.0.0-dev0082</Version>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
     <PackageReference Include="msbump" Version="2.3.2" />
     <PackageReference Include="newtonsoft.json" Version="11.0.2" />
     <PackageReference Include="npgsql" Version="4.0.0" />
@@ -75,6 +76,9 @@ use at your own risk...</Description>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational">
       <Version>2.1.1</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ReadSorter\" />
   </ItemGroup>
 
 
