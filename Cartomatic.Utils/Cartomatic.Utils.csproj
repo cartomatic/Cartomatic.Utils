@@ -8,7 +8,7 @@ use at your own risk...</Description>
     <RepositoryUrl>https://github.com/cartomatic/Utils</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/cartomatic/Utils/blob/master/license.txt</PackageLicenseUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.0-dev0058</Version>
+    <Version>1.0.0-dev0066</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -47,6 +47,7 @@ use at your own risk...</Description>
     <DefineConstants>NET452;NETFULL</DefineConstants>
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net452' ">
+    <PackageReference Include="EntityFramework" Version="6.2.0" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.5" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.5" />
   </ItemGroup>
@@ -56,6 +57,7 @@ use at your own risk...</Description>
     <DefineConstants>NET462;NETFULL</DefineConstants>
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net462' ">
+    <PackageReference Include="EntityFramework" Version="6.2.0" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.6" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.6" />
   </ItemGroup>
