@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 using Cartomatic.Utils.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
-namespace MapHive.Core.DAL
+
+#if NETSTANDARD
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+#endif
+
+namespace Cartomatic.Utils.Ef
 {
+#if NETSTANDARD
     public static class DbContextFactory
     {
         private static IConfiguration Configuration { get; set; }
@@ -32,7 +37,7 @@ namespace MapHive.Core.DAL
                 }
             };
 
-        private static DbContextOptionsBuilder ConfigureProvider(this DbContextOptionsBuilder builder,
+        public static DbContextOptionsBuilder ConfigureProvider(this DbContextOptionsBuilder builder,
             DataSourceProvider provider, string connStr)
         {
             if(!ProvidersConfiguration.ContainsKey(provider) || ProvidersConfiguration[provider] == null)
@@ -84,12 +89,24 @@ namespace MapHive.Core.DAL
         {
             var optionsBuilder = new DbContextOptionsBuilder<T>();
 
-            //use a specified connection string or grab it from the cfgs
-            var connStr = isConnStr ? connStrName : Configuration.GetConnectionString(connStrName);
+            var connStr = GetConnStr(connStrName, isConnStr);
 
             optionsBuilder.ConfigureProvider(provider, connStr);
 
             return optionsBuilder.Options;
         }
+
+        /// <summary>
+        /// Gets a conn str; obtains it from cfg if needed
+        /// </summary>
+        /// <param name="connStrName"></param>
+        /// <param name="isConnStr"></param>
+        /// <returns></returns>
+        public static string GetConnStr(string connStrName, bool isConnStr = false)
+        {
+            //use a specified connection string or grab it from the cfgs
+            return isConnStr ? connStrName : Configuration.GetConnectionString(connStrName);
+        }
     }
+#endif
 }

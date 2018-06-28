@@ -33,7 +33,7 @@ namespace Cartomatic.Utils.ApiClient
         /// <param name="queryParams"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        protected internal virtual async Task<RestApiCallOutput<TOut>> ApiCall<TOut>(string url, Method method = Method.GET, Dictionary<string, string> queryParams = null, object data = null)
+        protected internal virtual async Task<RestApiCallOutput<TOut>> ApiCallAsync<TOut>(string url, Method method = Method.GET, Dictionary<string, string> queryParams = null, object data = null)
         {
             var client = new RestClient(url);
             var request = new RestRequest(method);

@@ -26,7 +26,7 @@ namespace Cartomatic.Utils.Ef
         /// <param name="dbCtxFrom"></param>
         /// <param name="dbCtxTo"></param>
         /// <returns></returns>
-        public static async Task CopyTo<T>(this DbContext dbCtxFrom, DbContext dbCtxTo)
+        public static async Task CopyToAsync<T>(this DbContext dbCtxFrom, DbContext dbCtxTo)
             where T : class
         {
             var dbSetFrom = dbCtxFrom.Set<T>();
