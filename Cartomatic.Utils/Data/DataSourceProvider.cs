@@ -5,7 +5,8 @@
         Unknown = 0,
         Npgsql = 1,
         SqlServer = 2,
-        Oracle = 3
+        Oracle = 3,
+        EfInMemory = 4
 
         //TODO - at some point mongo, redis, neo4j, etc
     }

@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 #endif
 
 #if NETFULL
+using System.Data.Entity;
 using System.Data.Entity.Core.Mapping;
 using System.Data.Entity.Core.Metadata.Edm;
 using System.Data.Entity.Infrastructure;

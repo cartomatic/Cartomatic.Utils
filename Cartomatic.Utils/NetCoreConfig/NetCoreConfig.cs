@@ -21,8 +21,6 @@ namespace Cartomatic.Utils
         /// <returns></returns>
         public static IConfiguration GetNetCoreConfig(params string [] jsonCfgFileNames)
         {
-
-
             var builder = new ConfigurationBuilder()
                 .SetBasePath(System.AppContext.BaseDirectory)
 
@@ -41,7 +39,6 @@ namespace Cartomatic.Utils
             }
             
             return builder.Build();
-
         }
 #endif
     }
