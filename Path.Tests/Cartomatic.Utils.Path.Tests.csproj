@@ -61,7 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Path\Cartomatic.Utils.Path.csproj">
-      <Project>{b5952627-fed6-4ddb-bb6f-13c3842fe4c0}</Project>
+      <Project>{341fde3c-fb20-403e-875e-8e2ce3afbd48}</Project>
       <Name>Cartomatic.Utils.Path</Name>
     </ProjectReference>
   </ItemGroup>
