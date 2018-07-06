@@ -35,7 +35,7 @@ namespace Cartomatic.Utils
                 //but will throw if the concrete IPrincipal is not ClaimsPrincipal
 
                 //grab the sub claim
-                var subjectClaim = cp.FindFirst(IdentityServerSub);
+                var subjectClaim = cp?.FindFirst(IdentityServerSub);
 
                 //if no subject claim is present try to obtain it off the logical ctx
                 //see the comments in ImpersonateGhostUser

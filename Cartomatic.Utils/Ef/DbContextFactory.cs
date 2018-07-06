@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text;
 using Cartomatic.Utils.Data;
 
@@ -65,17 +68,62 @@ namespace Cartomatic.Utils.Ef
         /// <param name="connStrName">name of conn string to retrieve from configuration</param>
         /// <param name="isConnStr">whether ot not it is the actual connection string supplied</param>
         /// <returns></returns>
-        public static T CreateDbContext<T>(string connStrName, bool isConnStr = false, DataSourceProvider provider = DataSourceProvider.EfInMemory)
+        public static T CreateDbContext<T>(string connStrName = null, bool isConnStr = false, DataSourceProvider provider = DataSourceProvider.EfInMemory)
             where T: DbContext
         {
             var ctxType = typeof(T);
-            var opts = GetDbContextOptions<T>(connStrName, isConnStr);
 
-            var newCtx = (T)Activator.CreateInstance(ctxType, new object[] { opts });
+            var newCtx = default(T);
+
+            //Special treatment for ctxs implementing IProvideDbContextFactory
+            //this is for contexts that may not provide a default paramless or connstr, provider constructors
+            if (typeof(IProvideDbContextFactory).GetTypeInfo().IsAssignableFrom(typeof(T).Ge‌​tTypeInfo()))
+            {
+                //does not call ctor
+                var facade = (IProvideDbContextFactory)CreateDbContextFacade<T>();
+                if (!string.IsNullOrWhiteSpace(connStrName))
+                {
+                    newCtx = (T)facade.ProduceDbContextInstance(connStrName, isConnStr, provider);
+                }
+                else
+                {
+                    newCtx = (T)facade.ProduceDefaultDbContextInstance();
+                }
+            }
+            else
+            {
+                var opts = GetDbContextOptions<T>(connStrName, isConnStr);
+
+                newCtx = (T)Activator.CreateInstance(ctxType, new object[] { opts });
+            }
 
             return newCtx;
         }
 
+        /// <summary>
+        /// Creates an unitialized db context facade
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static T CreateDbContextFacade<T>()
+            where T : DbContext
+        {
+            return (T)CreateDbContextFacade(typeof(T));
+        }
+
+        /// <summary>
+        /// Creates an unitialized db context facade
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public static object CreateDbContextFacade(Type t)
+        {
+            if (!typeof(DbContext).GetTypeInfo().IsAssignableFrom(t.Ge‌​tTypeInfo()))
+            {
+                throw new InvalidEnumArgumentException($"{t.FullName} can is not assignable to {nameof(DbContext)}");
+            }
+            return FormatterServices.GetUninitializedObject(t);
+        }
 
         /// <summary>
         /// Gets DbContextOptions for a specified db context
@@ -84,12 +132,17 @@ namespace Cartomatic.Utils.Ef
         /// <param name="isConnStr"></param>
         /// <param name="provider"></param>
         /// <returns></returns>
-        public static DbContextOptions GetDbContextOptions<T>(string connStrName, bool isConnStr = false, DataSourceProvider provider = DataSourceProvider.EfInMemory)
+        public static DbContextOptions<T> GetDbContextOptions<T>(string connStrName, bool isConnStr = false, DataSourceProvider provider = DataSourceProvider.EfInMemory)
             where T: DbContext
         {
             var optionsBuilder = new DbContextOptionsBuilder<T>();
 
             var connStr = GetConnStr(connStrName, isConnStr);
+
+            if (string.IsNullOrWhiteSpace(connStr))
+            {
+                throw new InvalidEnumArgumentException($"Could not work out a non-enpty connection string - {nameof(connStrName)}: {connStr}, {nameof(isConnStr)}: {isConnStr}, {nameof(provider)}: {provider}.");
+            }
 
             optionsBuilder.ConfigureProvider(provider, connStr);
 
