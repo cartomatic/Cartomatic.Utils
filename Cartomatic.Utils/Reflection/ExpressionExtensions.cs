@@ -17,9 +17,7 @@ namespace Cartomatic.Utils.Reflection
         /// <returns></returns>
         public static MemberInfo GetPropertyMemberInfoFromExpression<TObject, TProperty>(this Expression<Func<TObject, TProperty>> expression)
         {
-            var memberExp = expression.Body as MemberExpression;
-
-            if (memberExp == null)
+            if (!(expression.Body is MemberExpression memberExp))
                 throw new ArgumentException("Member does not exist.");
 
             var member = memberExp.Member;
