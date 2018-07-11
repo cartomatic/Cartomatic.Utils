@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -17,7 +18,7 @@ namespace Cartomatic.Utils
 {
     public static class Identity
     {
-        private static string IdentityServerSub { get; set; } = "sub";
+        public const string Subject = "sub";
 
         /// <summary>
         /// Gets a user uuid off the thread's CurrentPrincipal
@@ -34,8 +35,15 @@ namespace Cartomatic.Utils
                 //Thread.CurrentPrincipal as ClaimsPrincipal;
                 //but will throw if the concrete IPrincipal is not ClaimsPrincipal
 
+                //Mote:
+                //in aspnet core ClaimsPrincipal.Current & are never set
+                //https://docs.microsoft.com/en-us/aspnet/core/migration/claimsprincipal-current?view=aspnetcore-2.1
+                //therefore for the sake of convenience of keeping on using this utility an attibute that explicitly impoersonates a user 'the old way' needs to be provided in a consuming aspnet core api
+
                 //grab the sub claim
-                var subjectClaim = cp?.FindFirst(IdentityServerSub);
+                var subjectClaim = cp?.FindFirst(Subject);
+
+                
 
                 //if no subject claim is present try to obtain it off the logical ctx
                 //see the comments in ImpersonateGhostUser
@@ -43,12 +51,12 @@ namespace Cartomatic.Utils
                 {
 #if NETFULL
                     cp = (ClaimsPrincipal) CallContext.GetData("CurrentPrincipal");
-                    subjectClaim = cp.FindFirst(IdentityServerSub);
+                    subjectClaim = cp.FindFirst(Subject);
 #endif
 
 #if NETSTANDARD
                     cp = (ClaimsPrincipal)CallContext.GetData("CurrentPrincipal");
-                    subjectClaim = cp.FindFirst(IdentityServerSub);
+                    subjectClaim = cp?.FindFirst(Subject);
 #endif
 
                 }
@@ -81,18 +89,26 @@ namespace Cartomatic.Utils
         /// </summary>
         public static void ImpersonateUser(Guid? guid = null)
         {
-            var cp = new ClaimsPrincipal(
-                new ClaimsIdentity(
-                    new List<Claim>
-                    {
-                        new Claim(IdentityServerSub, (guid ?? default(Guid)).ToString())
-                    }
-                )
-            );
+            var cp = GetBasicClaimsPrincipal(guid ?? default(Guid));
+            ImpersonateUser(cp);
+        }
 
-            //set cp on the thread
-            Thread.CurrentPrincipal = cp;
 
+        public static void ImpersonateUser(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+                return;
+
+            var cp = GetBasicClaimsPrincipal(id);
+            ImpersonateUser(cp);
+        }
+
+        /// <summary>
+        /// Impersonates user with a specified claims principal
+        /// </summary>
+        /// <param name="cp"></param>
+        private static void ImpersonateUser(ClaimsPrincipal cp)
+        {
             //and in the call ctx
 
             //Note:
@@ -111,12 +127,39 @@ namespace Cartomatic.Utils
             //http://www.hanselman.com/blog/SystemThreadingThreadCurrentPrincipalVsSystemWebHttpContextCurrentUserOrWhyFormsAuthenticationCanBeSubtle.aspx
 
 #if NETFULL
+            //set cp on the thread
+            Thread.CurrentPrincipal = cp;
+
             CallContext.LogicalSetData("CurrentPrincipal", cp);
 #endif
 
 #if NETSTANDARD
             CallContext.SetData("CurrentPrincipal", cp);
 #endif
+        }
+
+        /// <summary>
+        /// Gets a basic claims principal with one claim - sub
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="scheme"></param>
+        /// <returns></returns>
+        public static ClaimsPrincipal GetBasicClaimsPrincipal(Guid id, string scheme = null)
+        {
+            return GetBasicClaimsPrincipal(id.ToString());
+        }
+
+        public static ClaimsPrincipal GetBasicClaimsPrincipal(string id, string scheme = null)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(Subject, id)
+            };
+            return new ClaimsPrincipal(
+                string.IsNullOrEmpty(scheme)
+                    ? new ClaimsIdentity(claims)
+                    : new ClaimsIdentity(claims, scheme)
+            );
         }
 
         public static void ImpersonateGhostUserViaHttpContext()
@@ -134,7 +177,7 @@ namespace Cartomatic.Utils
                 new ClaimsIdentity(
                     new List<Claim>
                     {
-                        new Claim(IdentityServerSub, (uuid ?? default(Guid)).ToString())
+                        new Claim(Subject, (uuid ?? default(Guid)).ToString())
                     }
                 )
             );
