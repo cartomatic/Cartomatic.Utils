@@ -374,6 +374,12 @@ namespace Cartomatic.Utils.Filtering
                     }
                     //else - this should have thrown just before we examined the nested filters property
 
+                    //nothing to join!
+                    //this is a rare scenario when someone declared a nested filter but it was of 'nested' type and 
+                    //had an empty nestedFilters array. in this case, no filter expression could be created
+                    if(nested == null)
+                        continue;
+
                     filterExpression = 
                         filter.AndJoin
                             ? Expression.AndAlso(filterExpression, nested)
