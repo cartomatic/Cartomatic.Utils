@@ -124,7 +124,7 @@ namespace Cartomatic.Utils.Filtering
 
 
             //adjust "guid" filter types to just "==", so they're filtered the same way
-            if(filter.Operator == "guid")
+            if (filter.Operator == "guid")
             {
                 if (!Guid.TryParse(filter.Value, out Guid guid))
                     throw new ArgumentException($"Filter on {filter.Property} with a value of {filter.Value} is specified as a guid filter; the value is nto parsable to guid though.");
@@ -152,14 +152,23 @@ namespace Cartomatic.Utils.Filtering
             //TODO - support some more filter operators such as =, <, <=, >, >=, notin, !=; this should be simply just a minor modification of the conditions below
 
 
-            //Check if model property exists; if not this is a bad, bad request...
             var propertyToFilterBy =
                 targetType.GetProperties()
                     .FirstOrDefault(
                         p => string.Equals(p.Name, filter.Property, StringComparison.CurrentCultureIgnoreCase));
-            if (propertyToFilterBy == null)
-                throw new ArgumentException(
-                    $"The property {targetType}.{filter.Property} is not defined for the model!");
+
+            if (filter.Operator != "nested")
+            {
+                //Check if model property exists; if not this is a bad, bad request...
+                if (string.IsNullOrEmpty(filter.Property))
+                    throw new ArgumentException(
+                        $"The property to filter on has not been declared!");
+
+                if (propertyToFilterBy == null)
+                    throw new ArgumentException(
+                        $"The property {targetType}.{filter.Property} is not defined for the model!");
+            }
+
 
             //work out what sort of filtering should be applied for a property...
 
@@ -174,14 +183,14 @@ namespace Cartomatic.Utils.Filtering
                 //such types are stored as a single json string entry in the database
                 //in such case a type shoudl implement IJsonSerialisableType. I so it should be possible to filter such type as it was a string
                 //(which it indeed is on the db side)
-                if (propertyToFilterBy.PropertyType.GetInterfaces().Contains(typeof(Cartomatic.Utils.JsonSerializableObjects.IJsonSerializable)))
+                if (propertyToFilterBy.PropertyType.GetInterfaces().Contains(typeof(Emapa.WebGIS.Server.Core.DAL.CustomTypes.IJsonSerializable)))
                 {
                     //This will call to lower on the property that the filter applies to;
                     //pretty much means call ToLower on the property - something like p => p.ToLower()
                     var toLower = Expression.Call(
                         Expression.Property( //this specify the property to filter by on the param object specified earlier - so p => p.Property
                             Expression.Property(paramExp, filter.Property),
-                            "serialised" //and we dig deeper here to reach p.Property.Serialised
+                            "serialized" //and we dig deeper here to reach p.Property.Serialised
                         ),
                         typeof(string).GetMethod("ToLower", Type.EmptyTypes)
                     //this is the method to be called on the property specified above
@@ -231,7 +240,13 @@ namespace Cartomatic.Utils.Filtering
 
                         Expression inExpression;
 
-                        if (Expression.Property(paramExp, filter.Property).Type == typeof(Guid))
+                        var underlyingType =
+                            Nullable.GetUnderlyingType(Expression.Property(paramExp, filter.Property).Type);
+
+                        if (
+                            Expression.Property(paramExp, filter.Property).Type == typeof(Guid)
+                            || underlyingType == typeof(Guid)
+                            )
                         {
                             //property to string
                             //var toStr = Expression.Call(
@@ -334,11 +349,12 @@ namespace Cartomatic.Utils.Filtering
                         ex.InnerException);
                 }
             }
-            
+
             // If no expression generated then throw exception
-            if (filterExpression == null)
+            if (filter.Operator != "nested" && filterExpression == null)
                 throw new ArgumentException(
                     $"Filter operator: {filter.Operator} for type: {filter.Value.GetType()} is not implemented (property: {propertyToFilterBy.Name} should be {propertyToFilterBy.PropertyType})");
+
 
 
             //check if there are nested filters and process them the same way as itself!
@@ -347,7 +363,18 @@ namespace Cartomatic.Utils.Filtering
                 foreach (var nestedFilter in filter.NestedFilters)
                 {
                     var nested = GetFilterExpression(nestedFilter, targetType, paramExp);
-                    filterExpression =
+                    if (filterExpression == null && filter.Operator == "nested")
+                    {
+                        //a nested filter is a way of specifying a nested filter that gets glued to containing property 
+                        //according to the AndJoin value and internally looks like this
+                        //( filter1 and/orelse filter2) //and or else depends on the value of AndJoin set on the nested filter type
+                        filterExpression = nested;
+
+                        continue;
+                    }
+                    //else - this should have thrown just before we examined the nested filters property
+
+                    filterExpression = 
                         filter.AndJoin
                             ? Expression.AndAlso(filterExpression, nested)
                             : Expression.OrElse(filterExpression, nested);
@@ -356,7 +383,7 @@ namespace Cartomatic.Utils.Filtering
 
             return filterExpression;
         }
-             
+
         /// <summary>
         /// gets an expression that specifies a property to be tested
         /// </summary>
@@ -386,8 +413,8 @@ namespace Cartomatic.Utils.Filtering
                 filter,
                 Expression.Convert(
                     Expression.Constant(value ?? filter.Value),
-                    Expression.Property(paramExp, filter.Property).Type    
-                )    
+                    Expression.Property(paramExp, filter.Property).Type
+                )
             );
         }
 
