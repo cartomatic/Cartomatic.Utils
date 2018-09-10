@@ -183,7 +183,7 @@ namespace Cartomatic.Utils.Filtering
                 //such types are stored as a single json string entry in the database
                 //in such case a type shoudl implement IJsonSerialisableType. I so it should be possible to filter such type as it was a string
                 //(which it indeed is on the db side)
-                if (propertyToFilterBy.PropertyType.GetInterfaces().Contains(typeof(Emapa.WebGIS.Server.Core.DAL.CustomTypes.IJsonSerializable)))
+                if (propertyToFilterBy.PropertyType.GetInterfaces().Contains(typeof(Cartomatic.Utils.JsonSerializableObjects.IJsonSerializable)))
                 {
                     //This will call to lower on the property that the filter applies to;
                     //pretty much means call ToLower on the property - something like p => p.ToLower()
