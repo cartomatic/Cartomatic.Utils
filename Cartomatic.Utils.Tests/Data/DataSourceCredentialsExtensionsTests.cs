@@ -14,11 +14,11 @@ namespace Cartomatic.Utils.Data.Tests
     public class DataSourceCredentialsExtensionsTests
     {
         [Test]
-        public void GetDbConnection_WhenDataSourceTypeIsPgSql_ReturnsNpgsqlConnection()
+        public void GetDbConnection_WhenDataSourceProviderIsPgSql_ReturnsNpgsqlConnection()
         {
             var dbc = new DataSourceCredentials()
             {
-                DataSourceType = DataSourceType.PgSql
+                DataSourceProvider = DataSourceProvider.Npgsql
             };
 
             var conn = dbc.GetDbConnectionObject();
@@ -27,11 +27,11 @@ namespace Cartomatic.Utils.Data.Tests
         }
 
         [Test]
-        public void GetDbCommandObject_WhenDataSourceTypeIsPgSql_ReturnsNpgsqlCommand()
+        public void GetDbCommandObject_WhenDataSourceProviderIsPgSql_ReturnsNpgsqlCommand()
         {
             var dbc = new DataSourceCredentials()
             {
-                DataSourceType = DataSourceType.PgSql
+                DataSourceProvider =DataSourceProvider.Npgsql
             };
 
             var conn = dbc.GetDbCommandObject();
@@ -40,11 +40,11 @@ namespace Cartomatic.Utils.Data.Tests
         }
 
         [Test]
-        public void GetDbDataAdapterObject_WhenDataSourceTypeIsPgSql_ReturnsNpgsqlDataAdapter()
+        public void GetDbDataAdapterObject_WhenDataSourceProviderIsPgSql_ReturnsNpgsqlDataAdapter()
         {
             var dbc = new DataSourceCredentials()
             {
-                DataSourceType = DataSourceType.PgSql
+                DataSourceProvider =DataSourceProvider.Npgsql
             };
 
             var conn = dbc.GetDbDataAdapterObject();
@@ -53,11 +53,11 @@ namespace Cartomatic.Utils.Data.Tests
         }
 
         [Test]
-        public void GetDbConnection_WhenDataSourceTypeIsSqlServer_ReturnsSqlClientSqlConnectionn()
+        public void GetDbConnection_WhenDataSourceProviderIsSqlServer_ReturnsSqlClientSqlConnectionn()
         {
             var dbc = new DataSourceCredentials()
             {
-                DataSourceType = DataSourceType.SqlServer
+                DataSourceProvider = DataSourceProvider.SqlServer
             };
 
             var conn = dbc.GetDbConnectionObject();
@@ -66,11 +66,11 @@ namespace Cartomatic.Utils.Data.Tests
         }
 
         [Test]
-        public void GetDbCommandObject_WhenDataSourceTypeIsSqlServer_ReturnsSqlClientSqlCommandn()
+        public void GetDbCommandObject_WhenDataSourceProviderIsSqlServer_ReturnsSqlClientSqlCommandn()
         {
             var dbc = new DataSourceCredentials()
             {
-                DataSourceType = DataSourceType.SqlServer
+                DataSourceProvider = DataSourceProvider.SqlServer
             };
 
             var conn = dbc.GetDbCommandObject();
@@ -79,11 +79,11 @@ namespace Cartomatic.Utils.Data.Tests
         }
 
         [Test]
-        public void GetDbDataAdapterObject_WhenDataSourceTypeIsSqlServer_ReturnsSqlClientSqlDataAdapter()
+        public void GetDbDataAdapterObject_WhenDataSourceProviderIsSqlServer_ReturnsSqlClientSqlDataAdapter()
         {
             var dbc = new DataSourceCredentials()
             {
-                DataSourceType = DataSourceType.SqlServer
+                DataSourceProvider = DataSourceProvider.SqlServer
             };
 
             var conn = dbc.GetDbDataAdapterObject();

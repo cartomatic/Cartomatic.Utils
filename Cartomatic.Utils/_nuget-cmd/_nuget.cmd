@@ -1,0 +1,1 @@
+dotnet nuget push Cartomatic.Utils\bin\Release\Cartomatic.Utils.{version}.nupkg -k {key} -s https://api.nuget.org/v3/index.json

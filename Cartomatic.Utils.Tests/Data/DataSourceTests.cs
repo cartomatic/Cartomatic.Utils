@@ -17,7 +17,7 @@ namespace Cartomatic.Utils.Data.Tests
         {
             var dsc = new DataSourceCredentials()
             {
-                DataSourceType = DataSourceType.PgSql
+                DataSourceProvider =DataSourceProvider.Npgsql
             };
 
             dsc.GetDefaultDbName().Should().Be("postgres");
@@ -27,7 +27,7 @@ namespace Cartomatic.Utils.Data.Tests
         public void ConnectionString_WhenDataSourceIsPgSqlAndDbNameIsNotSpecified_ShouldUseDefaultDbName()
         {
             var dsc = GetDsc() as DataSourceCredentials;
-            dsc.DataSourceType = DataSourceType.PgSql;
+            dsc.DataSourceProvider =DataSourceProvider.Npgsql;
             dsc.DbName = null;
 
             dsc.GetConnectionString().Should().Be("Server=ServerHost;Port=666;Database=" + dsc.GetDefaultDbName() + ";user id=TestUser;password=TestPass;");
@@ -37,7 +37,7 @@ namespace Cartomatic.Utils.Data.Tests
         public void ConnectionString_WhenDataSourceIsPgSqlAndDbNameIsSpecified_ShouldBeValid()
         {
             var dsc = GetDsc();
-            dsc.DataSourceType = DataSourceType.PgSql;
+            dsc.DataSourceProvider =DataSourceProvider.Npgsql;
 
             dsc.GetConnectionString().Should().Be("Server=ServerHost;Port=666;Database=DbName;user id=TestUser;password=TestPass;");
         }
@@ -48,7 +48,7 @@ namespace Cartomatic.Utils.Data.Tests
         public void ConnectionString_WhenDataSourceIsSqlServerAndPortIsNotSpecified_ShouldBeValid()
         {
             var dsc = GetDsc();
-            dsc.DataSourceType = DataSourceType.SqlServer;
+            dsc.DataSourceProvider = DataSourceProvider.SqlServer;
             dsc.ServerPort = null;
 
             dsc.GetConnectionString().Should().Be("server=ServerHost;user id=TestUser;password=TestPass;database=DbName;");
@@ -58,7 +58,7 @@ namespace Cartomatic.Utils.Data.Tests
         public void ConnectionString_WhenDataSourceIsSqlServerAndPorIsSpecified_ShouldBeValid()
         {
             var dsc = GetDsc();
-            dsc.DataSourceType = DataSourceType.SqlServer;
+            dsc.DataSourceProvider = DataSourceProvider.SqlServer;
 
             dsc.GetConnectionString().Should().Be("server=ServerHost,666;user id=TestUser;password=TestPass;database=DbName;");
         }
