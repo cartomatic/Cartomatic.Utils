@@ -8,8 +8,9 @@ use at your own risk...</Description>
     <RepositoryUrl>https://github.com/cartomatic/Utils</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/cartomatic/Utils/blob/master/license.txt</PackageLicenseUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.1</Version>
+    <Version>1.0.3</Version>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -81,6 +82,9 @@ use at your own risk...</Description>
   <!--NET 4.6.2 refs, compilation flags & build opts-->
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net462'">
     <DefineConstants>NET462;NETFULL</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+    <DocumentationFile>E:\Cartomatic\Utils\Cartomatic.Utils\Cartomatic.Utils.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net462' ">
     <PackageReference Include="EntityFramework" Version="6.2.0" />

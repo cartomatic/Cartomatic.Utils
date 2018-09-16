@@ -234,3 +234,4 @@ _Pvt_Extensions
 *.ncrunchproject
 *.ncrunchsolution
 Cartomatic.Utils/_nuget-cmd/_nuget-with-key.txt
+Cartomatic.Utils/Cartomatic.Utils.xml
