@@ -141,7 +141,7 @@ namespace Cartomatic.Utils.Ef
 
             if (string.IsNullOrWhiteSpace(connStr))
             {
-                throw new InvalidEnumArgumentException($"Could not work out a non-enpty connection string - {nameof(connStrName)}: {connStr}, {nameof(isConnStr)}: {isConnStr}, {nameof(provider)}: {provider}.");
+                throw new ArgumentException($"Could not work out a non-enpty connection string - {nameof(connStrName)}: {connStr}, {nameof(isConnStr)}: {isConnStr}, {nameof(provider)}: {provider}.");
             }
 
             optionsBuilder.ConfigureProvider(provider, connStr);
@@ -158,7 +158,16 @@ namespace Cartomatic.Utils.Ef
         public static string GetConnStr(string connStrName, bool isConnStr = false)
         {
             //use a specified connection string or grab it from the cfgs
-            return isConnStr ? connStrName : Configuration.GetConnectionString(connStrName);
+            if (isConnStr)
+                return connStrName;
+
+            var connStr = Configuration.GetConnectionString(connStrName);
+            if (string.IsNullOrEmpty(connStr))
+            {
+                connStr = $"dummy-empty-conn-string :: could not obtain a non-empty connection string for a cfg key: {connStrName}";
+            }
+
+            return connStr;
         }
     }
 #endif
