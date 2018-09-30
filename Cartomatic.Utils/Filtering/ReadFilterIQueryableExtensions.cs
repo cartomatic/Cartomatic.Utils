@@ -124,12 +124,12 @@ namespace Cartomatic.Utils.Filtering
 
 
             //adjust "guid" filter types to just "==", so they're filtered the same way
-            if (filter.Operator == "guid")
+            if (filter.Operator == "guid" || filter.Operator == "!guid")
             {
                 if (!Guid.TryParse(filter.Value, out Guid guid))
                     throw new ArgumentException($"Filter on {filter.Property} with a value of {filter.Value} is specified as a guid filter; the value is nto parsable to guid though.");
 
-                filter.Operator = "==";
+                filter.Operator = filter.Operator == "guid" ? "==" : "!=";
                 filter.Value = guid;
                 filter.ExactMatch = true;
             }
@@ -303,6 +303,21 @@ namespace Cartomatic.Utils.Filtering
                 //filterExpression = Expression.Call(Expression.Property(expType, filter.Property), "Equals", null, Expression.Constant(filter.Value, typeof(bool)));
 
                 filterExpression = Expression.Equal(
+                    GetFilteredProperty(filter, paramExp),
+                    GetFilteredValue(filter, paramExp)
+                );
+            }
+
+            else if (filter.Operator == "!=")
+            {
+                //{"operator":"==","value":true,"property":"name"}
+
+                //if (propertyToFilterBy.PropertyType != typeof(bool))
+                //        throw new BadRequestException($"The property { targetType }.{ propertyToFilterBy.Name} is not of 'bool' type.");
+
+                //filterExpression = Expression.Call(Expression.Property(expType, filter.Property), "Equals", null, Expression.Constant(filter.Value, typeof(bool)));
+
+                filterExpression = Expression.NotEqual(
                     GetFilteredProperty(filter, paramExp),
                     GetFilteredValue(filter, paramExp)
                 );
