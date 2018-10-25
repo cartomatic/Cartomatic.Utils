@@ -20,5 +20,15 @@ namespace Cartomatic.Utils.Filtering
                 new List<ReadFilter>() :
                 JsonConvert.DeserializeObject<List<ReadFilter>>(json);
         }
+
+        /// <summary>
+        /// Converts filters collection to json string
+        /// </summary>
+        /// <param name="filters"></param>
+        /// <returns></returns>
+        public static string ReadFiltersToExtJsJson(this IEnumerable<ReadFilter> filters)
+        {
+            return JsonConvert.SerializeObject(filters);
+        }
     }
 }
