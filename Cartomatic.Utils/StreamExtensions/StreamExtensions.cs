@@ -24,5 +24,26 @@ namespace Cartomatic.Utils
                 return ms.ToArray();
             }
         }
+
+        /// <summary>
+        /// copies stream to a new memory stream
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="bufferSize"></param>
+        /// <returns></returns>
+        public static Stream CopyStream(this Stream stream, int? bufferSize = null)
+        {
+            var buffer = new byte[bufferSize ?? 16 * 1024];
+
+            var ms = new MemoryStream();
+            int read;
+            while ((read = stream.Read(buffer, 0, buffer.Length)) > 0)
+            {
+                ms.Write(buffer, 0, read);
+            }
+
+            return ms;
+        }
+
     }
 }
