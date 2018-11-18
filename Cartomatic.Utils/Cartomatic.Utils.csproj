@@ -8,18 +8,18 @@ use at your own risk...</Description>
     <RepositoryUrl>https://github.com/cartomatic/Utils</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/cartomatic/Utils/blob/master/license.txt</PackageLicenseUrl>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>1.0.3-dev0166</Version>
+    <Version>1.0.3-dev0024</Version>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MailKit" Version="2.0.6" />
+    <PackageReference Include="MailKit" Version="2.0.7" />
     <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
     <PackageReference Include="msbump" Version="2.3.2" />
     <PackageReference Include="newtonsoft.json" Version="11.0.2" />
     <PackageReference Include="npgsql" Version="4.0.3" />
-    <PackageReference Include="restsharp" Version="106.3.1" />
+    <PackageReference Include="restsharp" Version="106.5.4" />
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.5.1" />
   </ItemGroup>
@@ -32,13 +32,13 @@ use at your own risk...</Description>
   
 <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <PackageReference Include="Microsoft.EntityFrameworkCore">
-      <Version>2.1.3</Version>
+      <Version>2.1.4</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory">
-      <Version>2.1.3</Version>
+      <Version>2.1.4</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational">
-      <Version>2.1.3</Version>
+      <Version>2.1.4</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration">
       <Version>2.1.1</Version>
@@ -50,11 +50,11 @@ use at your own risk...</Description>
       <Version>2.1.2</Version>
     </PackageReference>
     <PackageReference Include="System.Drawing.Common">
-      <Version>4.5.0</Version>
+      <Version>4.5.1</Version>
     </PackageReference>
 
   <PackageReference Include="Microsoft.AspNetCore.Mvc">
-    <Version>2.1.2</Version>
+    <Version>2.1.3</Version>
   </PackageReference>
 
   <PackageReference Include="Microsoft.Build.Framework" Version="15.8.166" />
@@ -92,19 +92,6 @@ use at your own risk...</Description>
     <PackageReference Include="EntityFramework" Version="6.2.0" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.6" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.6" />
-
-    <PackageReference Include="Microsoft.EntityFrameworkCore">
-      <Version>2.1.3</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory">
-      <Version>2.1.3</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational">
-      <Version>2.1.3</Version>
-    </PackageReference>
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL">
-      <Version>2.1.2</Version>
-    </PackageReference>
 
     <Reference Include="System.Configuration" />
   </ItemGroup>
