@@ -273,7 +273,7 @@ namespace Cartomatic.Utils.Filtering
                         {
                             inExpression = Expression.Equal(
                                 GetFilteredProperty(filter, paramExp),
-                                GetFilteredValue(filter, paramExp)
+                                GetFilteredValue(filter, paramExp, item)
                             );
                         }
 
