@@ -10,10 +10,10 @@ using NUnit.Framework;
 
 using Cartomatic.Utils.Drawing;
 
-namespace Drawing.Tests
+namespace Cartomatic.Utils.Drawing.Tests
 {
     [TestFixture]
-    public class BitmapExtensionsTests
+    public class DrawingTests
     {
         [Test]
         public void SetBitmapOpacity_WhenCalled_ShouldApplyOpacityAsExpected()
