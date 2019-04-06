@@ -41,6 +41,7 @@ namespace Cartomatic.Utils.Cache
         /// <param name="obj"></param>
         public override void Set(string cacheKey, T obj)
         {
+            CleanByKey(cacheKey);
             _cache.TryAdd(cacheKey, (obj, DateTime.Now.Ticks));
         }
 
