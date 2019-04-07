@@ -7,11 +7,18 @@ using System.Threading.Tasks;
 
 namespace Cartomatic.Utils.ApiClient
 {
+    /// <summary>
+    /// generic IApiClient
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IApiClient<T> : IApiClient
         where T : IApiClientConfiguration
     {
     }
 
+    /// <summary>
+    /// Enforces ApiClient functionality
+    /// </summary>
     public interface IApiClient
     {
         /// <summary>

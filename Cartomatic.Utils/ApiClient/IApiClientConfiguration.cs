@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Cartomatic.Utils.ApiClient
 {
+    /// <summary>
+    /// IApiClient configuration
+    /// </summary>
     public interface IApiClientConfiguration
     {
         /// <summary>

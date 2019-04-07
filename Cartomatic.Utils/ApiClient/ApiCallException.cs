@@ -17,8 +17,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Cartomatic.Utils.ApiClient
 {
+    /// <summary>
+    /// Api call exception
+    /// </summary>
     public class ApiCallException : Exception
     {
+#pragma warning disable 1591
         public ApiCallException(string msg)
             : base(msg)
         {
@@ -36,6 +40,12 @@ namespace Cartomatic.Utils.ApiClient
             ResponseStatus = responseStatus;
         }
 
+        /// <summary>
+        /// returns a combined msg - status code + info
+        /// </summary>
+        /// <param name="responseStatus"></param>
+        /// <param name="msg"></param>
+        /// <returns></returns>
         protected static string ImproveMsg(HttpStatusCode responseStatus, string msg)
         {
             if (string.IsNullOrEmpty(msg))
