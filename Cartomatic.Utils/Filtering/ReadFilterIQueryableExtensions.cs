@@ -179,9 +179,9 @@ namespace Cartomatic.Utils.Filtering
                 //{"operator":"like","value":"some value","property":"name"}
 
                 //Note:
-                //In some cases complex types are used to simplify interaction with them in an object orineted way (so through properties) and at the same time
+                //In some cases complex types are used to simplify interaction with them in an object oriented way (so through properties) and at the same time
                 //such types are stored as a single json string entry in the database
-                //in such case a type shoudl implement IJsonSerialisableType. I so it should be possible to filter such type as it was a string
+                //in such case a type should implement IJsonSerializableType. I so it should be possible to filter such type as it was a string
                 //(which it indeed is on the db side)
                 if (propertyToFilterBy.PropertyType.GetInterfaces().Contains(typeof(Cartomatic.Utils.JsonSerializableObjects.IJsonSerializable)))
                 {
