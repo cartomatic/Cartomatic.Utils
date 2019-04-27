@@ -20,5 +20,15 @@ namespace Cartomatic.Utils.Sorting
                 new List<ReadSorter>() :
                 JsonConvert.DeserializeObject<List<ReadSorter>>(json);
         }
+
+        /// <summary>
+        /// Converts filters collection to json string
+        /// </summary>
+        /// <param name="filters"></param>
+        /// <returns></returns>
+        public static string ReadSortersToExtJsJson(this IEnumerable<ReadSorter> filters)
+        {
+            return JsonConvert.SerializeObject(filters);
+        }
     }
 }
