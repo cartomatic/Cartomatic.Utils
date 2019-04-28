@@ -51,5 +51,35 @@ namespace Cartomatic.Utils.Email
         {
             return JsonConvert.DeserializeObject<EmailAccount>(json);
         }
+
+        /// <summary>
+        /// serializes object to url query string
+        /// </summary>
+        /// <returns></returns>
+        public string ToQuery()
+        {
+            return string.Join("&", new[]
+            {
+                $"{nameof(Sender)}={Sender}",
+                $"{nameof(SmtpHost)}={SmtpHost}",
+                $"{nameof(SmtpPort)}={SmtpPort}",
+                $"{nameof(User)}={User}",
+                $"{nameof(Pass)}={Pass}",
+                $"{nameof(Ssl)}={Ssl}"
+            });
+        }
+
+        public Dictionary<string, object> ToDictionary()
+        {
+            return new Dictionary<string, object>
+            {
+                { nameof(Sender), Sender },
+                { nameof(SmtpHost), SmtpHost },
+                { nameof(SmtpPort), SmtpPort },
+                { nameof(User), User },
+                { nameof(Pass), Pass },
+                { nameof(Ssl), Ssl }
+            };
+        }
     }
 }
