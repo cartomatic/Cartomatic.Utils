@@ -46,5 +46,30 @@ namespace Cartomatic.Utils.Drawing
             return bitmap;
         }
 
+        /// <summary>
+        /// Returns a bitmap rotated by a specified angle
+        /// </summary>
+        /// <param name="b"></param>
+        /// <param name="angle"></param>
+        /// <returns></returns>
+        public static Bitmap Rotate(this Bitmap b, float angle)
+        {
+            var returnBitmap = new Bitmap(b.Width, b.Height, PixelFormat.Format32bppArgb);
+            returnBitmap.SetResolution(b.HorizontalResolution, b.VerticalResolution);
+            using (
+                var g = Graphics.FromImage(returnBitmap))
+            {
+                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+                g.TranslateTransform((float) b.Width / 2, (float) b.Height / 2);
+                g.RotateTransform(angle);
+                g.TranslateTransform(-(float) b.Width / 2, -(float) b.Height / 2);
+                g.DrawImage(b, new Point(0, 0));
+            }
+
+            return returnBitmap;
+        }
+
     }
 }
