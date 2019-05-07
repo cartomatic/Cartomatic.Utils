@@ -43,6 +43,18 @@ namespace Cartomatic.Utils.Email
         public bool? Ssl { get; set; }
 
         /// <summary>
+        /// Whether or not email account seems complete - can send out emails
+        /// </summary>
+        /// <returns></returns>
+        public bool SeemsComplete()
+        {
+            return !string.IsNullOrWhiteSpace(Sender) &&
+                   !string.IsNullOrWhiteSpace(SmtpHost) &&
+                   !string.IsNullOrWhiteSpace(User) &&
+                   !string.IsNullOrWhiteSpace(Pass);
+        }
+
+        /// <summary>
         /// Creates instance from a json string; throws if json is not valid
         /// </summary>
         /// <param name="json"></param>
