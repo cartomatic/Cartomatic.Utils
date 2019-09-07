@@ -141,7 +141,7 @@ namespace Cartomatic.Utils.Ef
 
             if (string.IsNullOrWhiteSpace(connStr))
             {
-                throw new ArgumentException($"Could not work out a non-enpty connection string - {nameof(connStrName)}: {connStr}, {nameof(isConnStr)}: {isConnStr}, {nameof(provider)}: {provider}.");
+                throw new ArgumentException($"Could not work out a non-empty connection string - {nameof(connStrName)}: {connStr}, {nameof(isConnStr)}: {isConnStr}, {nameof(provider)}: {provider}.");
             }
 
             optionsBuilder.ConfigureProvider(provider, connStr);
