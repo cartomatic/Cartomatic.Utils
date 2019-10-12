@@ -10,7 +10,7 @@ using System.Web.Http;
 using System.Web.Http.Results;
 #endif
 
-#if NETSTANDARD2_0
+#if NETSTANDARD2_0 || NETCOREAPP3_0
 using Microsoft.AspNetCore.Mvc;
 #endif
 
@@ -80,7 +80,7 @@ namespace Cartomatic.Utils.ApiClient
         }
 #endif
 
-#if NETSTANDARD2_0
+#if NETSTANDARD2_0 || NETCOREAPP3_0
         /// <summary>
         /// Extracts a response status if an exception is an api call exception
         /// </summary>

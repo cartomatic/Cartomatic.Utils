@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-#if NETSTANDARD
+#if NETSTANDARD2_0 || NETCOREAPP3_0
 using Microsoft.Extensions.Configuration;
 #endif
 
@@ -14,7 +14,7 @@ namespace Cartomatic.Utils
     public class NetCoreConfig
     {
 
-#if NETSTANDARD
+#if NETSTANDARD2_0 || NETCOREAPP3_0
         /// <summary>
         /// Gets a net core cfg supplied via json jsonCfgFileNames
         /// </summary>

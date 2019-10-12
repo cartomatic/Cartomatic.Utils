@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-#if NETSTANDARD
+#if NETSTANDARD2_0 || NETCOREAPP3_0
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -25,7 +25,84 @@ namespace Cartomatic.Utils.Ef
     public static partial class DbContextExtensions
     {
 
-#if NETSTANDARD
+#if NETCOREAPP3_0
+
+        private static readonly Dictionary<Microsoft.EntityFrameworkCore.DbContext, Dictionary<Type, Microsoft.EntityFrameworkCore.Metadata.IEntityType>> EntitiesMetadataCache = new Dictionary<Microsoft.EntityFrameworkCore.DbContext, Dictionary<Type, Microsoft.EntityFrameworkCore.Metadata.IEntityType>>();
+
+        /// <summary>
+        /// Gets the entity table name
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dbCtx"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static string GetTableName<T>(this DbContext dbCtx, T obj)
+        {
+            var metaData = dbCtx.GetEntityMetadata(obj);
+            return metaData.GetTableName();
+        }
+
+        /// <summary>
+        /// Gets table schema
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dbCtx"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static string GetTableSchema<T>(this DbContext dbCtx, T obj)
+        {
+            var metaData = dbCtx.GetEntityMetadata(obj);
+            return metaData.GetSchema();
+        }
+
+        /// <summary>
+        /// Gets a mapped column name
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dbCtx"></param>
+        /// <param name="obj"></param>
+        /// <param name="propertyName"></param>
+        /// <returns></returns>
+        public static string GetTableColumnName<T>(this Microsoft.EntityFrameworkCore.DbContext dbCtx, T obj, string propertyName)
+        {
+            var metaData = dbCtx.GetEntityMetadata(obj);
+            return metaData.GetProperties().FirstOrDefault(p => p.Name == propertyName)?.GetColumnName();
+        }
+
+
+        /// <summary>
+        /// Gets the entity metadata for specified db ctx;
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dbCtx"></param>
+        /// <returns></returns>
+        private static Microsoft.EntityFrameworkCore.Metadata.IEntityType GetEntityMetadata<T>(this Microsoft.EntityFrameworkCore.DbContext dbCtx, T obj)
+        {
+            //var type = typeof(T);
+            var type = obj.GetType();
+
+            //do a cache loolup first
+            if (EntitiesMetadataCache.ContainsKey(dbCtx) && EntitiesMetadataCache[dbCtx] != null &&
+                EntitiesMetadataCache[dbCtx].ContainsKey(type))
+            {
+                return EntitiesMetadataCache[dbCtx][type];
+            }
+
+            var mapping = dbCtx.Model.FindEntityType(type);
+
+            //cache the results
+            if (!EntitiesMetadataCache.ContainsKey(dbCtx))
+            {
+                EntitiesMetadataCache[dbCtx] = new Dictionary<Type, Microsoft.EntityFrameworkCore.Metadata.IEntityType>();
+            }
+            EntitiesMetadataCache[dbCtx].Add(type, mapping);
+
+            return mapping;
+        }
+
+#endif
+
+#if NETSTANDARD2_0 
 
         private static readonly Dictionary<Microsoft.EntityFrameworkCore.DbContext, Dictionary<Type, Microsoft.EntityFrameworkCore.Metadata.IEntityType>> EntitiesMetadataCache = new Dictionary<Microsoft.EntityFrameworkCore.DbContext, Dictionary<Type, Microsoft.EntityFrameworkCore.Metadata.IEntityType>>();
 

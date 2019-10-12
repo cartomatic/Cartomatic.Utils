@@ -12,7 +12,7 @@ using Newtonsoft.Json.Linq;
 using System.Data.Entity;
 #endif
 
-#if NETSTANDARD
+#if NETSTANDARD2_0 || NETCOREAPP3_0
 using Microsoft.EntityFrameworkCore;
 #endif
 

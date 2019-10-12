@@ -7,7 +7,7 @@ using Cartomatic.Utils.Data;
 using System.Data.Entity;
 #endif
 
-#if NETSTANDARD
+#if NETSTANDARD2_0 || NETCOREAPP3_0
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 #endif

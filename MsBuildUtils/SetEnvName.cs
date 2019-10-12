@@ -4,7 +4,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 
-#if NETSTANDARD
+#if NETSTANDARD2_0 || NETCOREAPP3_0
 using Microsoft.Build.Framework;
 
 namespace MSBuildTasks

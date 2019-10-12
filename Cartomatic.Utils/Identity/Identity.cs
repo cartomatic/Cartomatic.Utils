@@ -54,7 +54,7 @@ namespace Cartomatic.Utils
                     subjectClaim = cp.FindFirst(Subject);
 #endif
 
-#if NETSTANDARD
+#if NETSTANDARD2_0 || NETCOREAPP3_0
                     cp = (ClaimsPrincipal)CallContext.GetData("CurrentPrincipal");
                     subjectClaim = cp?.FindFirst(Subject);
 #endif
@@ -133,7 +133,7 @@ namespace Cartomatic.Utils
             CallContext.LogicalSetData("CurrentPrincipal", cp);
 #endif
 
-#if NETSTANDARD
+#if NETSTANDARD2_0 || NETCOREAPP3_0
             CallContext.SetData("CurrentPrincipal", cp);
 #endif
         }
