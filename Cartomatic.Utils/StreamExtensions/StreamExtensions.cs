@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Cartomatic.Utils
 {
@@ -41,6 +42,32 @@ namespace Cartomatic.Utils
             {
                 ms.Write(buffer, 0, read);
             }
+
+            if (ms.CanSeek)
+                ms.Position = 0;
+
+            return ms;
+        }
+
+        /// <summary>
+        /// copies stream to a new memory stream
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="bufferSize"></param>
+        /// <returns></returns>
+        public static async Task<Stream> CopyStreamAsync(this Stream stream, int? bufferSize = null)
+        {
+            var buffer = new byte[bufferSize ?? 16 * 1024];
+
+            var ms = new MemoryStream();
+            int read;
+            while ((read = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+            {
+                ms.Write(buffer, 0, read);
+            }
+
+            if (ms.CanSeek)
+                ms.Position = 0;
 
             return ms;
         }
