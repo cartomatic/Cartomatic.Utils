@@ -146,7 +146,7 @@ namespace Cartomatic.Utils
         /// <returns></returns>
         public static ClaimsPrincipal GetBasicClaimsPrincipal(Guid id, string scheme = null)
         {
-            return GetBasicClaimsPrincipal(id.ToString());
+            return GetBasicClaimsPrincipal(id.ToString(), scheme);
         }
 
         public static ClaimsPrincipal GetBasicClaimsPrincipal(string id, string scheme = null)
