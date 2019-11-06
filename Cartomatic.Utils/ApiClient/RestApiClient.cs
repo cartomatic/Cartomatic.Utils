@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using RestSharp;
 
+
+
 namespace Cartomatic.Utils.ApiClient
 {
     public abstract class RestApiClient<T> : ApiClient<T>

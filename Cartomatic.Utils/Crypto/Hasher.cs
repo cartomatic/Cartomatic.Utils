@@ -5,6 +5,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
+
+
 namespace Cartomatic.Utils.Crypto
 {
     public class Hasher

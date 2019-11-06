@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 
+
+
 namespace Cartomatic.Utils.Data
 {
     public static class DbConnectionExtensions

@@ -1,4 +1,6 @@
-﻿namespace Cartomatic.Utils.Data
+﻿
+
+namespace Cartomatic.Utils.Data
 {
     public interface IDataSourceCredentials
     {

@@ -43,7 +43,10 @@ namespace Cartomatic.Utils
 
             //ignore content length! After all when new content is added for POST/PUT it will be worked out appropriately during data serialization and / or compression!
             //also for scenarios, when original request that initiated another request being performed in the background and being of different type (be it whatever, GET, PUT) and different length than the initiator, passing an invalid content length will make RestSharp request take ages to complete (likely because either client or server will be waiting for data me thinks ;)
-            "content-length"
+            "content-length",
+
+            //remove encoding, as incoming may be different than outgoing (for example gzipped input)
+            "encoding"
         };
 
         /// <summary>

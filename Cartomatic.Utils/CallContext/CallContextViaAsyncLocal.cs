@@ -54,7 +54,6 @@ namespace Cartomatic.Utils
         /// <summary>
         /// Retrieves an object with the specified name from the <see cref="CallContext"/>.
         /// </summary>
-        /// <typeparam name="T">The type of the data being retrieved. Must match the type used when the <paramref name="name"/> was set via <see cref="SetData{T}(string, T)"/>.</typeparam>
         /// <param name="name">The name of the item in the call context.</param>
         /// <returns>The object in the call context associated with the specified name, or a default value for <typeparamref name="T"/> if none is found.</returns>
         public static T GetData(string name) =>

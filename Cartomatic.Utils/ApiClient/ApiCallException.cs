@@ -22,7 +22,7 @@ namespace Cartomatic.Utils.ApiClient
     /// </summary>
     public class ApiCallException : Exception
     {
-#pragma warning disable 1591
+
         public ApiCallException(string msg)
             : base(msg)
         {

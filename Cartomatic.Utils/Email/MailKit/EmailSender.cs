@@ -58,7 +58,7 @@ namespace Cartomatic.Utils.Email.MailKit
 
                         emailClient.Disconnect(true);
                     }
-                    catch (Exception ex)
+                    catch
                     {
                         //ignore
                     }

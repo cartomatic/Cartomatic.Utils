@@ -45,13 +45,17 @@ namespace Cartomatic.Utils
         {
             //looks like there is a little problem with content type such as application/json; charset=utf-8
             var contentType = apiResponse.ContentType;
-            if (apiResponse.ContentType.StartsWith("application/json", StringComparison.Ordinal))
+            if (apiResponse?.ContentType?.StartsWith("application/json", StringComparison.Ordinal) == true)
             {
                 contentType = "application/json";
             }
-            else if (apiResponse.ContentType.StartsWith("text/xml", StringComparison.Ordinal))
+            else if (apiResponse?.ContentType?.StartsWith("text/xml", StringComparison.Ordinal) == true)
             {
                 contentType = "text/xml";
+            }
+            else if (apiResponse?.ContentType?.StartsWith("text/html", StringComparison.Ordinal) == true)
+            {
+                contentType = "text/html";
             }
 
             //looks like no content info was returned from the backend api
@@ -69,23 +73,35 @@ namespace Cartomatic.Utils
                 }
             }
 
-            //return new ByteArrayContent();
             var content = ExtractResponseContentAsString(apiResponse);
-            return new ObjectResult(
 
-                string.IsNullOrEmpty(content)
-                    ? (object)(apiResponse.RawBytes ?? new byte[0])
-                    : contentType == "application/json"
-                        ? !string.IsNullOrEmpty(content) ? JsonConvert.DeserializeObject(content) : null //so nicely serialize object is returned
-                        : contentType
-            )
+            if (apiResponse.IsSuccessful)
+            {
+                if (contentType == "application/json")
+                {
+                    return new ObjectResult(
+
+                        string.IsNullOrEmpty(content)
+                            ? (object)(apiResponse.RawBytes ?? new byte[0])
+                            : !string.IsNullOrEmpty(content) ? JsonConvert.DeserializeObject(content) : null //so nicely serialize object is returned
+                    )
+                    {
+                        StatusCode = (int)apiResponse.StatusCode, //note: this cast should be ok, the enum uses proper values
+                        ContentTypes = new MediaTypeCollection()
+                        {
+                            contentType
+                        }
+                    };
+                }
+            }
+
+            return new ContentResult
             {
                 StatusCode = (int)apiResponse.StatusCode, //note: this cast should be ok, the enum uses proper values
-                ContentTypes = new MediaTypeCollection()
-                {
-                    contentType
-                }
+                ContentType = contentType,
+                Content = content
             };
+
         }
 
         /// <summary>

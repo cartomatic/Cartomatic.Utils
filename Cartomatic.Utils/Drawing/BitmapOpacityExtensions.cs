@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Cartomatic.Utils.Number;
 
+
+
 namespace Cartomatic.Utils.Drawing
 {
     public static partial class BitmapExtensions

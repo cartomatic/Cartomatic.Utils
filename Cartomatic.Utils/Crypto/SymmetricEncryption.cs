@@ -116,7 +116,7 @@ namespace Cartomatic.Utils.Crypto
         /// <summary>
         /// Gets password derived bytes based on... well password ;-)
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="password"></param>
         /// <returns></returns>
         private static PasswordDeriveBytes GetPasswordDeriveBytes(string password)
         {

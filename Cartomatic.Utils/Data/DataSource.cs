@@ -4,8 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+
 namespace Cartomatic.Utils.Data
 {
+
+
     public class DataSourceCredentials : IDataSourceCredentials
     {
 
@@ -14,22 +18,31 @@ namespace Cartomatic.Utils.Data
         /// </summary>
         public DataSourceProvider DataSourceProvider { get; set; }
 
+        /// <inheritdoc />
         public string ServerHost { get; set; }
 
+        /// <inheritdoc />
         public string ServerName { get; set; }
 
+        /// <inheritdoc />
         public int? ServerPort { get; set; }
 
+        /// <inheritdoc />
         public string DbName { get; set; }
 
+        /// <inheritdoc />
         public string ServiceDb { get; set; }
 
+        /// <inheritdoc />
         public string UserName { get; set; }
 
+        /// <inheritdoc />
         public string Pass { get; set; }
 
+        /// <inheritdoc />
         public string ServiceUserName { get; set; }
 
+        /// <inheritdoc />
         public string ServiceUserPass { get; set; }
 
 
@@ -109,4 +122,5 @@ namespace Cartomatic.Utils.Data
             return (DataSourceCredentials)MemberwiseClone();
         }
     }
+
 }

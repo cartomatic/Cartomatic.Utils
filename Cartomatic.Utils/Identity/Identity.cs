@@ -16,6 +16,7 @@ using System.Web;
 
 namespace Cartomatic.Utils
 {
+
     public static class Identity
     {
         public const string Subject = "sub";
@@ -184,4 +185,5 @@ namespace Cartomatic.Utils
 #endif
         }
     }
+
 }
