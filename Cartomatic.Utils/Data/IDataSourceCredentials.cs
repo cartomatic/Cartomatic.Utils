@@ -16,6 +16,6 @@ namespace Cartomatic.Utils.Data
         string ServiceUserName { get; set; }
         string ServiceUserPass { get; set; }
 
-        string GetConnectionString(bool serviceDatabase = false, bool superUser = false);
+        string GetConnectionString(bool serviceDatabase = false, bool superUser = false, bool pooling = true);
     }
 }

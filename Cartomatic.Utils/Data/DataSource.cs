@@ -82,7 +82,7 @@ namespace Cartomatic.Utils.Data
         /// Returns a connection string for the configured data source type
         /// </summary>
         /// <returns></returns>
-        public string GetConnectionString(bool serviceDatabase = false, bool superUser = false)
+        public string GetConnectionString(bool serviceDatabase = false, bool superUser = false, bool pooling = true)
         {
             string conn = "INVALID CONNECTION STRING";
 
@@ -92,9 +92,19 @@ namespace Cartomatic.Utils.Data
                     conn =
                         "Server=" + ServerHost + ";" +
                         "Port=" + ServerPort + ";" +
-                        "Database=" + (serviceDatabase ? (string.IsNullOrEmpty(ServiceDb) ? "postgres" : ServiceDb) : (string.IsNullOrEmpty(DbName) ? (UseDefaultServiceDb ? "postgres" : "") : DbName)) + ";" +
-                        "user id=" + (serviceDatabase || superUser ? (string.IsNullOrEmpty(ServiceUserName) ? "postgres" : ServiceUserName) : UserName) + ";" +
-                        "password=" + (serviceDatabase || superUser ? (string.IsNullOrEmpty(ServiceUserPass) ? "postgres" : ServiceUserPass) : Pass) + ";";
+                        "Database=" +
+                        (serviceDatabase
+                            ? (string.IsNullOrEmpty(ServiceDb) ? "postgres" : ServiceDb)
+                            : (string.IsNullOrEmpty(DbName) ? (UseDefaultServiceDb ? "postgres" : "") : DbName)) + ";" +
+                        "user id=" + (serviceDatabase || superUser
+                            ? (string.IsNullOrEmpty(ServiceUserName) ? "postgres" : ServiceUserName)
+                            : UserName) + ";" +
+                        "password=" + (serviceDatabase || superUser
+                            ? (string.IsNullOrEmpty(ServiceUserPass) ? "postgres" : ServiceUserPass)
+                            : Pass) + ";" +
+                        "Pooling" + (pooling
+                            ? "true"
+                            : "false") + ";";
                     break;
 
                 case DataSourceProvider.SqlServer:
