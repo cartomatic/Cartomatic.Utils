@@ -92,19 +92,16 @@ namespace Cartomatic.Utils.Data
                     conn =
                         "Server=" + ServerHost + ";" +
                         "Port=" + ServerPort + ";" +
-                        "Database=" +
-                        (serviceDatabase
-                            ? (string.IsNullOrEmpty(ServiceDb) ? "postgres" : ServiceDb)
-                            : (string.IsNullOrEmpty(DbName) ? (UseDefaultServiceDb ? "postgres" : "") : DbName)) + ";" +
+                        "Database=" + (serviceDatabase
+                                ? (string.IsNullOrEmpty(ServiceDb) ? "postgres" : ServiceDb)
+                                : (string.IsNullOrEmpty(DbName) ? (UseDefaultServiceDb ? "postgres" : "") : DbName)) + ";" +
                         "user id=" + (serviceDatabase || superUser
                             ? (string.IsNullOrEmpty(ServiceUserName) ? "postgres" : ServiceUserName)
                             : UserName) + ";" +
                         "password=" + (serviceDatabase || superUser
                             ? (string.IsNullOrEmpty(ServiceUserPass) ? "postgres" : ServiceUserPass)
                             : Pass) + ";" +
-                        "Pooling" + (pooling
-                            ? "true"
-                            : "false") + ";";
+                        (pooling ? string.Empty : "Pooling=false;");
                     break;
 
                 case DataSourceProvider.SqlServer:
