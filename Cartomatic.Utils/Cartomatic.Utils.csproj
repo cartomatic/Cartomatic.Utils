@@ -8,20 +8,20 @@ use at your own risk...</Description>
     <RepositoryUrl>https://github.com/cartomatic/Utils</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/cartomatic/Utils/blob/master/license.txt</PackageLicenseUrl>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>1.0.3-dev0301</Version>
+    <Version>1.0.3-dev0303</Version>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MailKit" Version="2.0.7" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
+    <PackageReference Include="MailKit" Version="2.4.1" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.6.0" />
     <PackageReference Include="msbump" Version="2.3.2" />
-    <PackageReference Include="newtonsoft.json" Version="11.0.2" />
-    <PackageReference Include="npgsql" Version="4.1.1" />
-    <PackageReference Include="restsharp" Version="106.5.4" />
+    <PackageReference Include="newtonsoft.json" Version="12.0.3" />
+    <PackageReference Include="npgsql" Version="4.1.2" />
+    <PackageReference Include="restsharp" Version="106.6.10" />
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.5.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
   </ItemGroup>
 
   <!--.NET standard 2.0 refs, compilation flags & build opts-->
@@ -31,29 +31,29 @@ use at your own risk...</Description>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
     <PackageReference Include="Audit.EntityFramework.Core">
-      <Version>8.0.0</Version>
+      <Version>14.9.1</Version>
     </PackageReference>
-    
+
     <PackageReference Include="Microsoft.EntityFrameworkCore">
-      <Version>3.0.0</Version>
+      <Version>3.0.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory">
-      <Version>3.0.0</Version>
+      <Version>3.0.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational">
-      <Version>3.0.0</Version>
+      <Version>3.0.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration">
-      <Version>3.0.0</Version>
+      <Version>3.0.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions">
-      <Version>3.0.0</Version>
+      <Version>3.0.1</Version>
     </PackageReference>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL">
       <Version>3.0.1</Version>
     </PackageReference>
     <PackageReference Include="System.Drawing.Common">
-      <Version>4.6.0</Version>
+      <Version>4.6.1</Version>
     </PackageReference>
 
     <PackageReference Include="Microsoft.AspNetCore.Mvc">
@@ -64,10 +64,10 @@ use at your own risk...</Description>
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="16.3.0" />
 
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions">
-      <Version>3.0.0</Version>
+      <Version>3.0.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration.Json">
-      <Version>3.0.0</Version>
+      <Version>3.0.1</Version>
     </PackageReference>
   </ItemGroup>
 
