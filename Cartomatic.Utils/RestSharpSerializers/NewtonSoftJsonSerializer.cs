@@ -65,11 +65,13 @@ namespace Cartomatic.Utils.RestSharpSerializers
         public string ContentType { get; set; }
 
 
+        /// <inheritdoc />
         public string Serialize(object obj)
         {
             return JsonConvert.SerializeObject(obj, Formatting, JsonSerializerSettings);
         }
 
+        /// <inheritdoc />
         public T Deserialize<T>(IRestResponse response)
         {
             return JsonConvert.DeserializeObject<T>(response.Content);

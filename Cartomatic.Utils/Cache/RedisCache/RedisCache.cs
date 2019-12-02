@@ -8,12 +8,18 @@ using System.Threading.Tasks;
 
 namespace Cartomatic.Utils.Cache
 {
+    /// <summary>
+    /// Redis cache
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class RedisCache<T> : AbstractCache<T>
     {
+#pragma warning disable 1591
         public RedisCache(int cacheTimeout)
             : base (CacheType.Redis, cacheTimeout)
         {
         }
+#pragma warning restore 1591
 
         /// <summary>gets an object from cache</summary>
         /// <param name="cacheKey"></param>

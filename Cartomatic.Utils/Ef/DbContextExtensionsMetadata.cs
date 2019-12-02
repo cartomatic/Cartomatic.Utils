@@ -75,6 +75,7 @@ namespace Cartomatic.Utils.Ef
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="dbCtx"></param>
+        /// <param name="obj"></param>
         /// <returns></returns>
         private static Microsoft.EntityFrameworkCore.Metadata.IEntityType GetEntityMetadata<T>(this Microsoft.EntityFrameworkCore.DbContext dbCtx, T obj)
         {
@@ -156,6 +157,7 @@ namespace Cartomatic.Utils.Ef
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="dbCtx"></param>
+        /// <param name="obj"></param>
         /// <returns></returns>
         private static Microsoft.EntityFrameworkCore.Metadata.IEntityType GetEntityMetadata<T>(this Microsoft.EntityFrameworkCore.DbContext dbCtx, T obj)
         {
@@ -194,6 +196,7 @@ namespace Cartomatic.Utils.Ef
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="dbCtx"></param>
+        /// <param name="obj"></param>
         /// <returns></returns>
         public static string GetTableName<T>(this System.Data.Entity.DbContext dbCtx, T obj)
         {
@@ -214,6 +217,7 @@ namespace Cartomatic.Utils.Ef
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="dbCtx"></param>
+        /// <param name="obj"></param>
         /// <returns></returns>
         public static string GetTableSchema<T>(this System.Data.Entity.DbContext dbCtx, T obj)
         {
@@ -234,6 +238,8 @@ namespace Cartomatic.Utils.Ef
         /// Based on https://romiller.com/2015/08/05/ef6-1-get-mapping-between-properties-and-columns/
         /// </summary>
         /// <param name="dbCtx"></param>
+        /// <param name="obj"></param>
+        /// <param name="propertyName"></param>
         /// <returns></returns>
         public static string GetTableColumnName<T>(this System.Data.Entity.DbContext dbCtx, T obj, string propertyName)
         {
@@ -258,6 +264,7 @@ namespace Cartomatic.Utils.Ef
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="dbCtx"></param>
+        /// <param name="obj"></param>
         /// <returns></returns>
         private static EntitySetMapping GetMappings<T>(this System.Data.Entity.DbContext dbCtx, T obj)
         {

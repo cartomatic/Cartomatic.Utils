@@ -44,7 +44,7 @@ namespace Cartomatic.Utils.Sorting
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="query"></param>
-        /// <param name="propertyd"></param>
+        /// <param name="property"></param>
         /// <param name="ascending"></param>
         /// <param name="firstProperty"></param>
         /// <returns></returns>

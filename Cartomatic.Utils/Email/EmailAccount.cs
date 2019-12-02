@@ -81,6 +81,10 @@ namespace Cartomatic.Utils.Email
             });
         }
 
+        /// <summary>
+        /// converts object to a dictionary
+        /// </summary>
+        /// <returns></returns>
         public Dictionary<string, object> ToDictionary()
         {
             return new Dictionary<string, object>

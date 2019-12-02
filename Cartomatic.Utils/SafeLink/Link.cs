@@ -7,12 +7,14 @@ using Newtonsoft.Json;
 
 namespace Cartomatic.Utils.SafeLink
 {
+#pragma warning disable 1591
     public class Link
     {
         public Link()
         {
             ResourceType = ResourceType.File;
         }
+#pragma warning restore 1591
 
         /// <summary>
         /// Creates a new instance from encoded link data
@@ -56,6 +58,7 @@ namespace Cartomatic.Utils.SafeLink
         /// Decodes link data and sets the instance properties
         /// </summary>
         /// <param name="encoded"></param>
+        /// <param name="key"></param>
         protected void Decrypt(string encoded, string key)
         {
             var json = Crypto.SymmetricEncryption.Decrypt(encoded, key);
@@ -78,7 +81,7 @@ namespace Cartomatic.Utils.SafeLink
         /// <returns></returns>
         public string Encrypt(string key)
         {
-            //basicly serialise to json an encrypt
+            //basically serialize to json an encrypt
             var json = JsonConvert.SerializeObject(this, _serializerSettings);
             return Crypto.SymmetricEncryption.Encrypt(json, key);
         }

@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 
 namespace Cartomatic.Utils.Cache
 {
+    /// <summary>
+    /// in memory cache
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class InMemoryCache<T> : AbstractCache<T>
     {
         private readonly ConcurrentDictionary<string, (T obj, long timeSet)> _cache;

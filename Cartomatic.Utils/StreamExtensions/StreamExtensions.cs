@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 
 namespace Cartomatic.Utils
 {
+    /// <summary>
+    /// stream extensions
+    /// </summary>
     public static class StreamExtensions
     {
         /// <summary>

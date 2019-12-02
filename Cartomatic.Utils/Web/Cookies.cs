@@ -4,7 +4,9 @@ using System.Web;
 
 namespace Cartomatic.Utils.Web
 {
+#pragma warning disable 1591
     public static class CookieExtansions
+#pragma warning restore 1591
     {
         /// <summary>
         /// Sets a value for a specified param of a specified cookie

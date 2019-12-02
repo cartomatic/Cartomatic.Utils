@@ -5,7 +5,9 @@ using System.Xml.Serialization;
 
 namespace Cartomatic.Utils.Serialization
 {
-
+    /// <summary>
+    /// xml serialization utils
+    /// </summary>
     public static class XmlSerializationExtensions
     {
 

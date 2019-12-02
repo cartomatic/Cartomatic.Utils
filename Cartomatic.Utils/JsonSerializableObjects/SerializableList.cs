@@ -17,11 +17,13 @@ namespace Cartomatic.Utils.JsonSerializableObjects
     /// <typeparam name="T"></typeparam>
     public class SerializableList<T> : List<T>, IJsonSerializable
     {
+#pragma warning disable 1591
         [JsonIgnore]
         public string Serialized
         {
             get => this.Serialize();
             set => this.Deserialize<T>(value);
         }
+#pragma warning restore 1591
     }
 }

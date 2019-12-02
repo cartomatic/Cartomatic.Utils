@@ -12,6 +12,9 @@ using Npgsql;
 
 namespace Cartomatic.Utils.Data
 {
+    /// <summary>
+    /// DataSource credentials extensions
+    /// </summary>
     public static class DataSourceCredentialsExtensions
     {
         //TODO - make it dynamically resolve types! So the util is not so tightly coupled with different drivers as it sucks!

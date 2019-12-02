@@ -16,9 +16,14 @@ using System.Web;
 
 namespace Cartomatic.Utils
 {
-
+    /// <summary>
+    /// Identity utils
+    /// </summary>
     public static class Identity
     {
+        /// <summary>
+        /// subject of an identity claim
+        /// </summary>
         public const string Subject = "sub";
 
         /// <summary>
@@ -94,7 +99,10 @@ namespace Cartomatic.Utils
             ImpersonateUser(cp);
         }
 
-
+        /// <summary>
+        /// Impersonates a user using supplied id
+        /// </summary>
+        /// <param name="id"></param>
         public static void ImpersonateUser(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
@@ -150,6 +158,12 @@ namespace Cartomatic.Utils
             return GetBasicClaimsPrincipal(id.ToString(), scheme);
         }
 
+        /// <summary>
+        /// gets basic claims principal
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="scheme"></param>
+        /// <returns></returns>
         public static ClaimsPrincipal GetBasicClaimsPrincipal(string id, string scheme = null)
         {
             var claims = new List<Claim>
@@ -163,6 +177,9 @@ namespace Cartomatic.Utils
             );
         }
 
+        /// <summary>
+        /// impersonates user via http context rather than call context
+        /// </summary>
         public static void ImpersonateGhostUserViaHttpContext()
         {
             ImpersonateUserViaHttpContext();

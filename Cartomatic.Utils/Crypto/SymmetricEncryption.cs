@@ -14,6 +14,7 @@ namespace Cartomatic.Utils.Crypto
     public partial class SymmetricEncryption
     {
 
+#pragma warning disable 1591
         public enum Algorithm
         {
             RC2,
@@ -21,7 +22,13 @@ namespace Cartomatic.Utils.Crypto
             TripleDES,
             Rijndael
         }
+#pragma warning restore 1591
 
+        /// <summary>
+        /// Gets algorythm 
+        /// </summary>
+        /// <param name="algorithm"></param>
+        /// <returns></returns>
         protected static SymmetricAlgorithm GetAlgorithm(Algorithm algorithm)
         {
             switch (algorithm)
@@ -187,6 +194,14 @@ namespace Cartomatic.Utils.Crypto
             return encryptedData;
         }
 
+        /// <summary>
+        /// encrypts a string
+        /// </summary>
+        /// <param name="clearData"></param>
+        /// <param name="Key"></param>
+        /// <param name="IV"></param>
+        /// <param name="algorithm"></param>
+        /// <returns></returns>
         public static string EncryptString(byte[] clearData, byte[] Key, byte[] IV, Algorithm algorithm)
         {
             return Convert.ToBase64String(Encrypt(clearData, Key, IV, algorithm));

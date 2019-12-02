@@ -15,8 +15,10 @@ using Microsoft.EntityFrameworkCore;
 namespace Cartomatic.Utils.Ef
 {
 #if NETSTANDARD2_0 || NETCOREAPP3_0
+#pragma warning disable 1591
     public static class DbContextFactory
     {
+#pragma warning restore 1591
         private static IConfiguration Configuration { get; set; }
 
         static DbContextFactory()
@@ -40,6 +42,13 @@ namespace Cartomatic.Utils.Ef
                 }
             };
 
+        /// <summary>
+        /// configures a data provider for given builder 
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="provider"></param>
+        /// <param name="connStr"></param>
+        /// <returns></returns>
         public static DbContextOptionsBuilder ConfigureProvider(this DbContextOptionsBuilder builder,
             DataSourceProvider provider, string connStr)
         {
@@ -67,6 +76,7 @@ namespace Cartomatic.Utils.Ef
         /// <typeparam name="T"></typeparam>
         /// <param name="connStrName">name of conn string to retrieve from configuration</param>
         /// <param name="isConnStr">whether ot not it is the actual connection string supplied</param>
+        /// <param name="provider"></param>
         /// <returns></returns>
         public static T CreateDbContext<T>(string connStrName = null, bool isConnStr = false, DataSourceProvider provider = DataSourceProvider.EfInMemory)
             where T: DbContext

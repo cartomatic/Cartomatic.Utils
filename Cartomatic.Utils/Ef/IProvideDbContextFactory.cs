@@ -20,8 +20,19 @@ namespace Cartomatic.Utils.Ef
     /// </summary>
     public interface IProvideDbContextFactory
     {
+        /// <summary>
+        /// produces a db ctx with given cfg
+        /// </summary>
+        /// <param name="connStrName"></param>
+        /// <param name="isConnStr"></param>
+        /// <param name="provider"></param>
+        /// <returns></returns>
         DbContext ProduceDbContextInstance(string connStrName = null, bool isConnStr = false, DataSourceProvider provider = DataSourceProvider.EfInMemory);
 
+        /// <summary>
+        /// produces a default db ctx
+        /// </summary>
+        /// <returns></returns>
         DbContext ProduceDefaultDbContextInstance();
     }
 }

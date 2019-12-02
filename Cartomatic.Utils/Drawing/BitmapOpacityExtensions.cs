@@ -11,6 +11,9 @@ using Cartomatic.Utils.Number;
 
 namespace Cartomatic.Utils.Drawing
 {
+    /// <summary>
+    /// bitmap extensions
+    /// </summary>
     public static partial class BitmapExtensions
     {
         /// <summary>

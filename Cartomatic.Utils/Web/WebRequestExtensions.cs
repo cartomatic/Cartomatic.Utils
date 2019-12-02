@@ -5,8 +5,16 @@ using System.Web;
 
 namespace Cartomatic.Utils.Web
 {
+    /// <summary>
+    /// web request utils
+    /// </summary>
     public static class WebRequestExtensions
     {
+        /// <summary>
+        /// creates a web request object from string url
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
         public static HttpWebRequest CreateHttpWebRequest(this string url)
         {
             HttpWebRequest output = null;
@@ -106,6 +114,7 @@ namespace Cartomatic.Utils.Web
         /// </summary>
         /// <param name="input"></param>
         /// <param name="output"></param>
+        /// <param name="copyInternals"></param>
         public static void CopyResponse(this System.Net.HttpWebResponse input, System.Web.HttpResponse output, bool copyInternals = true)
         {
             if (input != null)

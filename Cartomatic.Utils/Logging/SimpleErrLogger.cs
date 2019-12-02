@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Cartomatic.Utils
 {
+    /// <summary>
+    /// Logging utils
+    /// </summary>
     public partial class Logging
     {
         /// <summary>

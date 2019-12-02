@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Cartomatic.Utils.Ef
 {
+    /// <summary>
+    /// ef db ctx utils for string objects
+    /// </summary>
     public static class StringExtensions
     {
         /// <summary>

@@ -6,13 +6,15 @@ using System.Text;
 
 namespace Cartomatic.Utils.Dto
 {
+    /// <summary>
+    /// IDto utils
+    /// </summary>
     public static class IDtoUtils
     {
         /// <summary>
         /// Creates an instance of IDto[TDto]
         /// </summary>
         /// <typeparam name="TDto"></typeparam>
-        /// <param name="obj"></param>
         /// <returns></returns>
         public static IDto<TDto> CrateIDtoInstance<TDto>()
             where TDto : class

@@ -3,6 +3,9 @@ using System.IO;
 
 namespace Cartomatic.Utils.EmbeddedResource
 {
+    /// <summary>
+    /// object extensions for embedded resource utils
+    /// </summary>
     public static class ObjectExtensions
     {
         /// <summary>

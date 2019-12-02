@@ -5,6 +5,9 @@ using System.Web;
 
 namespace Cartomatic.Utils.Web
 {
+    /// <summary>
+    /// web proxy extensions
+    /// </summary>
     public static class ProxyExtensions
     {
         /// <summary>

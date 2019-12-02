@@ -7,12 +7,24 @@ using Newtonsoft.Json;
 
 namespace Cartomatic.Utils.Filtering
 {
+    /// <summary>
+    /// Read filter - abstracts a filter used when reading data
+    /// </summary>
     public partial class ReadFilter
     {
+        /// <summary>
+        /// Comparison operator
+        /// </summary>
         public string Operator { get; set; }
 
+        /// <summary>
+        /// Value to compare with
+        /// </summary>
         public dynamic Value { get; set; }
 
+        /// <summary>
+        /// Property to compare with
+        /// </summary>
         public string Property { get; set; }
 
         /// <summary>

@@ -2,14 +2,24 @@
 
 namespace Cartomatic.Utils.Email
 {
+    /// <summary>
+    /// Enforces Email template 
+    /// </summary>
     public interface IEmailTemplate
     {
         /// <summary>
         /// Email template as fed to email sender
         /// </summary>
         string Title { get; set; }
-
+        
+        /// <summary>
+        /// email body
+        /// </summary>
         string Body { get; set; }
+
+        /// <summary>
+        /// whether or not body is html
+        /// </summary>
         bool IsBodyHtml { get; set; }
 
         /// <summary>

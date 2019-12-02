@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Cartomatic.Utils.Cache
 {
+    /// <summary>
+    /// simple cache factory
+    /// </summary>
     public class CacheFactory
     {
         /// <summary>

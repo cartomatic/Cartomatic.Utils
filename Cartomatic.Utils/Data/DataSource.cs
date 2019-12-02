@@ -9,7 +9,9 @@ using System.Threading.Tasks;
 namespace Cartomatic.Utils.Data
 {
 
-
+    /// <summary>
+    /// Holds information allowing for connecting to a datasource
+    /// </summary>
     public class DataSourceCredentials : IDataSourceCredentials
     {
 
@@ -54,11 +56,12 @@ namespace Cartomatic.Utils.Data
 
 
 
-
+#pragma warning disable 1591
         public DataSourceCredentials()
         {
             UseDefaultServiceDb = true;
         }
+#pragma warning restore 1591
 
         /// <summary>
         /// Returns a default Db name
@@ -114,7 +117,7 @@ namespace Cartomatic.Utils.Data
 
                 case DataSourceProvider.Oracle:
                     throw new NotImplementedException();
-                    break;
+                    //break;
             }
 
             return conn;

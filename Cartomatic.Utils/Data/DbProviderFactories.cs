@@ -16,7 +16,11 @@ namespace Cartomatic.Utils.Data
     /// </summary>
     public class DbProviderFactories
     {
-
+        /// <summary>
+        /// Gets factory for given provider
+        /// </summary>
+        /// <param name="providerName"></param>
+        /// <returns></returns>
         public static DbProviderFactory GetFactory(string providerName)
         {
 #if NETFULL
@@ -38,6 +42,7 @@ namespace Cartomatic.Utils.Data
 #endif
         }
 
+#pragma warning disable 1591
         public enum DataAccessProviderTypes
         {
             SqlServer,
@@ -50,7 +55,13 @@ namespace Cartomatic.Utils.Data
     SqlServerCompact
 #endif
         }
+#pragma warning restore 1591
 
+        /// <summary>
+        /// gets a db provider factory by type
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static DbProviderFactory GetDbProviderFactory(DataAccessProviderTypes type)
         {
             if (type == DataAccessProviderTypes.SqlServer)
@@ -78,7 +89,12 @@ namespace Cartomatic.Utils.Data
             throw new NotSupportedException($"Unsupported provider factory {type.ToString()}");
         }
 
-
+        /// <summary>
+        /// Gets a db provider factory 
+        /// </summary>
+        /// <param name="dbProviderFactoryTypename"></param>
+        /// <param name="assemblyName"></param>
+        /// <returns></returns>
         public static DbProviderFactory GetDbProviderFactory(string dbProviderFactoryTypename, string assemblyName)
         {
             var instance = GetStaticProperty(dbProviderFactoryTypename, "Instance");

@@ -9,6 +9,9 @@ using System.Data;
 
 namespace Cartomatic.Utils.Data
 {
+    /// <summary>
+    /// DbConnection extensions
+    /// </summary>
     public static class DbConnectionExtensions
     {
         /// <summary>

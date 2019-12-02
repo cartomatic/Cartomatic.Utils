@@ -22,7 +22,7 @@ namespace Cartomatic.Utils.ApiClient
     /// </summary>
     public class ApiCallException : Exception
     {
-
+#pragma warning disable 1591
         public ApiCallException(string msg)
             : base(msg)
         {
@@ -39,6 +39,7 @@ namespace Cartomatic.Utils.ApiClient
         {
             ResponseStatus = responseStatus;
         }
+#pragma warning restore 1591
 
         /// <summary>
         /// returns a combined msg - status code + info
@@ -55,6 +56,9 @@ namespace Cartomatic.Utils.ApiClient
             return msg;
         }
 
+        /// <summary>
+        /// Status of the response
+        /// </summary>
         public HttpStatusCode? ResponseStatus { get; set; }
 
 

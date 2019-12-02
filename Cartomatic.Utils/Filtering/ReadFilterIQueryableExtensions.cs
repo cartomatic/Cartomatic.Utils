@@ -411,7 +411,6 @@ namespace Cartomatic.Utils.Filtering
         /// </summary>
         /// <param name="filter"></param>
         /// <param name="paramExp"></param>
-        /// <param name="value"></param>
         /// <returns></returns>
         private static Expression GetFilteredProperty(ReadFilter filter, ParameterExpression paramExp)
         {

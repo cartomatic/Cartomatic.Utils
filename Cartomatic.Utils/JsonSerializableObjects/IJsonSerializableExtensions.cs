@@ -8,6 +8,9 @@ using Newtonsoft.Json;
 
 namespace Cartomatic.Utils.JsonSerializableObjects
 {
+    /// <summary>
+    /// extensions for IJsonSerializable
+    /// </summary>
     public static class IJsonSerializableExtensions
     {
         /// <summary>

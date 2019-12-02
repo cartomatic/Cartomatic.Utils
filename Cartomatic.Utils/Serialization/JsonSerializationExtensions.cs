@@ -3,6 +3,10 @@ using Newtonsoft.Json;
 
 namespace Cartomatic.Utils.Serialization
 {
+
+    /// <summary>
+    /// simple json serialization utils
+    /// </summary>
     public static class JsonSerializationExtensions
     {
         /// <summary>
@@ -17,6 +21,13 @@ namespace Cartomatic.Utils.Serialization
             return (T) json.DeserializeFromJson(typeof (T), silent);
         }
 
+        /// <summary>
+        /// Deserializes object from json
+        /// </summary>
+        /// <param name="json"></param>
+        /// <param name="destinationType"></param>
+        /// <param name="silent"></param>
+        /// <returns></returns>
         public static object DeserializeFromJson(this string json, Type destinationType, bool silent = true)
         {
             object output = null;

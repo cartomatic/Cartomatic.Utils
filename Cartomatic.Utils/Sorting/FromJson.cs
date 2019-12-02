@@ -7,6 +7,9 @@ using Newtonsoft.Json;
 
 namespace Cartomatic.Utils.Sorting
 {
+    /// <summary>
+    /// read sorter extensions
+    /// </summary>
     public static partial class ReadSorterExtensions
     {
         /// <summary>

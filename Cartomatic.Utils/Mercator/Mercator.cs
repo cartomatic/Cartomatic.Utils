@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Cartomatic.Utils
 {
+    /// <summary>
+    /// Mercator utils
+    /// </summary>
     public class Mercator
     {
         //borrowed from https://gist.github.com/onderaltintas/6649521

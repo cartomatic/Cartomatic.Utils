@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Cartomatic.Utils.Number
 {
+    /// <summary>
+    /// number extensions
+    /// </summary>
     public static class NumberExtensions
     {
         /// <summary>
@@ -23,6 +26,13 @@ namespace Cartomatic.Utils.Number
             return n;
         }
 
+        /// <summary>
+        /// fits a number in range
+        /// </summary>
+        /// <param name="n"></param>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <returns></returns>
         public static float FitInRange(this float n, double min, double max)
         {
             return (float) ((double) n).FitInRange(min, max);

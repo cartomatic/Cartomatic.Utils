@@ -8,6 +8,9 @@ using System.Text;
 
 namespace Cartomatic.Utils.Dto
 {
+    /// <summary>
+    /// object extensions for DTO 
+    /// </summary>
     public static class ObjectExtensions
     {
         /// <summary>
@@ -45,7 +48,6 @@ namespace Cartomatic.Utils.Dto
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="src"></param>
-        /// <param name="dest"></param>
         /// <returns></returns>
         public static T CopyPublicPropertiesToNew<T>(this object src) where T : class
         {

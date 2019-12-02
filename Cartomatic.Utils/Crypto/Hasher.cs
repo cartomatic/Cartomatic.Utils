@@ -9,8 +9,33 @@ using System.Threading.Tasks;
 
 namespace Cartomatic.Utils.Crypto
 {
+    /// <summary>
+    /// Simple hasher
+    /// </summary>
     public class Hasher
     {
+#pragma warning disable 1591
+        public enum Algorythm
+        {
+            Sha1 = 1,
+            Sha256 = 256,
+            Sha512 = 512
+        }
+#pragma warning restore 1591
+
+
+        /// <summary>
+        /// Hashes a string using one of the sha algorithms - 1, 256 or 512
+        /// </summary>
+        /// <param name="s">Input string</param>
+        /// <param name="shaVersion">Version of the sha algorythm - Sha1, Sha256, Sha512; defaults to Sha1</param>
+        /// <param name="useBase64Encoding">Whether or not use base64 encoding for a returned string</param>
+        /// <returns>Hashed string</returns>
+        public static string ComputeShaHash(string s, Algorythm shaVersion, bool useBase64Encoding = false)
+        {
+            return ComputeShaHash(s, (int) shaVersion, useBase64Encoding);
+        }
+
         /// <summary>
         /// Hashes a string using one of the sha algorithms - 1, 256 or 512
         /// </summary>

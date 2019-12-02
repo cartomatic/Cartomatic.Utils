@@ -1,5 +1,8 @@
 ﻿namespace Cartomatic.Utils.Email
 {
+    /// <summary>
+    /// Enforces email account abstraction
+    /// </summary>
     public interface IEmailAccount
     {
         /// <summary>

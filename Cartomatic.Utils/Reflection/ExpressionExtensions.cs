@@ -6,6 +6,9 @@ using System.Text;
 
 namespace Cartomatic.Utils.Reflection
 {
+    /// <summary>
+    /// Expression extensions
+    /// </summary>
     public static class ExpressionExtensions
     {
         /// <summary>

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Cartomatic.Utils.JsonSerializableObjects
 {
+    /// <summary>
+    /// Explicit implementation of a serializable list of string
+    /// </summary>
     public class SerializableListOfString : SerializableList<string>
     {
         /// <summary>

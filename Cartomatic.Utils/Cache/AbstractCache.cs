@@ -13,9 +13,11 @@ namespace Cartomatic.Utils.Cache
     /// </summary>
     public abstract class AbstractCache<T> : ICache<T>
     {
+#pragma warning disable 1591
         protected AbstractCache()
             : this (CacheType.InMemory, 5000)
         { }
+#pragma warning restore 1591
 
         /// <summary>
         /// creates a new instance
@@ -38,14 +40,22 @@ namespace Cartomatic.Utils.Cache
         /// </summary>
         protected virtual long CacheTimeoutTicks => TimeSpan.TicksPerMillisecond * CacheTimeout;
 
+        /// <summary>
+        /// Type of cache
+        /// </summary>
         public CacheType CacheType { get; }
 
+
+        /// <inheritdoc />
         public abstract CachedItem<T> Get(string cacheKey);
 
+        /// <inheritdoc />
         public abstract void Set(string cacheKey, T obj);
 
+        /// <inheritdoc />
         public abstract void Clean();
 
+        /// <inheritdoc />
         public abstract void CleanByKey(string key);
     }
 }

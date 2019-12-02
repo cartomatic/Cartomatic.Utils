@@ -7,6 +7,9 @@ using Newtonsoft.Json;
 
 namespace Cartomatic.Utils.Filtering
 {
+    /// <summary>
+    /// read filter extensions
+    /// </summary>
     public static partial class ReadFilterExtensions
     {
         /// <summary>

@@ -5,6 +5,9 @@ using Cartomatic.Utils;
 
 namespace Cartomatic.Utils
 {
+    /// <summary>
+    /// Git utils
+    /// </summary>
     public partial class Git
     {
 
@@ -123,7 +126,7 @@ namespace Cartomatic.Utils
         /// <summary>
         /// reads a version sring from a file 
         /// </summary>
-        /// <param name="basePath"></param>
+        /// <param name="filePath"></param>
         /// <returns></returns>
         protected static string GetGitVersionFromFile(string filePath)
         {

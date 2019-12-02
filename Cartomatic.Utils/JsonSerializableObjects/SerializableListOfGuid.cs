@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Cartomatic.Utils.JsonSerializableObjects
 {
+    /// <summary>
+    /// explicit implementation of a serializable list of guid
+    /// </summary>
     public class SerializableListOfGuid : SerializableList<Guid>
     {
         /// <summary>

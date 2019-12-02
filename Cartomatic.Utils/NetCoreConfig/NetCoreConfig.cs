@@ -11,6 +11,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace Cartomatic.Utils
 {
+    /// <summary>
+    /// Net core cfg reader utils
+    /// </summary>
     public class NetCoreConfig
     {
 

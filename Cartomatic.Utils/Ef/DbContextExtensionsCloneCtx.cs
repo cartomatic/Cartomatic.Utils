@@ -19,6 +19,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Cartomatic.Utils.Ef
 {
+    /// <summary>
+    /// DbContext extensions
+    /// </summary>
     public static partial class DbContextExtensions
     {
 

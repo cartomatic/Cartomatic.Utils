@@ -11,6 +11,10 @@ using RestSharp;
 
 namespace Cartomatic.Utils.ApiClient
 {
+    /// <summary>
+    /// base for rest api clients
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class RestApiClient<T> : ApiClient<T>
         where T:IApiClientConfiguration
     {
@@ -21,7 +25,14 @@ namespace Cartomatic.Utils.ApiClient
         /// <typeparam name="TOut"></typeparam>
         public class RestApiCallOutput<TOut>
         {
+            /// <summary>
+            /// Output deserialized to a specified type
+            /// </summary>
             public TOut Output { get; set; }
+
+            /// <summary>
+            /// Raw response object
+            /// </summary>
             public IRestResponse Response { get; set; }
         }
 
@@ -55,7 +66,7 @@ namespace Cartomatic.Utils.ApiClient
                 //use custom serializer on output! This is important as the newtonsoft's json stuff is used for the object serialization!
                 request.RequestFormat = DataFormat.Json;
                 request.JsonSerializer = new Cartomatic.Utils.RestSharpSerializers.NewtonSoftJsonSerializer();
-                request.AddBody(data);
+                request.AddJsonBody(data);
 
 #if DEBUG
                 var json = request.JsonSerializer.Serialize(data);

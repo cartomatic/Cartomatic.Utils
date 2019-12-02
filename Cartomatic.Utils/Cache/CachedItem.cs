@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace Cartomatic.Utils.Cache
 {
+    /// <summary>
+    /// a generic cached item
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class CachedItem<T>
     {
         /// <summary>
