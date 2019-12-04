@@ -5,10 +5,10 @@
     <TargetFrameworks>netcoreapp3.0;netstandard2.0;net462</TargetFrameworks>
     <Description>some utils simplifying common tasks
 use at your own risk...</Description>
-    <RepositoryUrl>https://github.com/cartomatic/Utils</RepositoryUrl>
-    <PackageLicenseUrl>https://github.com/cartomatic/Utils/blob/master/license.txt</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/cartomatic/Cartomatic.Utils</RepositoryUrl>
+    <PackageLicenseUrl>https://github.com/cartomatic/Cartomatic.Utils/blob/master/license.txt</PackageLicenseUrl>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>1.0.4-dev0004</Version>
+    <Version>1.0.5</Version>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
