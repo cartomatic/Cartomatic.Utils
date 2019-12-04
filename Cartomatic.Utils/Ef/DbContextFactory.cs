@@ -7,14 +7,14 @@ using System.Text;
 using Cartomatic.Utils.Data;
 
 
-#if NETSTANDARD2_0 || NETCOREAPP3_0
+#if NETSTANDARD2_0 || NETCOREAPP3_1
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 #endif
 
 namespace Cartomatic.Utils.Ef
 {
-#if NETSTANDARD2_0 || NETCOREAPP3_0
+#if NETSTANDARD2_0 || NETCOREAPP3_1
 #pragma warning disable 1591
     public static class DbContextFactory
     {

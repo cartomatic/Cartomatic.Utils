@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-#if NETSTANDARD2_0 || NETCOREAPP3_0
+#if NETSTANDARD2_0 || NETCOREAPP3_1
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -25,7 +25,7 @@ namespace Cartomatic.Utils.Ef
     public static partial class DbContextExtensions
     {
 
-#if NETCOREAPP3_0
+#if NETCOREAPP3_1
 
         private static readonly Dictionary<Microsoft.EntityFrameworkCore.DbContext, Dictionary<Type, Microsoft.EntityFrameworkCore.Metadata.IEntityType>> EntitiesMetadataCache = new Dictionary<Microsoft.EntityFrameworkCore.DbContext, Dictionary<Type, Microsoft.EntityFrameworkCore.Metadata.IEntityType>>();
 

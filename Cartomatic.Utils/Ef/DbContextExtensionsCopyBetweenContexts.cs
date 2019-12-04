@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 #endif
 
-#if NETSTANDARD2_0 || NETCOREAPP3_0
+#if NETSTANDARD2_0 || NETCOREAPP3_1
 using Microsoft.EntityFrameworkCore;
 #endif
 

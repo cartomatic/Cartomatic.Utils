@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace Cartomatic.Utils
 {
-#if NETSTANDARD2_0 || NETCOREAPP3_0
+#if NETSTANDARD2_0 || NETCOREAPP3_1
     /// <summary>
     /// Provides a way to set contextual data that flows with the call and 
     /// async context of a test or invocation.

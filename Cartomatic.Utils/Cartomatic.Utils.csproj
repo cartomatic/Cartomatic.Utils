@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.0;netstandard2.0;net462</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;netstandard2.0;net462</TargetFrameworks>
     <Description>some utils simplifying common tasks
 use at your own risk...</Description>
     <RepositoryUrl>https://github.com/cartomatic/Cartomatic.Utils</RepositoryUrl>
@@ -14,62 +14,66 @@ use at your own risk...</Description>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.4.0" />
     <PackageReference Include="MailKit" Version="2.4.1" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.6.0" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="msbump" Version="2.3.2" />
     <PackageReference Include="newtonsoft.json" Version="12.0.3" />
     <PackageReference Include="npgsql" Version="4.1.2" />
     <PackageReference Include="restsharp" Version="106.6.10" />
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.0" />
   </ItemGroup>
 
-  <!--.NET standard 2.0 refs, compilation flags & build opts-->
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0'">
-    <DefineConstants>NETCOREAPP3_0</DefineConstants>
+  <!--.NET standard 3.1 refs, compilation flags & build opts-->
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1'">
+    <DefineConstants>NETCOREAPP3_1</DefineConstants>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
     <PackageReference Include="Audit.EntityFramework.Core">
       <Version>14.9.1</Version>
     </PackageReference>
 
     <PackageReference Include="Microsoft.EntityFrameworkCore">
-      <Version>3.0.1</Version>
+      <Version>3.1.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory">
-      <Version>3.0.1</Version>
+      <Version>3.1.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational">
-      <Version>3.0.1</Version>
+      <Version>3.1.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration">
-      <Version>3.0.1</Version>
+      <Version>3.1.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions">
-      <Version>3.0.1</Version>
+      <Version>3.1.0</Version>
     </PackageReference>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL">
-      <Version>3.0.1</Version>
+      <Version>3.1.0</Version>
     </PackageReference>
     <PackageReference Include="System.Drawing.Common">
-      <Version>4.6.1</Version>
+      <Version>4.7.0</Version>
     </PackageReference>
 
     <PackageReference Include="Microsoft.AspNetCore.Mvc">
       <Version>2.2.0</Version>
     </PackageReference>
 
-    <PackageReference Include="Microsoft.Build.Framework" Version="16.3.0" />
-    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="16.3.0" />
+    <PackageReference Include="Microsoft.Build.Framework" Version="16.4.0" />
+    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="16.4.0" />
 
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions">
-      <Version>3.0.1</Version>
+      <Version>3.1.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration.Json">
-      <Version>3.0.1</Version>
+      <Version>3.1.0</Version>
     </PackageReference>
   </ItemGroup>
+  
 
   <!--.NET standard 2.0 refs, compilation flags & build opts-->
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
