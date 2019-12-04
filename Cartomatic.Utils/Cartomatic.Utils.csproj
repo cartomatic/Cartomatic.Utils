@@ -6,9 +6,9 @@
     <Description>some utils simplifying common tasks
 use at your own risk...</Description>
     <RepositoryUrl>https://github.com/cartomatic/Cartomatic.Utils</RepositoryUrl>
-    <PackageLicenseUrl>https://github.com/cartomatic/Cartomatic.Utils/blob/master/license.txt</PackageLicenseUrl>
+    <License>https://github.com/cartomatic/Cartomatic.Utils/blob/master/license.txt</License>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>1.0.5</Version>
+    <Version>1.0.6</Version>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
@@ -17,7 +17,6 @@ use at your own risk...</Description>
     <PackageReference Include="EntityFramework" Version="6.4.0" />
     <PackageReference Include="MailKit" Version="2.4.1" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
-    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="msbump" Version="2.3.2" />
     <PackageReference Include="newtonsoft.json" Version="12.0.3" />

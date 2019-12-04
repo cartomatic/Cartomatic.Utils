@@ -17,6 +17,9 @@ using System.Web;
 
 namespace Cartomatic.Utils
 {
+    /// <summary>
+    /// REST api utils
+    /// </summary>
     public partial class RestApi
     {
         /// <summary>
