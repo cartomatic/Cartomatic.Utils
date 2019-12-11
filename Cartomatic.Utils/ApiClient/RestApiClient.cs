@@ -84,7 +84,16 @@ namespace Cartomatic.Utils.ApiClient
             var resp = await client.ExecutePostTaskAsync(request);
             if (resp.StatusCode == HttpStatusCode.OK)
             {
-                output = (TOut)Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content, typeof(TOut));
+                //an extra for binary output...
+                if (resp.ContentType == "application/octet-stream")
+                {
+                    var respB = resp.RawBytes.Aggregate(string.Empty, (current, t) => current + ((current.Length > 0 ? ";" : "") + t));
+                    output = (TOut) System.ComponentModel.TypeDescriptor.GetConverter(typeof(TOut)).ConvertFrom(respB);
+                }
+                else
+                {
+                    output = (TOut)Newtonsoft.Json.JsonConvert.DeserializeObject(resp.Content, typeof(TOut));
+                }
             }
             else
             {
