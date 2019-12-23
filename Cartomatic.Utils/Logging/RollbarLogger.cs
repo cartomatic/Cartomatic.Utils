@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using Rollbar;
 
 namespace Cartomatic.Utils
@@ -60,9 +62,29 @@ namespace Cartomatic.Utils
             if (RollbarConfigured)
                 return RollbarLogger;
 
-            var rollbarCfg = Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig().Get<RollbarConfiguration>();
+            RollbarConfiguration rollbarCfg = null;
 
-            if (!string.IsNullOrWhiteSpace(rollbarCfg.AccessToken))
+#if NETSTANDARD2_0 || NETCOREAPP3_1
+            rollbarCfg = Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig()
+                .GetSection(nameof(RollbarConfiguration))
+                .Get<RollbarConfiguration>();
+#endif
+
+#if NETFULL
+            try
+            {
+                rollbarCfg =
+                    JsonConvert.DeserializeObject<RollbarConfiguration>(
+                        ConfigurationManager.AppSettings[nameof(RollbarConfiguration)]);
+            }
+            catch
+            {
+                //ignore
+            }
+#endif
+
+
+            if (rollbarCfg != null && !string.IsNullOrWhiteSpace(rollbarCfg.AccessToken))
             {
                 try
                 {
@@ -80,6 +102,12 @@ namespace Cartomatic.Utils
                     LogExceptions(ex);
                 }
             }
+            else
+            {
+                LogExceptions(new Exception("Rollbar could not be configured."));
+            }
+
+            RollbarConfigured = true;
 
             return RollbarLogger;
         }
