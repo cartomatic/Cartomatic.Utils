@@ -24,24 +24,8 @@ namespace Cartomatic.Utils
                     Directory.CreateDirectory(dir);
                 }
 
-                var errs = new List<string>{
-                    DateTime.Now.ToLongTimeString()
-                };
-
-                while (e != null)
-                {
-                    errs.Add(e.Message);
-                    errs.Add(e.StackTrace);
-                    errs.Add(new string('-', 50));
-                    errs.Add(Environment.NewLine);
-
-                    e = e.InnerException;
-                }
-
-                errs.Add(new string('=', 150));
-                errs.Add(Environment.NewLine);
-                errs.Add(Environment.NewLine);
-
+                var errs = GetUnifiedErrorInfoMultiLine(e);
+                
                 System.IO.File.AppendAllLines(Path.Combine(dir, $"{DateTime.Now:yyyyMMdd}.custom.log"), errs);
             }
             catch

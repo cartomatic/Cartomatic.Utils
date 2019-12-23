@@ -8,7 +8,7 @@ use at your own risk...</Description>
     <RepositoryUrl>https://github.com/cartomatic/Cartomatic.Utils</RepositoryUrl>
     <License>https://github.com/cartomatic/Cartomatic.Utils/blob/master/license.txt</License>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>1.0.6-dev0075</Version>
+    <Version>1.0.6-dev0099</Version>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
@@ -22,6 +22,7 @@ use at your own risk...</Description>
     <PackageReference Include="newtonsoft.json" Version="12.0.3" />
     <PackageReference Include="npgsql" Version="4.1.2" />
     <PackageReference Include="restsharp" Version="106.6.10" />
+    <PackageReference Include="Rollbar" Version="3.6.3" />
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.0" />
   </ItemGroup>

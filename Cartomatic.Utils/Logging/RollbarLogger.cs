@@ -1,0 +1,103 @@
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using Microsoft.Extensions.Configuration;
+using Rollbar;
+
+namespace Cartomatic.Utils
+{
+    /// <summary>
+    /// Logging utils
+    /// </summary>
+    public partial class Logging
+    {
+        /// <summary>
+        /// Simplistic exception logger that also dumps all the inner exceptions along with their stack trace
+        /// </summary>
+        /// <param name="e"></param>
+        public static void LogToRollbar(Exception e)
+        {
+            try
+            {
+                var logger = GetRollbarLogger();
+                if (logger == null)
+                    return;
+
+                try
+                {
+                    logger.Error(e);
+                }
+                catch (Exception ex)
+                {
+                    LogExceptions(ex);
+                }
+            }
+            catch
+            {
+                //ignore
+            }
+        }
+
+        /// <summary>
+        /// whether or not rollbar has been configured
+        /// </summary>
+        protected static bool RollbarConfigured = false;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected static ILogger RollbarLogger { get; set; }
+
+        /// <summary>
+        /// configures an returns rollbar logger
+        /// </summary>
+        /// <returns></returns>
+        protected static ILogger GetRollbarLogger()
+        {
+            if (RollbarConfigured)
+                return RollbarLogger;
+
+            var rollbarCfg = Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig().Get<RollbarConfiguration>();
+
+            if (!string.IsNullOrWhiteSpace(rollbarCfg.AccessToken))
+            {
+                try
+                {
+                    RollbarLocator.RollbarInstance.Configure(new RollbarConfig
+                    {
+                        AccessToken = rollbarCfg.AccessToken,
+                        Environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"),
+                        Enabled = (rollbarCfg.Environments?.Select(x => x.ToLower()) ?? new string[0]).Contains(
+                            Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")?.ToLower())
+                    });
+                    RollbarLogger = RollbarLocator.RollbarInstance.Logger;
+                }
+                catch (Exception ex)
+                {
+                    LogExceptions(ex);
+                }
+            }
+
+            return RollbarLogger;
+        }
+
+        /// <summary>
+        /// rollbar config template
+        /// </summary>
+        public class RollbarConfiguration
+        {
+            /// <summary>
+            /// rollbar access token for given app
+            /// </summary>
+            public string AccessToken { get; set; }
+
+            /// <summary>
+            /// environments to log
+            /// </summary>
+            public string[] Environments { get; set; }
+        }
+    }
+}
