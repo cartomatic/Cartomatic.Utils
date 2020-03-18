@@ -49,5 +49,10 @@ namespace Cartomatic.Utils.Cache
         {
             throw new NotImplementedException();
         }
+
+        public override IEnumerable<string> GetKeys(string filter = null)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -63,5 +63,24 @@ namespace Cartomatic.Utils.Cache
         {
             _cache.TryRemove(key, out _);
         }
+
+        /// <inheritdoc />
+        public override IEnumerable<string> GetKeys(string filter =  null)
+        {
+            var outKeys = new List<string>();
+            var searchableFilter = string.IsNullOrEmpty(filter)
+                ? null
+                : filter.ToLowerInvariant();
+
+            foreach (var cacheKey in _cache.Keys)
+            {
+                if (string.IsNullOrEmpty(searchableFilter) || cacheKey.ToLowerInvariant().Contains(searchableFilter))
+                {
+                    outKeys.Add(cacheKey);
+                }
+            }
+
+            return outKeys;
+        }
     }
 }

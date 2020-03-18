@@ -57,5 +57,8 @@ namespace Cartomatic.Utils.Cache
 
         /// <inheritdoc />
         public abstract void CleanByKey(string key);
+
+        /// <inheritdoc />
+        public abstract IEnumerable<string> GetKeys(string filter = null);
     }
 }

@@ -48,5 +48,12 @@ namespace Cartomatic.Utils.Cache
         /// </summary>
         /// <param name="key"></param>
         void CleanByKey(string key);
+
+        /// <summary>
+        /// Gets cached keys
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        IEnumerable<string> GetKeys(string filter = null);
     }
 }
