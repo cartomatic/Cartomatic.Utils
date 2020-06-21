@@ -262,12 +262,18 @@ namespace Cartomatic.Utils.Filtering
                             //    Expression.Constant(item.ToString().ToLower())
                             //);
 
-                            if (!Guid.TryParse((string)item, out var guid))
-                                continue;
+                            //make sure can squize in nulls as filtered values
+                            var nullableGuid = default(Guid?);
+                            if (!string.IsNullOrEmpty((string) item))
+                            {
+                                if (!Guid.TryParse((string)item, out var guid))
+                                    continue;
+                                nullableGuid = guid;
+                            }
 
                             inExpression = Expression.Equal(
                                 GetFilteredProperty(filter, paramExp),
-                                GetFilteredValue(filter, paramExp, guid)
+                                GetFilteredValue(filter, paramExp, nullableGuid, !nullableGuid.HasValue)
                             );
                         }
                         else
@@ -426,14 +432,15 @@ namespace Cartomatic.Utils.Filtering
         /// <param name="filter"></param>
         /// <param name="paramExp"></param>
         /// <param name="value"></param>
+        /// <param name="forceValue">Whether or not should force value or try to use filter value if null</param>
         /// <returns></returns>
         private static Expression GetFilteredValue(ReadFilter filter, ParameterExpression paramExp,
-            object value = null)
+            object value = null, bool forceValue = false)
         {
             return WrapIntoDbFunction(
                 filter,
                 Expression.Convert(
-                    Expression.Constant(value ?? filter.Value),
+                    Expression.Constant(forceValue ? value : value ?? filter.Value),
                     Expression.Property(paramExp, filter.Property).Type
                 )
             );
