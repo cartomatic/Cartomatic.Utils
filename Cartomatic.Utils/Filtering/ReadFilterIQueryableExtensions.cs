@@ -127,11 +127,16 @@ namespace Cartomatic.Utils.Filtering
             //adjust "guid" filter types to just "==", so they're filtered the same way
             if (filter.Operator == "guid" || filter.Operator == "!guid")
             {
-                if (!Guid.TryParse(filter.Value, out Guid guid))
-                    throw new ArgumentException($"Filter on {filter.Property} with a value of {filter.Value} is specified as a guid filter; the value is nto parsable to guid though.");
-
+                var nullableGuid = default(Guid?);
+                if (!string.IsNullOrEmpty((string)filter.Value))
+                {
+                    if (!Guid.TryParse((string)filter.Value, out var guid))
+                        throw new ArgumentException($"Filter on {filter.Property} with a value of {filter.Value} is specified as a guid filter; the value is nto parsable to guid though."); ;
+                    nullableGuid = guid;
+                }
+    
                 filter.Operator = filter.Operator == "guid" ? "==" : "!=";
-                filter.Value = guid;
+                filter.Value = nullableGuid;
                 filter.ExactMatch = true;
             }
 
