@@ -36,7 +36,7 @@ steps:
   inputs:
     command: 'build'
     projects: 'Cartomatic.Utils'
-    configuration: '$(buildConfiguration)'
+    #configuration: '$(buildConfiguration)'
     arguments: '--configuration Release'
 
 - task: DotNetCoreCLI@2
@@ -56,6 +56,7 @@ steps:
 #     includeSymbols: true
 
 - task: DotNetCoreCLI@2
+  displayName: 'dotnet pack'
   inputs:
     command: 'pack'
     packagesToPack: '**/Cartomatic.Utils.csproj'
@@ -69,3 +70,4 @@ steps:
     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
     nuGetFeedType: 'internal'
     publishVstsFeed: 'c6740581-3eaf-4b5b-939e-0e756e6e280e'
+    allowPackageConflicts: true
