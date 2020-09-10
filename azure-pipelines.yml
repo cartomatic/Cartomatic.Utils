@@ -37,7 +37,7 @@ steps:
     command: 'build'
     projects: 'Cartomatic.Utils'
     platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    arguments: '--configuration Release'
 
 - task: DotNetCoreCLI@2
   displayName: 'Test'
