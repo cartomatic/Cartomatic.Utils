@@ -49,7 +49,7 @@ steps:
   displayName: 'Nuget pack'
   inputs:
     command: 'pack'
-    packagesToPack: '**/*.csproj'
+    packagesToPack: '**/Cartomatic.Utils.csproj'
     packDestination: '$(Build.ArtifactStagingDirectory)'
     versioningScheme: 'off'
     includeSymbols: true
