@@ -123,7 +123,7 @@ use at your own risk...</Description>
     <DefineConstants>NET462;NETFULL</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
-    <DocumentationFile>E:\Cartomatic\Utils\Cartomatic.Utils\Cartomatic.Utils.xml</DocumentationFile>
+    <DocumentationFile>Cartomatic.Utils\Cartomatic.Utils.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp3.0|AnyCPU'">
     <NoWarn>1701;1702;1591</NoWarn>
