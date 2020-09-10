@@ -49,7 +49,7 @@ steps:
   displayName: 'Nuget pack'
   inputs:
     command: 'pack'
-    packagesToPack: '**\*.csproj;!**\*.Tests.csproj'
+    packagesToPack: '**/*.csproj;!**/*.Tests.csproj'
     packDestination: '$(Build.ArtifactStagingDirectory)'
     versioningScheme: 'off'
     includeSymbols: true
