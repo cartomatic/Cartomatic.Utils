@@ -14,8 +14,6 @@ pool:
 
 variables:
   solution: 'Cartomatic.Utils/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
 
 steps:
 - task: NuGetToolInstaller@1
@@ -36,7 +34,6 @@ steps:
   inputs:
     command: 'build'
     projects: 'Cartomatic.Utils'
-    platform: '$(buildPlatform)'
     arguments: '--configuration Release'
 
 - task: DotNetCoreCLI@2
