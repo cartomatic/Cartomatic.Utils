@@ -1,10 +1,13 @@
-# ASP.NET Core (.NET Framework)
-# Build and test ASP.NET Core projects targeting the full .NET Framework.
-# Add steps that publish symbols, save build artifacts, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-
 trigger:
-- master
+  batch: true
+  branches:
+    include:
+      - '*'
+    exclude:
+      - 'old'
+  paths:
+    include:
+      - '*'
 
 pool:
   vmImage: 'windows-latest'
@@ -16,23 +19,44 @@ variables:
 
 steps:
 - task: NuGetToolInstaller@1
+  displayName: 'Install nuget'
+  inputs:
+    versionSpec: 
+    checkLatest: true
 
 - task: NuGetCommand@2
+  displayName: 'Nuget restore'
   inputs:
+    command: 'restore'
     restoreSolution: '$(solution)'
+    feedsToUse: 'select'
 
-#- task: VSBuild@1
-#  inputs:
-#    solution: '$(solution)'
-#    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
 - task: DotNetCoreCLI@2
+  displayName: 'Build'
   inputs:
     command: 'build'
     projects: 'Cartomatic.Utils'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: VSTest@2
+- task: DotNetCoreCLI@2
+  displayName: 'Test'
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    command: 'test'
+    projects: '**/*Tests.csproj'
+
+- task: NuGetCommand@2
+  displayName: 'Nuget pack'
+  inputs:
+    command: 'pack'
+    packagesToPack: 'Cartomatic.Utils/Cartomatic.Utils.csproj'
+    packDestination: '$(Build.ArtifactStagingDirectory)'
+    versioningScheme: 'off'
+
+- task: NuGetCommand@2
+  displayName: 'Nuget push'
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: 'c6740581-3eaf-4b5b-939e-0e756e6e280e'
