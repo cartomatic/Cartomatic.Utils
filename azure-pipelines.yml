@@ -49,9 +49,10 @@ steps:
   displayName: 'Nuget pack'
   inputs:
     command: 'pack'
-    packagesToPack: 'Cartomatic.Utils/Cartomatic.Utils.csproj'
+    packagesToPack: '**/*Cartomatic.Utils.csproj'
     packDestination: '$(Build.ArtifactStagingDirectory)'
     versioningScheme: 'off'
+    includeSymbols: true
 
 - task: NuGetCommand@2
   displayName: 'Nuget push'
