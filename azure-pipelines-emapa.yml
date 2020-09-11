@@ -2,9 +2,9 @@ trigger:
   batch: true
   branches:
     include:
-      - 'master'
+      - master
     exclude:
-      - 'old'
+      - old
   paths:
     include:
       - '*'
