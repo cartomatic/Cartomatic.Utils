@@ -20,6 +20,9 @@ namespace Cartomatic.Utils.Web
             //Here you will have a case for each position you use
             switch (extensionOrMime.ToLower())
             {
+                default:
+                    return ("unknown", "unknown", "unknown", "unknown", false);
+
                 case "x3d":
                 case "application/vnd.hzn-3d-crossword":
                     return (" ", "application/vnd.hzn-3d-crossword", ".x3d", "IANA: 3D Crossword Plugin", true);
@@ -2356,8 +2359,6 @@ namespace Cartomatic.Utils.Web
                     return ("GPX", "text/gpx", ".gpx", null, true);
                 case "gml":
                     return ("GML", "text/gml", ".gml", null, true);
-                default:
-                    return ("unknown", "unknown", "unknown", "unknown", false);
             }
         }
     }
