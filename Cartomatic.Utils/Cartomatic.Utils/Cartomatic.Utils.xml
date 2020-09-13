@@ -968,6 +968,37 @@
             <param name="smoothingMode"></param>
             <returns></returns>
         </member>
+        <member name="M:Cartomatic.Utils.Drawing.BitmapReadWriteExtensions.GetImage(System.String)">
+            <summary>
+            Gets an image - checks if this is a local path and opens an image; if this is a remote url, it requests an image from the web
+            </summary>
+            <param name="src">image source</param>
+            <returns>Bitmap or null if not possible to read data</returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Drawing.BitmapReadWriteExtensions.BitmapFromByteArr(System.Byte[])">
+            <summary>
+            converts byte arr to bitmap
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Drawing.BitmapReadWriteExtensions.BitmapToByteArr(System.Drawing.Bitmap)">
+            <summary>
+            returns bitmap data as byte arr
+            </summary>
+            <param name="b"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Drawing.ImagingExtensions">
+            <summary>
+            imaging utils
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Drawing.ImagingExtensions.GetEncoderInfo(System.String)">
+            <summary>
+            returns ImageCodecInfo for given mime; used for setting up output format of image file
+            </summary>
+        </member>
         <member name="T:Cartomatic.Utils.Dto.ObjectExtensions">
             <summary>
             object extensions for DTO 
@@ -2221,6 +2252,13 @@
             <returns></returns>
             <remarks>borrowed from https://www.freeformatter.com/mime-types-list.html</remarks>
         </member>
+        <member name="M:Cartomatic.Utils.Web.Dowload.GrabImageFromWeb(System.String)">
+            <summary>
+            Downloads a remote image from given url
+            </summary>
+            <param name="requestUrl"></param>
+            <returns>System.Drawing.Bitmap or null</returns>
+        </member>
         <member name="T:Cartomatic.Utils.Web.ProxyExtensions">
             <summary>
             web proxy extensions
@@ -2262,6 +2300,59 @@
             <param name="url"></param>
             <param name="context"></param>
             <param name="completeRequest"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.Web.UrlExtensions.GetParam(System.Net.HttpWebRequest,System.String)">
+            <summary>
+            Extracts query param off the System.Net.HttpWebRequest
+            </summary>
+            <param name="pName">Param name</param>
+            <param name="request">System.Net.HttpWebRequest object</param>
+            <returns>Param value or null</returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Web.UrlExtensions.EncodeUrl(System.String)">
+            <summary>
+            Encodes url
+            </summary>
+            <param name="url"></param>
+            <returns>Encoded url</returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Web.UrlExtensions.DecodeUrl(System.String)">
+            <summary>
+            Decodes url
+            </summary>
+            <param name="url"></param>
+            <returns>Decoded url</returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Web.UrlExtensions.EscapeUrl(System.String)">
+            <summary>
+            escapes url
+            </summary>
+            <param name="url"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Web.UrlExtensions.UnescapeUrl(System.String)">
+            <summary>
+            unescapes url
+            </summary>
+            <param name="url"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Web.UrlExtensions.ReplaceUrlParam(System.String,System.String,System.String)">
+            <summary>
+            Replaces or appends a url param in the url provided as a string
+            </summary>
+            <param name="inUrl"></param>
+            <param name="pName"></param>
+            <param name="pValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Web.UrlExtensions.GetParam(System.String,System.String)">
+            <summary>
+            Extracts a param off and url string
+            </summary>
+            <param name="inUrl"></param>
+            <param name="pName"></param>
+            <returns></returns>
         </member>
         <member name="T:Cartomatic.Utils.Web.WebRequestExtensions">
             <summary>
