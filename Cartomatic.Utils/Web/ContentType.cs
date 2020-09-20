@@ -899,7 +899,7 @@ namespace Cartomatic.Utils.Web
                     return ("JPEG 2000 Compound Image File Format", "video/jpm", ".jpm", "IANA: JPM", true);
                 case "jpeg":
                 case "jpg":
-                case "image /jpeg": return ("JPEG Image", "image/jpeg", ".jpeg", "RFC 1314", false);
+                case "image/jpeg": return ("JPEG Image", "image/jpeg", ".jpeg", "RFC 1314", false);
                 case "image/x-citrix-jpeg":
                     return ("JPEG Image (Citrix client);", "image/x-citrix-jpeg", ".jpeg", "RFC 1314", false);
                 case "pjpeg":
