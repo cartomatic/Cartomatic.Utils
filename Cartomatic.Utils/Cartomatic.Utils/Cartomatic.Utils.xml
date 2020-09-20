@@ -2373,6 +2373,13 @@
             <param name="request"></param>
             <returns></returns>
         </member>
+        <member name="M:Cartomatic.Utils.Web.WebRequestExtensions.ExecuteRequestAsync(System.Net.HttpWebRequest)">
+            <summary>
+            Executes a web request asynchronously 
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
         <member name="M:Cartomatic.Utils.Web.WebRequestExtensions.CreateHttpWebRequest(System.String,Microsoft.AspNetCore.Http.HttpRequest)">
             <summary>
             Creates a http request with given context

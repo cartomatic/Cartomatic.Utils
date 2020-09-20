@@ -4,8 +4,9 @@ using System.Net;
 using System.Web;
 #endif
 
-#if NETSTANDARD2_0 || NETCOREAPP3_1
 
+using System.Threading.Tasks;
+#if NETSTANDARD2_0 || NETCOREAPP3_1
 using System.Net;
 using Microsoft.AspNetCore.Http;
 #endif
@@ -56,7 +57,28 @@ namespace Cartomatic.Utils.Web
             return response;
         }
 
-        #if NETFULL
+        /// <summary>
+        /// Executes a web request asynchronously 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public static async Task<HttpWebResponse> ExecuteRequestAsync(this HttpWebRequest request)
+        {
+            System.Net.HttpWebResponse response = null;
+            if (request == null)
+                return null;
+            try
+            {
+                response = (System.Net.HttpWebResponse)await request.GetResponseAsync();
+            }
+            catch (System.Net.WebException we)
+            {
+                response = (System.Net.HttpWebResponse)we.Response;
+            }
+            return response;
+        }
+
+#if NETFULL
 
 
         /// <summary>
