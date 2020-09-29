@@ -1410,10 +1410,15 @@
             <summary>
             Gets a stream for an embedded resource
             </summary>
-            <remarks>
-            ported from maphive
-            </remarks>
             <param name="obj"></param>
+            <param name="fullyQualifiedResourceName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.EmbeddedResource.ObjectExtensions.GetEmbeddedResourceStream(System.Type,System.String)">
+            <summary>
+            Gets a stream for an embedded resource
+            </summary>
+            <param name="type"></param>
             <param name="fullyQualifiedResourceName"></param>
             <returns></returns>
         </member>
@@ -1421,10 +1426,15 @@
             <summary>
             Gets embedded resource of an object's assembly
             </summary>
-            <remarks>
-            ported from maphive
-            </remarks>
             <param name="obj"></param>
+            <param name="fullyQualifiedResourceName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.EmbeddedResource.ObjectExtensions.GetEmbeddedResource(System.Type,System.String)">
+            <summary>
+            Gets embedded resource of an object's assembly
+            </summary>
+            <param name="type"></param>
             <param name="fullyQualifiedResourceName"></param>
             <returns></returns>
         </member>
@@ -1432,10 +1442,15 @@
             <summary>
             Gets embedded resource string content
             </summary>
-            <remarks>
-            ported from maphive
-            </remarks>
             <param name="obj"></param>
+            <param name="fullyQualifiedResourceName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.EmbeddedResource.ObjectExtensions.GetEmbeddedResourceStringContent(System.Type,System.String)">
+            <summary>
+            Gets embedded resource string content
+            </summary>
+            <param name="type"></param>
             <param name="fullyQualifiedResourceName"></param>
             <returns></returns>
         </member>
