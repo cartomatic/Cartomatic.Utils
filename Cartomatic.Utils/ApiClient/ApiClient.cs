@@ -97,6 +97,9 @@ namespace Cartomatic.Utils.ApiClient
                             HealthChecksPool.Add(HealthCheckStatus.Healthy, client.ToString());
                         }
                     }
+
+                    HealthChecksPool.Remove(healthCheck.Key);
+                    HealthChecksPool.Add(HealthCheckStatus.PermanentlyUnhealthy, client.ToString());
                 }
             }
         }
