@@ -44,8 +44,20 @@ namespace Cartomatic.Utils
                 //if the path is not absolute (relative)
                 if (!path.IsAbsolute()) //this will throw errors on an ivalid path
                 {
+                    var basePath = AppDomain.CurrentDomain.BaseDirectory;
+
+#if NETCOREAPP || NETCOREAPP3_1
+                    basePath =
+#if DEBUG
+                        AppDomain.CurrentDomain.BaseDirectory;
+#else
+                        System.IO.Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
+#endif
+#endif
+
                     //solve it as relative to the base of the app (make it absolute in fact)
-                    fixedPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path);
+                    fixedPath = System.IO.Path.Combine(basePath, path);
+
                 }
             }
             catch
