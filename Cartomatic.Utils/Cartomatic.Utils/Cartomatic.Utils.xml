@@ -1,0 +1,2434 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Cartomatic.Utils</name>
+    </assembly>
+    <members>
+        <member name="T:Cartomatic.Utils.ApiClient.ApiCallException">
+            <summary>
+            Api call exception
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiCallException.ImproveMsg(System.Net.HttpStatusCode,System.String)">
+            <summary>
+            returns a combined msg - status code + info
+            </summary>
+            <param name="responseStatus"></param>
+            <param name="msg"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiCallException.ResponseStatus">
+            <summary>
+            Status of the response
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiCallException.HandleApiCallException(System.Exception)">
+            <summary>
+            Extracts a response status if an exception is an api call exception
+            </summary>
+            <param name="ex"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.ApiClient.ApiClient`1">
+            <summary>
+            Api client base
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClient`1.ClientConfiguration">
+            <summary>
+            Api client configuration
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClient`1.EndPointId">
+            <summary>
+            Returns a client endpoint identifier; Identifier is unique per endpoint as it is computed based on the protocol/host/port combination;
+            <para/>
+            this means two independent client instances with the same config are in fact using the same endpoint and therefore share the id
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClient`1.SetConfig(Cartomatic.Utils.ApiClient.IApiClientConfiguration)">
+            <summary>
+            Sets a client configuration
+            </summary>
+            <param name="cfg"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClient`1.Init">
+            <summary>
+            Internal client initialisation procedure
+            </summary>
+        </member>
+        <member name="T:Cartomatic.Utils.ApiClient.ApiClientConfiguration">
+            <summary>
+            Api client configurarion
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientConfiguration.Protocol">
+            <summary>
+            Protocol
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientConfiguration.Host">
+            <summary>
+            Host
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientConfiguration.Port">
+            <summary>
+            Port
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientConfiguration.Username">
+            <summary>
+            Username
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientConfiguration.Password">
+            <summary>
+            Pass
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientConfiguration.Timeout">
+            <summary>
+            Request timeout
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientConfiguration.Version">
+            <summary>
+            API version
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientConfiguration.GetUrl">
+            <summary>
+            Returns the configured client endpoint url 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientConfiguration.EndPointId">
+            <summary>
+            Gets an identifier of an endpoint. This is pretty much a server identifier as it is based on the combination of protocol, host and port and this is unique per server.
+            <para />
+            Two configurations with the same settings actually point to the very same endpoint
+            </summary>
+        </member>
+        <member name="T:Cartomatic.Utils.ApiClient.ApiClientFarm`1">
+            <summary>
+            An abstract for using API client farms; provides basic functionality for setting up a farm and retrieving clients
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarm`1.Config">
+            <summary>
+            api farm configuration
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarm`1.ClientConfigs">
+            <summary>
+            Client configurations
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.GetClientConfig(System.Int32)">
+            <summary>
+            Returns client config by id
+            </summary>
+            <param name="idx"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarm`1.UsageCounter">
+            <summary>
+            Counter used to calculate next client to be used
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.GetNextConfigIdx">
+            <summary>
+            Gets the idx of the next available mc config. uses round robin internally
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.GetNextConfigIdx(System.Int32)">
+            <summary>
+            Gets the idx of the next mc config in row. uses round robin internally
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.TestClientAvailability">
+            <summary>
+            Tests if can return a client
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.GetClient">
+            <summary>
+            Gets a next available configured client
+            </summary>
+            <returns></returns>
+            <remarks>when a client implements IApiClientWithHealthCheck then a health check tracking is also performed</remarks>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.GetClientAsync">
+            <summary>
+            Gets a next available configured client;
+            </summary>
+            <returns></returns>
+            <remarks>when a client implements IApiClientWithHealthCheck then a health check tracking is also performed</remarks>
+        </member>
+        <member name="F:Cartomatic.Utils.ApiClient.ApiClientFarm`1.UnhealthyClients">
+            <summary>
+            keeps track of unhealthy clients
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.HandleUnHealthyClient(Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck)">
+            <summary>
+            Tracks unhealthy client status
+            </summary>
+            <param name="client"></param>
+        </member>
+        <member name="F:Cartomatic.Utils.ApiClient.ApiClientFarm`1.ClientInstances">
+            <summary>
+            cached client instances, so can retrieve updated data such as health status
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.GetClient(Cartomatic.Utils.ApiClient.IApiClientConfiguration)">
+            <summary>
+            Creates a client instance for the provided config
+            </summary>
+            <param name="cfg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.GetClient(System.String)">
+            <summary>
+            Gets client by id
+            </summary>
+            <param name="endPointId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1">
+            <summary>
+            Api client base
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.LastHealthCheckData">
+            <summary>
+            Last api health check data returned by the backend
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.HealthStatus">
+            <summary>
+            current health check status
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.LastHealthCheckTime">
+            <summary>
+            Last time a health check has been performed (in ticks)
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.CheckHealthStatusAsync">
+            <summary>
+            Checks current health status of a backend service
+            </summary>
+            <returns></returns>
+            <remarks>Default implementation always sets health check status to healthy</remarks>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.LastHealthyResponseTime">
+            <summary>
+            Last time a healthy response has been retrieved (in ticks)
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.LogLastHealthyResponse">
+            <summary>
+            Logs time of a last healthy response
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.LastUnHealthyResponseTime">
+            <summary>
+            Last time an unhealthy response has been retrieved (in ticks)
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.MarkServiceAsDead">
+            <summary>
+            Marks client as dead
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.MarkServiceAsUnHealthy">
+            <summary>
+            Marks client as unhealthy
+            </summary>
+        </member>
+        <member name="T:Cartomatic.Utils.ApiClient.HealthStatus">
+            <summary>
+            health status
+            </summary>
+        </member>
+        <member name="F:Cartomatic.Utils.ApiClient.HealthStatus.Healthy">
+            <summary>
+            client is ok and responds properly to both standard calls and health check calls
+            </summary>
+        </member>
+        <member name="F:Cartomatic.Utils.ApiClient.HealthStatus.Unhealthy">
+            <summary>
+            client is unhealthy - the most recent health check returned non-successful result or timed out
+            </summary>
+        </member>
+        <member name="F:Cartomatic.Utils.ApiClient.HealthStatus.Dead">
+            <summary>
+            Cient has been marked as dead; usually when it was not possible to obtain a success result from a healthcheck 
+            </summary>
+        </member>
+        <member name="T:Cartomatic.Utils.ApiClient.IApiClient`1">
+            <summary>
+            generic IApiClient
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:Cartomatic.Utils.ApiClient.IApiClient">
+            <summary>
+            Enforces ApiClient functionality
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.IApiClient.SetConfig(Cartomatic.Utils.ApiClient.IApiClientConfiguration)">
+            <summary>
+            Sets the configuration object
+            </summary>
+            <param name="cfg"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.IApiClient.Init">
+            <summary>
+            Performs client internal initialization
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClient.EndPointId">
+            <summary>
+            Returns an endpoint confogured via client confoguration object
+            </summary>
+        </member>
+        <member name="T:Cartomatic.Utils.ApiClient.IApiClientConfiguration">
+            <summary>
+            IApiClient configuration
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientConfiguration.Protocol">
+            <summary>
+            Protocol
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientConfiguration.Host">
+            <summary>
+            Host
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientConfiguration.Port">
+            <summary>
+            Port
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientConfiguration.Username">
+            <summary>
+            Username
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientConfiguration.Password">
+            <summary>
+            Pass
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientConfiguration.Timeout">
+            <summary>
+            Request timeout
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientConfiguration.Version">
+            <summary>
+            Version of the API
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.IApiClientConfiguration.GetUrl">
+            <summary>
+            Returns the configured client endpoint url 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientConfiguration.EndPointId">
+            <summary>
+            Returns an id uniquelly identifying an endpoint; This is pretty much a server identifier as it is based on the combination of protocol, host and port and this is unique per server.
+            <para />
+            Two confogurations with the same settings actually point to the very same endpoint
+            </summary>
+        </member>
+        <member name="T:Cartomatic.Utils.ApiClient.IApiClientFarm`1">
+            <summary>
+            Enforces ApiClient farm functionality
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientFarm`1.Config">
+            <summary>
+            Client farm configuration
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientFarm`1.ClientConfigs">
+            <summary>
+            client configs
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.IApiClientFarm`1.GetClient">
+            <summary>
+            Gets a client
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.IApiClientFarm`1.GetClientAsync">
+            <summary>
+            Gets a client
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.IApiClientFarm`1.GetClient(System.String)">
+            <summary>
+            Gets a client with a specified id
+            </summary>
+            <param name="endPointId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.ApiClient.IApiClientFarmConfiguration">
+            <summary>
+            IApiClient configuration
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientFarmConfiguration.MonitorHealth">
+            <summary>
+            Whether or not client farm should monitor health of its clients; client must implement IApiClientWithHealthCheck in order to be health-checked
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientFarmConfiguration.HealthCheckIntervalSeconds">
+            <summary>
+            How often should the health check be performed
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.HealthStatus">
+            <summary>
+            Current health status if provided
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.LastHealthCheckTime">
+            <summary>
+            Last time a health check has been performed (in ticks)
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.LastHealthyResponseTime">
+            <summary>
+            Last time a healthy response has been retrieved (in ticks)
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.LastUnHealthyResponseTime">
+            <summary>
+            Last time an unhealthy response has been retrieved (in ticks)
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.CheckHealthStatusAsync">
+            <summary>
+            initiates a health check procedure
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.LastHealthCheckData">
+            <summary>
+            returns current health check data if any
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.ApiClient.IHealthCheckData">
+            <summary>
+            Health check call output data container
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IHealthCheckData.ResponseStatus">
+            <summary>
+            Raw response object
+            </summary>
+        </member>
+        <member name="T:Cartomatic.Utils.ApiClient.RestApiCallOutput`1">
+            <summary>
+            Api call output data container
+            </summary>
+            <typeparam name="TOut"></typeparam>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.RestApiCallOutput`1.Output">
+            <summary>
+            Output deserialized to a specified type
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.RestApiCallOutput`1.Response">
+            <summary>
+            Raw response object
+            </summary>
+        </member>
+        <member name="T:Cartomatic.Utils.ApiClient.RestApiClient`1">
+            <summary>
+            base for rest api clients
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.RestApiClient`1.ApiCallAsync``1(System.String,RestSharp.Method,System.Collections.Generic.Dictionary{System.String,System.String},System.Object)">
+            <summary>
+            Calls a specified REST backend at the specified url and using the specified method and params and parses the response to the appropriate output type
+            </summary>
+            <typeparam name="TOut"></typeparam>
+            <param name="url"></param>
+            <param name="method"></param>
+            <param name="queryParams"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.ApiClient.RestApiClientUtils">
+            <summary>
+            base for rest api clients
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.RestApiClientUtils.ApiCallAsync``1(System.String,RestSharp.Method,System.Collections.Generic.Dictionary{System.String,System.String},System.Object)">
+            <summary>
+            Calls a specified REST backend at the specified url and using the specified method and params and parses the response to the appropriate output type
+            </summary>
+            <typeparam name="TOut"></typeparam>
+            <param name="url"></param>
+            <param name="method"></param>
+            <param name="queryParams"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.ApiClient.RestApiClientWithHealthCheck`1">
+            <summary>
+            base for rest api clients
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.RestApiClientWithHealthCheck`1.ApiCallAsync``1(System.String,RestSharp.Method,System.Collections.Generic.Dictionary{System.String,System.String},System.Object)">
+            <summary>
+            Calls a specified REST backend at the specified url and using the specified method and params and parses the response to the appropriate output type
+            </summary>
+            <typeparam name="TOut"></typeparam>
+            <param name="url"></param>
+            <param name="method"></param>
+            <param name="queryParams"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Cache.AbstractCache`1">
+            <summary>
+            Provides facilities for caching user configuration
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Cache.AbstractCache`1.#ctor(Cartomatic.Utils.Cache.CacheType,System.Int32)">
+            <summary>
+            creates a new instance
+            </summary>
+            <param name="cacheType"></param>
+            <param name="cacheTimeout">Miliseconds</param>
+        </member>
+        <member name="P:Cartomatic.Utils.Cache.AbstractCache`1.CacheTimeout">
+            <summary>
+            cache timeout in miliseconds
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Cache.AbstractCache`1.CacheTimeoutTicks">
+            <summary>
+            cache timeout expressed in ticks
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Cache.AbstractCache`1.CacheType">
+            <summary>
+            Type of cache
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Cache.AbstractCache`1.Get(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Cartomatic.Utils.Cache.AbstractCache`1.Set(System.String,`0)">
+            <inheritdoc />
+        </member>
+        <member name="M:Cartomatic.Utils.Cache.AbstractCache`1.Clean">
+            <inheritdoc />
+        </member>
+        <member name="M:Cartomatic.Utils.Cache.AbstractCache`1.CleanByKey(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Cartomatic.Utils.Cache.AbstractCache`1.GetKeys(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="T:Cartomatic.Utils.Cache.CachedItem`1">
+            <summary>
+            a generic cached item
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:Cartomatic.Utils.Cache.CachedItem`1.Item">
+            <summary>
+            Item retrieved from cache
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Cache.CachedItem`1.Exists">
+            <summary>
+            Whether or not an item exists in cache
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Cache.CachedItem`1.TimedOut">
+            <summary>
+            Whether or not the cached item has timed out
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Cache.CachedItem`1.Valid">
+            <summary>
+            Whether or not the cached item is valid
+            </summary>
+        </member>
+        <member name="T:Cartomatic.Utils.Cache.CacheFactory">
+            <summary>
+            simple cache factory
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Cache.CacheFactory.CreateCache``1(Cartomatic.Utils.Cache.CacheType,System.Int32)">
+            <summary>
+            creates a new instance o cache object 
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="cacheType"></param>
+            <param name="cacheTimeout">miliseconds</param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Cache.ICache`1">
+            <summary>
+            Generic cache
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:Cartomatic.Utils.Cache.ICache`1.CacheTimeout">
+            <summary>
+            Cache timeout in millis
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Cache.ICache`1.CacheType">
+            <summary>
+            Cache type
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Cache.ICache`1.Get(System.String)">
+            <summary>
+            gets an object from cache
+            </summary>
+            <param name="cacheKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Cache.ICache`1.Set(System.String,`0)">
+            <summary>
+            sets an object in cache
+            </summary>
+            <param name="cacheKey"></param>
+            <param name="obj"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.Cache.ICache`1.Clean">
+            <summary>
+            Cleans the entire cache
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Cache.ICache`1.CleanByKey(System.String)">
+            <summary>
+            Cleans a cache item by key
+            </summary>
+            <param name="key"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.Cache.ICache`1.GetKeys(System.String)">
+            <summary>
+            Gets cached keys
+            </summary>
+            <param name="filter"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Cache.InMemoryCache`1">
+            <summary>
+            in memory cache
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Cartomatic.Utils.Cache.InMemoryCache`1.#ctor(System.Int32)">
+            <summary>
+            creates a new instance
+            </summary>
+            <param name="cacheTimeout">miliseconds</param>
+        </member>
+        <member name="M:Cartomatic.Utils.Cache.InMemoryCache`1.Get(System.String)">
+            <summary>gets an object from cache</summary>
+            <param name="cacheKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Cache.InMemoryCache`1.Set(System.String,`0)">
+            <summary>sets an object in cache</summary>
+            <param name="cacheKey"></param>
+            <param name="obj"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.Cache.InMemoryCache`1.Clean">
+            <summary>Cleans the entire cache</summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Cache.InMemoryCache`1.CleanByKey(System.String)">
+            <summary>Cleans a cache item by key</summary>
+            <param name="key"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.Cache.InMemoryCache`1.GetKeys(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="T:Cartomatic.Utils.Cache.RedisCache`1">
+            <summary>
+            Redis cache
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Cartomatic.Utils.Cache.RedisCache`1.Get(System.String)">
+            <summary>gets an object from cache</summary>
+            <param name="cacheKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Cache.RedisCache`1.Set(System.String,`0)">
+            <summary>sets an object in cache</summary>
+            <param name="cacheKey"></param>
+            <param name="obj"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.Cache.RedisCache`1.Clean">
+            <summary>Cleans the entire cache</summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Cache.RedisCache`1.CleanByKey(System.String)">
+            <summary>Cleans a cache item by key</summary>
+            <param name="key"></param>
+        </member>
+        <member name="T:Cartomatic.Utils.CallContext">
+            <summary>
+            Provides a way to set contextual data that flows with the call and 
+            async context of a test or invocation.
+            borrowed from http://www.cazzulino.com/callcontext-netstandard-netcore.html
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.CallContext.SetData(System.String,System.Object)">
+            <summary>
+            Stores a given object and associates it with the specified name.
+            </summary>
+            <param name="name">The name with which to associate the new item in the call context.</param>
+            <param name="data">The object to store in the call context.</param>
+        </member>
+        <member name="M:Cartomatic.Utils.CallContext.GetData(System.String)">
+            <summary>
+            Retrieves an object with the specified name from the <see cref="T:Cartomatic.Utils.CallContext"/>.
+            </summary>
+            <param name="name">The name of the item in the call context.</param>
+            <returns>The object in the call context associated with the specified name, or <see langword="null"/> if not found.</returns>
+        </member>
+        <member name="T:Cartomatic.Utils.CallContext`1">
+            <summary>
+            Provides a way to set contextual data that flows with the call and 
+            async context of a test or invocation.
+            borrowed from http://www.cazzulino.com/callcontext-netstandard-netcore.html
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Cartomatic.Utils.CallContext`1.SetData(System.String,`0)">
+            <summary>
+            Stores a given object and associates it with the specified name.
+            </summary>
+            <param name="name">The name with which to associate the new item in the call context.</param>
+            <param name="data">The object to store in the call context.</param>
+        </member>
+        <member name="M:Cartomatic.Utils.CallContext`1.GetData(System.String)">
+            <summary>
+            Retrieves an object with the specified name from the <see cref="T:Cartomatic.Utils.CallContext"/>.
+            </summary>
+            <param name="name">The name of the item in the call context.</param>
+            <returns>The object in the call context associated with the specified name, or a default value for <typeparamref name="T"/> if none is found.</returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Crypto.Generator">
+            <summary>
+            some crypto related generator helpers.
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Crypto.Generator.GenerateRandomString(System.Int32,System.Boolean)">
+            <summary>
+            Generates random string
+            </summary>
+            <param name="length">Length of byte array to be used</param>
+            <param name="useBase64Encoding">Whether or not use base64 encoding for the output</param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Crypto.Generator.GenerateRandomString(System.Int32)">
+            <summary>
+            Generates a random string of declared length
+            </summary>
+            <param name="length">Length of string to be returned</param>
+            <returns>Random string</returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Crypto.Hasher">
+            <summary>
+            Simple hasher
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Crypto.Hasher.ComputeShaHash(System.String,Cartomatic.Utils.Crypto.Hasher.Algorythm,System.Boolean)">
+            <summary>
+            Hashes a string using one of the sha algorithms - 1, 256 or 512
+            </summary>
+            <param name="s">Input string</param>
+            <param name="shaVersion">Version of the sha algorythm - Sha1, Sha256, Sha512; defaults to Sha1</param>
+            <param name="useBase64Encoding">Whether or not use base64 encoding for a returned string</param>
+            <returns>Hashed string</returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Crypto.Hasher.ComputeShaHash(System.String,System.Int32,System.Boolean)">
+            <summary>
+            Hashes a string using one of the sha algorithms - 1, 256 or 512
+            </summary>
+            <param name="s">Input string</param>
+            <param name="shaVersion">Version of the sha algorythm - Sha1, Sha256, Sha512; defaults to Sha1</param>
+            <param name="useBase64Encoding">Whether or not use base64 encoding for a returned string</param>
+            <returns>Hashed string</returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Crypto.Hasher.ComputeMd5Hash(System.String,System.Boolean)">
+            <summary>
+            computes an md5 hash
+            </summary>
+            <param name="s"></param>
+            <param name="useBase64Encoding"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Crypto.SymmetricEncryption">
+            <summary>
+            Ported from GeoMind utils...
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Crypto.SymmetricEncryption.GetAlgorithm(Cartomatic.Utils.Crypto.SymmetricEncryption.Algorithm)">
+            <summary>
+            Gets algorythm 
+            </summary>
+            <param name="algorithm"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Crypto.SymmetricEncryption.Encrypt(System.String,System.String)">
+            <summary>
+            Encrypts an incoming string using the provided key
+            </summary>
+            <param name="clear"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Crypto.SymmetricEncryption.EncryptFile(System.Byte[],System.String)">
+            <summary>
+            Encrypts a file
+            </summary>
+            <param name="clearBytes"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Crypto.SymmetricEncryption.Decrypt(System.String,System.String)">
+            <summary>
+            Decypts an incoming string using provided key
+            </summary>
+            <param name="cypher"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Crypto.SymmetricEncryption.DecryptFile(System.Byte[],System.String)">
+            <summary>
+            Descrypts a file
+            </summary>
+            <param name="cypherBytes"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Crypto.SymmetricEncryption.GetPasswordDeriveBytes(System.String)">
+            <summary>
+            Gets password derived bytes based on... well password ;-)
+            </summary>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Crypto.SymmetricEncryption.Encrypt(System.Byte[],System.Byte[],System.Byte[],Cartomatic.Utils.Crypto.SymmetricEncryption.Algorithm)">
+            <summary>
+            Encrypt a byte array into a byte array using a key and an IV 
+            </summary>
+            <param name="clearData"></param>
+            <param name="Key"></param>
+            <param name="IV"></param>
+            <param name="algorithm"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Crypto.SymmetricEncryption.EncryptString(System.Byte[],System.Byte[],System.Byte[],Cartomatic.Utils.Crypto.SymmetricEncryption.Algorithm)">
+            <summary>
+            encrypts a string
+            </summary>
+            <param name="clearData"></param>
+            <param name="Key"></param>
+            <param name="IV"></param>
+            <param name="algorithm"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Crypto.SymmetricEncryption.Decrypt(System.Byte[],System.Byte[],System.Byte[],Cartomatic.Utils.Crypto.SymmetricEncryption.Algorithm)">
+            <summary>
+            Decrypt a byte array into a byte array using a key and an IV 
+            </summary>
+            <param name="cipherData"></param>
+            <param name="Key"></param>
+            <param name="IV"></param>
+            <param name="algorithm"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Crypto.SymmetricEncryption.DecryptString(System.Byte[],System.Byte[],System.Byte[],Cartomatic.Utils.Crypto.SymmetricEncryption.Algorithm)">
+            <summary>
+            decrypt string
+            </summary>
+            <param name="cipherData"></param>
+            <param name="Key"></param>
+            <param name="IV"></param>
+            <param name="algorithm"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Data.DataSourceCredentials">
+            <summary>
+            Holds information allowing for connecting to a datasource
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Data.DataSourceCredentials.DataSourceProvider">
+            <summary>
+            Type of the data source the credentials apply to
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Data.DataSourceCredentials.ServerHost">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.Data.DataSourceCredentials.ServerName">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.Data.DataSourceCredentials.ServerPort">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.Data.DataSourceCredentials.DbName">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.Data.DataSourceCredentials.ServiceDb">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.Data.DataSourceCredentials.UserName">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.Data.DataSourceCredentials.Pass">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.Data.DataSourceCredentials.ServiceUserName">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.Data.DataSourceCredentials.ServiceUserPass">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.Data.DataSourceCredentials.UseDefaultServiceDb">
+            <summary>
+            Whether or not default service Db name should be used when db name not provided - applicable to Npgsql only
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Data.DataSourceCredentials.GetDefaultDbName">
+            <summary>
+            Returns a default Db name
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Data.DataSourceCredentials.GetConnectionString(System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Returns a connection string for the configured data source type
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Data.DataSourceCredentials.Clone">
+            <summary>
+            Creates a copy of the object
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Data.DataSourceCredentialsExtensions">
+            <summary>
+            DataSource credentials extensions
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Data.DataSourceCredentialsExtensions.GetDbConnectionObject(Cartomatic.Utils.Data.IDataSourceCredentials)">
+            <summary>
+            Returns a db engine specific Connection object
+            </summary>
+            <param name="dbc"></param>
+            <returns>Db engine specific Connection</returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Data.DataSourceCredentialsExtensions.GetDbCommandObject(Cartomatic.Utils.Data.IDataSourceCredentials)">
+            <summary>
+            Returns a db engine specific Command object
+            </summary>
+            <param name="dbc"></param>
+            <returns>Db engine specific Command</returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Data.DataSourceCredentialsExtensions.GetDbDataAdapterObject(Cartomatic.Utils.Data.IDataSourceCredentials)">
+            <summary>
+            Returns a db engine specific DataAdapter object
+            </summary>
+            <param name="dbc"></param>
+            <returns>Db engine specific DataAdapter</returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Data.DbConnectionExtensions">
+            <summary>
+            DbConnection extensions
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Data.DbConnectionExtensions.CloseConnection(System.Data.IDbConnection,System.Boolean)">
+            <summary>
+            Closes db connection 
+            </summary>
+            <param name="conn">Database connection object</param>
+            <param name="dispose"></param>
+        </member>
+        <member name="T:Cartomatic.Utils.Data.DbProviderFactories">
+            <summary>
+            DbProviderFactory for net std
+            based on:  https://weblog.west-wind.com/posts/2017/Nov/27/Working-around-the-lack-of-dynamic-DbProviderFactory-loading-in-NET-Core
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Data.DbProviderFactories.GetFactory(System.String)">
+            <summary>
+            Gets factory for given provider
+            </summary>
+            <param name="providerName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Data.DbProviderFactories.GetDbProviderFactory(Cartomatic.Utils.Data.DbProviderFactories.DataAccessProviderTypes)">
+            <summary>
+            gets a db provider factory by type
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Data.DbProviderFactories.GetDbProviderFactory(System.String,System.String)">
+            <summary>
+            Gets a db provider factory 
+            </summary>
+            <param name="dbProviderFactoryTypename"></param>
+            <param name="assemblyName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Data.DbProviderFactories.GetStaticProperty(System.String,System.String)">
+            <summary>
+            Retrieves a value from  a static property by specifying a type full name and property
+            </summary>
+            <param name="typeName">Full type name (namespace.class)</param>
+            <param name="property">Property to get value from</param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Data.DbProviderFactories.GetStaticProperty(System.Type,System.String)">
+            <summary>
+            Returns a static property from a given type
+            </summary>
+            <param name="type">Type instance for the static property</param>
+            <param name="property">Property name as a string</param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Data.DbProviderFactories.LoadAssembly(System.String)">
+            <summary>
+            Try to load an assembly into the application's app domain.
+            Loads by name first then checks for filename
+            </summary>
+            <param name="assemblyName">Assembly name or full path</param>
+            <returns>null on failure</returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Data.DbProviderFactories.GetTypeFromName(System.String,System.String)">
+            <summary>
+            Helper routine that looks up a type name and tries to retrieve the
+            full type reference using GetType() and if not found looking 
+            in the actively executing assemblies and optionally loading
+            the specified assembly name.
+            </summary>
+            <param name="typeName">type to load</param>
+            <param name="assemblyName">
+            Optional assembly name to load from if type cannot be loaded initially. 
+            Use for lazy loading of assemblies without taking a type dependency.
+            </param>
+            <returns>null</returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Data.DbProviderFactories.GetTypeFromName(System.String)">
+            <summary>
+            Overload for backwards compatibility which only tries to load
+            assemblies that are already loaded in memory.
+            </summary>
+            <param name="typeName"></param>
+            <returns></returns>        
+        </member>
+        <member name="T:Cartomatic.Utils.Data.IDataSourceCredentials">
+            <summary>
+            Enforces availability of properties that allow for connecting to a data source
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Data.IDataSourceCredentials.DataSourceProvider">
+            <summary>
+            data source provider
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Data.IDataSourceCredentials.ServerHost">
+            <summary>
+            server host
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Data.IDataSourceCredentials.ServerName">
+            <summary>
+            server name
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Data.IDataSourceCredentials.ServerPort">
+            <summary>
+            server port
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Data.IDataSourceCredentials.DbName">
+            <summary>
+            name of a database
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Data.IDataSourceCredentials.ServiceDb">
+            <summary>
+            name of a service database
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Data.IDataSourceCredentials.UserName">
+            <summary>
+            user name
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Data.IDataSourceCredentials.Pass">
+            <summary>
+            user pass
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Data.IDataSourceCredentials.ServiceUserName">
+            <summary>
+            service db user name
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Data.IDataSourceCredentials.ServiceUserPass">
+            <summary>
+            service db user pass
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Data.IDataSourceCredentials.GetConnectionString(System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            gets a connection string for given credentials
+            </summary>
+            <param name="serviceDatabase">Whether or not should connect to a service database</param>
+            <param name="superUser">Whether or not should connect as super user</param>
+            <param name="pooling">whether or not connection should be pooled</param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Drawing.BitmapExtensions">
+            <summary>
+            bitmap extensions
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Drawing.BitmapExtensions.SetBitmapOpacity(System.Drawing.Bitmap,System.Double)">
+            <summary>
+            Sets opacity of a bitmap
+            </summary>
+            <param name="bitmap"></param>
+            <param name="opacity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Drawing.BitmapExtensions.SetBitmapOpacity(System.Drawing.Bitmap,System.Single)">
+            <summary>
+            Sets opacity of a bitmap
+            </summary>
+            <param name="bitmap"></param>
+            <param name="opacity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Drawing.BitmapExtensions.OverlayBitmapWithOpacity(System.Drawing.Bitmap,System.Drawing.Bitmap,System.Double)">
+            <summary>
+            Overlays a bitmap over the other one with a specified opacity
+            </summary>
+            <param name="baseBitmap"></param>
+            <param name="overlayBitmap"></param>
+            <param name="opacity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Drawing.BitmapExtensions.OverlayBitmapWithOpacity(System.Drawing.Bitmap,System.Drawing.Bitmap,System.Single)">
+            <summary>
+            Overlays a bitmap over the other one with a specified opacity
+            </summary>
+            <param name="baseBitmap"></param>
+            <param name="overlayBitmap"></param>
+            <param name="opacity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Drawing.BitmapExtensions.ApplyExifRotation(System.Drawing.Bitmap)">
+            <summary>
+            Applies img rotation as specified in an exif tag
+            </summary>
+            <param name="bitmap"></param>
+            <remarks>Borrowed from https://stackoverflow.com/a/48347653 </remarks>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Drawing.BitmapExtensions.Rotate(System.Drawing.Bitmap,System.Single)">
+            <summary>
+            Returns a bitmap rotated by a specified angle
+            </summary>
+            <param name="b"></param>
+            <param name="angle"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Drawing.BitmapExtensions.Resize(System.Drawing.Bitmap,System.Int32,System.Int32,System.Boolean,System.Drawing.Drawing2D.InterpolationMode,System.Drawing.Drawing2D.SmoothingMode)">
+            <summary>
+            Resizes a bitmap
+            </summary>
+            <param name="bitmap"></param>
+            <param name="destW"></param>
+            <param name="destH"></param>
+            <param name="maintainProportions"></param>
+            <param name="interpolationMode"></param>
+            <param name="smoothingMode"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Dto.ObjectExtensions">
+            <summary>
+            object extensions for DTO 
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Dto.ObjectExtensions.CopyPublicPropertiesFrom(System.Object,System.Object)">
+            <summary>
+            Copies public properties from a source object to a destination object
+            </summary>
+            <param name="dest"></param>
+            <param name="src"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.Dto.ObjectExtensions.CopyPublicPropertiesToNew``1(System.Object)">
+            <summary>
+            Copies public properties from a src object to a destination object
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="src"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Dto.IDto`1">
+            <summary>
+            To be used on DTO clases. Enables automated to / from DTO ops
+            </summary>
+            <typeparam name="TDto"></typeparam>
+        </member>
+        <member name="M:Cartomatic.Utils.Dto.IDto`1.FromDto``1(`0)">
+            <summary>
+            Creates an instance of object from a DTO class
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Dto.IDto`1.ToDto``1(``0)">
+            <summary>
+            Converts instance of class to its DTO
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Dto.IDtoUtils">
+            <summary>
+            IDto utils
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Dto.IDtoUtils.CrateIDtoInstance``1">
+            <summary>
+            Creates an instance of IDto[TDto]
+            </summary>
+            <typeparam name="TDto"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Ef.DbContextExtensions">
+            <summary>
+            DbContext extensions
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Ef.DbContextExtensions.Clone(Microsoft.EntityFrameworkCore.DbContext,System.Boolean)">
+            <summary>
+            clones db context; requires the cloned ctx to implement a ctor that takes in 2 params (DbConnection conn and bool contextOwnsConnection);
+            </summary>
+            <param name="ctx"></param>
+            <param name="contextOwnsConnection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Ef.DbContextExtensions.CopyToAsync``1(Microsoft.EntityFrameworkCore.DbContext,Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            Copies a specified type from one db ctx to another
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtxFrom"></param>
+            <param name="dbCtxTo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Ef.DbContextExtensions.GetTableName``1(Microsoft.EntityFrameworkCore.DbContext,``0)">
+            <summary>
+            Gets the entity table name
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Ef.DbContextExtensions.GetTableSchema``1(Microsoft.EntityFrameworkCore.DbContext,``0)">
+            <summary>
+            Gets table schema
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Ef.DbContextExtensions.GetTableColumnName``1(Microsoft.EntityFrameworkCore.DbContext,``0,System.String)">
+            <summary>
+            Gets a mapped column name
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="obj"></param>
+            <param name="propertyName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Ef.DbContextExtensions.GetEntityMetadata``1(Microsoft.EntityFrameworkCore.DbContext,``0)">
+            <summary>
+            Gets the entity metadata for specified db ctx;
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="dbCtx"></param>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Ef.DbContextFactory.ConfigureProvider(Microsoft.EntityFrameworkCore.DbContextOptionsBuilder,Cartomatic.Utils.Data.DataSourceProvider,System.String)">
+            <summary>
+            configures a data provider for given builder 
+            </summary>
+            <param name="builder"></param>
+            <param name="provider"></param>
+            <param name="connStr"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Ef.DbContextFactory.SetDataSourceProvider(Cartomatic.Utils.Data.DataSourceProvider,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder,System.String})">
+            <summary>
+            Sets provider configuration
+            </summary>
+            <param name="provider"></param>
+            <param name="providerConfig"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.Ef.DbContextFactory.CreateDbContext``1(System.String,System.Boolean,Cartomatic.Utils.Data.DataSourceProvider)">
+            <summary>
+            Creates DbContext with the specified connection string
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="connStrName">name of conn string to retrieve from configuration</param>
+            <param name="isConnStr">whether ot not it is the actual connection string supplied</param>
+            <param name="provider"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Ef.DbContextFactory.CreateDbContextFacade``1">
+            <summary>
+            Creates an unitialized db context facade
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Ef.DbContextFactory.CreateDbContextFacade(System.Type)">
+            <summary>
+            Creates an unitialized db context facade
+            </summary>
+            <param name="t"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Ef.DbContextFactory.GetDbContextOptions``1(System.String,System.Boolean,Cartomatic.Utils.Data.DataSourceProvider)">
+            <summary>
+            Gets DbContextOptions for a specified db context
+            </summary>
+            <param name="connStrName"></param>
+            <param name="isConnStr"></param>
+            <param name="provider"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Ef.DbContextFactory.GetConnStr(System.String,System.Boolean)">
+            <summary>
+            Gets a conn str; obtains it from cfg if needed
+            </summary>
+            <param name="connStrName"></param>
+            <param name="isConnStr"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Ef.IProvideDbContextFactory">
+            <summary>
+            Used to ensure hooks for obtaining a valid instance in scenarios, where one cannot be sure of a presence of specific constructors.
+            This way a valid, properly configured context can be obtained
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Ef.IProvideDbContextFactory.ProduceDbContextInstance(System.String,System.Boolean,Cartomatic.Utils.Data.DataSourceProvider)">
+            <summary>
+            produces a db ctx with given cfg
+            </summary>
+            <param name="connStrName"></param>
+            <param name="isConnStr"></param>
+            <param name="provider"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Ef.IProvideDbContextFactory.ProduceDefaultDbContextInstance">
+            <summary>
+            produces a default db ctx
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Ef.StringExtensions">
+            <summary>
+            ef db ctx utils for string objects
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Ef.StringExtensions.ToColumnName(System.String)">
+            <summary>
+            changes a property name into a lower case underscored pgsql like column name
+            basically each upper case letter is replaced with _ and + its lowerCase equivaluent
+            </summary>
+            <param name="propertyName"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Email.EmailAccount">
+            <summary>
+            Email account details needed to connect to the smtp server
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Email.EmailAccount.Sender">
+            <summary>
+            Sender email - from 
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Email.EmailAccount.SmtpHost">
+            <summary>
+            Smtp host to be used to connect to the smtp server
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Email.EmailAccount.SmtpPort">
+            <summary>
+            Smtp port
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Email.EmailAccount.User">
+            <summary>
+            Email account user used to login to the smtp server
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Email.EmailAccount.Pass">
+            <summary>
+            Password used to login to the smtp server
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Email.EmailAccount.Ssl">
+            <summary>
+            Whether or not the communication should be encrypted
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Email.EmailAccount.SeemsComplete">
+            <summary>
+            Whether or not email account seems complete - can send out emails
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Email.EmailAccount.FromJson(System.String)">
+            <summary>
+            Creates instance from a json string; throws if json is not valid
+            </summary>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Email.EmailAccount.ToQuery">
+            <summary>
+            serializes object to url query string
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Email.EmailAccount.ToDictionary">
+            <summary>
+            converts object to a dictionary
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Email.EmailSender">
+            <summary>
+            Email sending functionality
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Email.EmailSender.Send(Cartomatic.Utils.Email.IEmailAccount,Cartomatic.Utils.Email.IEmailTemplate,System.String)">
+            <summary>
+            Sends an email to the recipient. Email is sent in a fire'n'forget manner.
+            Note: in some scenarios fire'n'forget means the email may not eventually be sent at all.
+            </summary>
+            <param name="emailAccount">EmailAccount deails</param>
+            <param name="emailTemplate">Email data to be sent out</param>
+            <param name="recipient">Email of a recipient</param>
+        </member>
+        <member name="T:Cartomatic.Utils.Email.EmailTemplate">
+            <summary>
+            Email template as fed to email sender
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Email.EmailTemplate.Title">
+            <summary>
+            Email title
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Email.EmailTemplate.Body">
+            <summary>
+            Email body
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Email.EmailTemplate.IsBodyHtml">
+            <summary>
+            Whether or not email body is html
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Email.EmailTemplate.Prepare(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Prepares template by applying a set of values that replace tokens
+            </summary>
+            <param name="tokens">disctionary keys should be tokens, but without the curly braces. If the token is "{some_token}", the dictionary key is "some_token"</param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Email.EmailTemplate.GetReplacementToken(System.String)">
+            <summary>
+            Prepares a replacement string for a token
+            </summary>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Email.IEmailAccount">
+            <summary>
+            Enforces email account abstraction
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Email.IEmailAccount.Sender">
+            <summary>
+            Sender email - from 
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Email.IEmailAccount.SmtpHost">
+            <summary>
+            Smtp host to be used to connect to the smtp server
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Email.IEmailAccount.SmtpPort">
+            <summary>
+            Smtp port
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Email.IEmailAccount.User">
+            <summary>
+            Email account user used to login to the smtp server
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Email.IEmailAccount.Pass">
+            <summary>
+            Password used to login to the smtp server
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Email.IEmailAccount.Ssl">
+            <summary>
+            Whether or not the communication should be encrypted
+            </summary>
+        </member>
+        <member name="T:Cartomatic.Utils.Email.IEmailSender">
+            <summary>
+            Email sender
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Email.IEmailSender.Send(Cartomatic.Utils.Email.IEmailAccount,Cartomatic.Utils.Email.IEmailTemplate,System.String)">
+            <summary>
+            Sends an email
+            </summary>
+            <param name="emailAccount"></param>
+            <param name="emailTemplate"></param>
+            <param name="recipient"></param>
+        </member>
+        <member name="T:Cartomatic.Utils.Email.IEmailTemplate">
+            <summary>
+            Enforces Email template 
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Email.IEmailTemplate.Title">
+            <summary>
+            Email template as fed to email sender
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Email.IEmailTemplate.Body">
+            <summary>
+            email body
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Email.IEmailTemplate.IsBodyHtml">
+            <summary>
+            whether or not body is html
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Email.IEmailTemplate.Prepare(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Prepares the template based on a collection of token/value to be applied
+            </summary>
+            <param name="tokens"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Email.MailKit.EmailSender">
+            <summary>
+            Email sending functionality
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Email.MailKit.EmailSender.Send(Cartomatic.Utils.Email.IEmailAccount,Cartomatic.Utils.Email.IEmailTemplate,System.String)">
+            <summary>
+            Sends an email to the recipient. Email is sent in a fire'n'forget manner.
+            Note: in some scenarios fire'n'forget means the email may not eventually be sent at all.
+            Uses Mailkit as an smtp client
+            </summary>
+            <param name="emailAccount">EmailAccount deails</param>
+            <param name="emailTemplate">Email data to be sent out</param>
+            <param name="recipient">Email of a recipient</param>
+        </member>
+        <member name="T:Cartomatic.Utils.EmbeddedResource.ObjectExtensions">
+            <summary>
+            object extensions for embedded resource utils
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.EmbeddedResource.ObjectExtensions.GetEmbeddedResourceStream(System.Object,System.String)">
+            <summary>
+            Gets a stream for an embedded resource
+            </summary>
+            <remarks>
+            ported from maphive
+            </remarks>
+            <param name="obj"></param>
+            <param name="fullyQualifiedResourceName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.EmbeddedResource.ObjectExtensions.GetEmbeddedResource(System.Object,System.String)">
+            <summary>
+            Gets embedded resource of an object's assembly
+            </summary>
+            <remarks>
+            ported from maphive
+            </remarks>
+            <param name="obj"></param>
+            <param name="fullyQualifiedResourceName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.EmbeddedResource.ObjectExtensions.GetEmbeddedResourceStringContent(System.Object,System.String)">
+            <summary>
+            Gets embedded resource string content
+            </summary>
+            <remarks>
+            ported from maphive
+            </remarks>
+            <param name="obj"></param>
+            <param name="fullyQualifiedResourceName"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Filtering.ReadFilterExtensions">
+            <summary>
+            read filter extensions
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Filtering.ReadFilterExtensions.ExtJsJsonFiltersToReadFilters(System.String)">
+            <summary>
+            Deserializes ExtJs read filter json to a list of ReadFilter
+            </summary>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Filtering.ReadFilterExtensions.ReadFiltersToExtJsJson(System.Collections.Generic.IEnumerable{Cartomatic.Utils.Filtering.ReadFilter})">
+            <summary>
+            Converts filters collection to json string
+            </summary>
+            <param name="filters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Filtering.ReadFilterExtensions.ApplyReadFilters``1(System.Linq.IQueryable{``0},System.Collections.Generic.IEnumerable{Cartomatic.Utils.Filtering.ReadFilter},System.Boolean)">
+            <summary>
+            Applies a read filter on an IQueryable
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="query"></param>
+            <param name="filters"></param>
+            <param name="greedy"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Filtering.ReadFilterExtensions.GetParameterExpression(System.Type)">
+            <summary>
+            Returns an expression representing a param to filter on; an equivalent of x => x. 
+            Type expressess the typ of x
+            </summary>
+            <param name="targetType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Filtering.ReadFilterExtensions.GetFilterExpression(Cartomatic.Utils.Filtering.ReadFilter,System.Type,System.Linq.Expressions.ParameterExpression)">
+            <summary>
+            Gets a filter expression for a specified filter
+            </summary>
+            <param name="filter"></param>
+            <param name="targetType"></param>
+            <param name="paramExp"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Filtering.ReadFilterExtensions.GetFilteredProperty(Cartomatic.Utils.Filtering.ReadFilter,System.Linq.Expressions.ParameterExpression)">
+            <summary>
+            gets an expression that specifies a property to be tested
+            </summary>
+            <param name="filter"></param>
+            <param name="paramExp"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Filtering.ReadFilterExtensions.GetFilteredValue(Cartomatic.Utils.Filtering.ReadFilter,System.Linq.Expressions.ParameterExpression,System.Object,System.Boolean)">
+            <summary>
+            Gets an expression that specifies the value to be tested against
+            </summary>
+            <param name="filter"></param>
+            <param name="paramExp"></param>
+            <param name="value"></param>
+            <param name="forceValue">Whether or not should force value or try to use filter value if null</param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Filtering.ReadFilterExtensions.WrapIntoDbFunction(Cartomatic.Utils.Filtering.ReadFilter,System.Linq.Expressions.Expression)">
+            <summary>
+            Wraps an expression into a single param db fn
+            </summary>
+            <param name="filter"></param>
+            <param name="e"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Filtering.ReadFilter">
+            <summary>
+            Read filter - abstracts a filter used when reading data
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Filtering.ReadFilter.Operator">
+            <summary>
+            Comparison operator
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Filtering.ReadFilter.Value">
+            <summary>
+            Value to compare with
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Filtering.ReadFilter.Property">
+            <summary>
+            Property to compare with
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Filtering.ReadFilter.ExactMatch">
+            <summary>
+            Whether or not this should be a resultset limiting filter (joined with an AND / AndAlso condition after all the other filters have been assembled):
+            When set to true, will be added to the Expression Tree as below:
+            (X AND / OR Y AND / OR Z) AND XX AND YY
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Filtering.ReadFilter.DbFn">
+            <summary>
+            Support for SINGLE param db function to be called when filtering the data. the name of the function should be as defined in the System.Data.Entity.DbFunctions
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Filtering.ReadFilter.AndJoin">
+            <summary>
+            by default nested filters are joined using OR operator. When set to true this becomes AND
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Filtering.ReadFilter.NestedFilters">
+            <summary>
+            nested filters that form one condtintion; because the default filter behavior is just joining all the filters in the greedy way (OR), using nested filters
+            makes sense when used with ExactMatch. this way it is possible to provide filters such as (some filter AND (some other filter OR another one) AND so on...) AND other filters
+            </summary>
+        </member>
+        <member name="T:Cartomatic.Utils.Filtering.ReadFilterValueExtensions">
+            <summary>
+            read filter extensions
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Filtering.ReadFilterValueExtensions.AsReadFilterList``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            converts an enumerable to JArray as it would be deserialised when being sent from the clientside in JSON
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="collection"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Git">
+            <summary>
+            Git utils
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Git.GetRepoVersion(System.String)">
+            <summary>
+            Gets a version of a git repository for a specified repo path
+            </summary>
+            <param name="gitPath"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Git.DumpGitVersionToFile(System.String,System.String)">
+            <summary>
+            Dumps a git version to a specified file or directory. if a file name cannot be worked out, a default file name is used
+            </summary>
+            <param name="gitPath"></param>
+            <param name="outPath"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.Git.GetVersionFileIoDirName(System.String)">
+            <summary>
+            Gets VersionFile IO dir
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Git.GetVersionFileIoFileName(System.String)">
+            <summary>
+            Gets a full file path of VersionFile io
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Git.GetGitBasedVersion(System.String)">
+            <summary>
+            extracts version off a git repo
+            </summary>
+            <param name="gitPath"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Git.GetGitVersionFromFile(System.String)">
+            <summary>
+            reads a version sring from a file 
+            </summary>
+            <param name="filePath"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Git.TrimLineEnds(System.String)">
+            <summary>
+            Trims line ends
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Git.ExecuteGitCommand(System.String,System.String)">
+            <summary>
+            executes a git command
+            </summary>
+            <param name="path"></param>
+            <param name="command"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Identity">
+            <summary>
+            Identity utils
+            </summary>
+        </member>
+        <member name="F:Cartomatic.Utils.Identity.Subject">
+            <summary>
+            subject of an identity claim
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Identity.GetUserGuid">
+            <summary>
+            Gets a user uuid off the thread's CurrentPrincipal
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Identity.ImpersonateGhostUser">
+            <summary>
+            Sets a new Claims Principal on the thread's CurrentPrincipal with an IdentityServer sub claim containing a default guid value - aka 'ghost' uuid
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Identity.ImpersonateUser(System.Nullable{System.Guid})">
+            <summary>
+            Impersonates user with a specified guid
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Identity.ImpersonateUser(System.String)">
+            <summary>
+            Impersonates a user using supplied id
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.Identity.ImpersonateUser(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            Impersonates user with a specified claims principal
+            </summary>
+            <param name="cp"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.Identity.GetBasicClaimsPrincipal(System.Guid,System.String)">
+            <summary>
+            Gets a basic claims principal with one claim - sub
+            </summary>
+            <param name="id"></param>
+            <param name="scheme"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Identity.GetBasicClaimsPrincipal(System.String,System.String)">
+            <summary>
+            gets basic claims principal
+            </summary>
+            <param name="id"></param>
+            <param name="scheme"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Identity.ImpersonateGhostUserViaHttpContext">
+            <summary>
+            impersonates user via http context rather than call context
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Identity.ImpersonateUserViaHttpContext(System.Nullable{System.Guid})">
+            <summary>
+            Impersonates a user via HttpContext object. Useful when entering MapHive API via WebAPI
+            </summary>
+        </member>
+        <member name="T:Cartomatic.Utils.JsonSerializableObjects.IJsonSerializable">
+            <summary>
+            whether or not object is 'JsonSerializable'
+            </summary>
+        </member>
+        <member name="T:Cartomatic.Utils.JsonSerializableObjects.IJsonSerializableExtensions">
+            <summary>
+            extensions for IJsonSerializable
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.JsonSerializableObjects.IJsonSerializableExtensions.Serialize(Cartomatic.Utils.JsonSerializableObjects.IJsonSerializable)">
+            <summary>
+            serializaes a IJsonSerializable to json string
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.JsonSerializableObjects.IJsonSerializableExtensions.Deserialize``1(Cartomatic.Utils.JsonSerializableObjects.IJsonSerializable,System.String)">
+            <summary>
+            Deserializes a IJsonSerializable from json
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <param name="json"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.JsonSerializableObjects.IJsonSerializableExtensions.DeserializeObject``1(``0,System.String)">
+            <summary>
+            Desrializes an object
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <param name="json"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.JsonSerializableObjects.IJsonSerializableExtensions.DeserializeSerializableList``1(Cartomatic.Utils.JsonSerializableObjects.SerializableList{``0},System.String)">
+            <summary>
+            Deserializes a serializable list
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <param name="json"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.JsonSerializableObjects.IJsonSerializableExtensions.DeserializeSerializableDict``1(Cartomatic.Utils.JsonSerializableObjects.SerializableDictionary{``0},System.String)">
+            <summary>
+            Deserializes a serializable dictionary
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <param name="json"></param>
+        </member>
+        <member name="T:Cartomatic.Utils.JsonSerializableObjects.SerializableDictionary`1">
+            <summary>
+            Wrapper object that can save dictionaries in a form of associative arrays
+            
+            Need to make the type non-generic in order to use it with EF mapping, so MyType : SerializableList of T
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:Cartomatic.Utils.JsonSerializableObjects.SerializableDictionaryOfObject">
+            <summary>
+            explicit implementation of a serializable dictionary for object
+            </summary>
+        </member>
+        <member name="T:Cartomatic.Utils.JsonSerializableObjects.SerializableDictionaryOfString">
+            <summary>
+            explicit implementation of a serializable dictionary for string
+            </summary>
+        </member>
+        <member name="T:Cartomatic.Utils.JsonSerializableObjects.SerializableList`1">
+            <summary>
+            EF does not allow saving lits of primitive types even though dbs such as PostgreSQL do allow it.
+            Therefore need a wrapper object that is used to store json serialised arrays.
+            Note: if array based ops on the db side are required, this will not be a good type to use.
+            
+            Also, one need to make the type non-generic in order to use it with EF mapping, so MyType : SerializableList of T
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:Cartomatic.Utils.JsonSerializableObjects.SerializableListOfGuid">
+            <summary>
+            explicit implementation of a serializable list of guid
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.JsonSerializableObjects.SerializableListOfGuid.Capacity">
+            <summary>
+            hide the base List Capacity property so EF does not force pushes it into db model!
+            </summary>
+        </member>
+        <member name="T:Cartomatic.Utils.JsonSerializableObjects.SerializableListOfString">
+            <summary>
+            Explicit implementation of a serializable list of string
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.JsonSerializableObjects.SerializableListOfString.Capacity">
+            <summary>
+            hide the base List Capacity property so EF does not force pushes it into db model!
+            </summary>
+        </member>
+        <member name="T:Cartomatic.Utils.Logging">
+            <summary>
+            Logging utils
+            </summary>
+            <summary>
+            Logging utils
+            </summary>
+            <summary>
+            Logging utils
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Logging.LogToRollbar(System.Exception)">
+            <summary>
+            Simplistic exception logger that also dumps all the inner exceptions along with their stack trace
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="F:Cartomatic.Utils.Logging.RollbarConfigured">
+            <summary>
+            whether or not rollbar has been configured
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Logging.RollbarLogger">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Logging.GetRollbarLogger">
+            <summary>
+            configures an returns rollbar logger
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Logging.RollbarConfiguration">
+            <summary>
+            rollbar config template
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Logging.RollbarConfiguration.AccessToken">
+            <summary>
+            rollbar access token for given app
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Logging.RollbarConfiguration.Environments">
+            <summary>
+            environments to log
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Logging.LogExceptions(System.Exception)">
+            <summary>
+            Simplistic exception logger that also dumps all the inner exceptions along with their stack trace
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.Logging.GetUnifiedErrorInfoMultiLine(System.Exception)">
+            <summary>
+            Gets unified error info in a form of separate multiline string
+            </summary>
+            <param name="e"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Logging.GetUnifiedErrorInfo(System.Exception)">
+            <summary>
+            Gets a unified error msg
+            </summary>
+            <param name="e"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Mercator">
+            <summary>
+            Mercator utils
+            </summary>
+        </member>
+        <member name="F:Cartomatic.Utils.Mercator.SphericalMercatorHalfSphere">
+            <summary>
+            180 equatorial degrees in metres
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Mercator.FromLonLat(System.Double,System.Double)">
+            <summary>
+            Converts lon lat to spherical mercator
+            </summary>
+            <param name="lon"></param>
+            <param name="lat"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Mercator.ToLonLat(System.Double,System.Double)">
+            <summary>
+            Converts spherical mercator to lon lat
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Mercator.GetSphericalMercatorBboxFromTileAddress(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Gets a spherical mercator tile bounding box from its grid address
+            </summary>
+            <param name="z"></param>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="buffer">Buffer to add to each side of a bounding box in order to extend it. buffer is expressed in pixels at a given zoom level</param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.NetCoreConfig">
+            <summary>
+            Net core cfg reader utils
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.NetCoreConfig.GetNetCoreConfig(System.String[])">
+            <summary>
+            Gets a net core cfg supplied via json jsonCfgFileNames
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Number.NumberExtensions">
+            <summary>
+            number extensions
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Number.NumberExtensions.FitInRange(System.Double,System.Double,System.Double)">
+            <summary>
+            Fits a number in range if it is outside (to the closest bound)
+            </summary>
+            <param name="n"></param>
+            <param name="min"></param>
+            <param name="max"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Number.NumberExtensions.FitInRange(System.Single,System.Double,System.Double)">
+            <summary>
+            fits a number in range
+            </summary>
+            <param name="n"></param>
+            <param name="min"></param>
+            <param name="max"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Number.StringExtensions">
+            <summary>
+            string extensions for numeric utils
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Number.StringExtensions.IsNumeric(System.String)">
+            <summary>
+            whether or not string content is numeric
+            </summary>
+            <param name="wouldBeANumber"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Number.StringExtensions.IsNumeric(System.Object)">
+            <summary>
+            Whether or not object content is numeric
+            </summary>
+            <param name="wouldBeANumber"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.PathExtensions">
+            <summary>
+            Path utils
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.PathExtensions.IsAbsolute(System.String)">
+            <summary>
+            Check if a path is an absolute path; checks only local paths
+            </summary>
+            <param name="path"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.PathExtensions.SolvePath(System.String)">
+            <summary>
+            Solves path - tries to make a path an absolute path; relative path are treated as relative to AppDomain.CurrentDomain.BaseDirectory
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.PathExtensions.IsDirectory(System.String)">
+            <summary>
+            Checks whether a spe
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Reflection.ExpressionExtensions">
+            <summary>
+            Expression extensions
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Reflection.ExpressionExtensions.GetPropertyMemberInfoFromExpression``2(System.Linq.Expressions.Expression{System.Func{``0,``1}})">
+            <summary>
+            Returns property memebr info - extracts data off an expression that specifies a property
+            </summary>
+            <typeparam name="TObject"></typeparam>
+            <typeparam name="TProperty"></typeparam>
+            <param name="expression"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Reflection.TypeExtensions">
+            <summary>
+            Type extensions
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Reflection.TypeExtensions.HasProperty(System.Type,System.String,System.Reflection.BindingFlags)">
+            <summary>
+            Checks whether or not a specified type has a property with given name. When binding flags are not customized, search is for case invariant public static or instance properties
+            </summary>
+            <param name="t"></param>
+            <param name="pName"></param>
+            <param name="bindingFlags">defaults to BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.IgnoreCase</param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.RestSharpSerializers.NewtonSoftJsonSerializer">
+            <summary>
+            Custom RestSharp serializer utilising NewtonSoft.JSON
+            <para />
+            partially based on https://raw.githubusercontent.com/restsharp/RestSharp/86b31f9adf049d7fb821de8279154f41a17b36f7/RestSharp/Serializers/JsonSerializer.cs
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.RestSharpSerializers.NewtonSoftJsonSerializer.#ctor">
+            <summary>
+            Creates a new instance with Formatting.None and null value removal when serializing
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.RestSharpSerializers.NewtonSoftJsonSerializer.#ctor(Newtonsoft.Json.Formatting,Newtonsoft.Json.JsonSerializerSettings)">
+            <summary>
+            Creates a new instance of the serializer with the supplied settings
+            </summary>
+            <param name="formatting"></param>
+            <param name="settings"></param>
+        </member>
+        <member name="P:Cartomatic.Utils.RestSharpSerializers.NewtonSoftJsonSerializer.DateFormat">
+            <summary>
+            Unused for JSON Serialization
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.RestSharpSerializers.NewtonSoftJsonSerializer.RootElement">
+            <summary>
+            Unused for JSON Serialization
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.RestSharpSerializers.NewtonSoftJsonSerializer.Namespace">
+            <summary>
+            Unused for JSON Serialization
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.RestSharpSerializers.NewtonSoftJsonSerializer.ContentType">
+            <summary>
+            Content type for serialized content
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.RestSharpSerializers.NewtonSoftJsonSerializer.Serialize(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:Cartomatic.Utils.RestSharpSerializers.NewtonSoftJsonSerializer.Deserialize``1(RestSharp.IRestResponse)">
+            <inheritdoc />
+        </member>
+        <member name="M:Cartomatic.Utils.SafeLink.Link.#ctor(System.String,System.String)">
+            <summary>
+            Creates a new instance from encoded link data
+            </summary>
+            <param name="encoded"></param>
+            <param name="key"></param>
+        </member>
+        <member name="F:Cartomatic.Utils.SafeLink.Link._serializerSettings">
+            <summary>
+            serializer settings 
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.SafeLink.Link.ResourceType">
+            <summary>
+            a type of resource represented by a link; defaults to File
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.SafeLink.Link.Resource">
+            <summary>
+            a resource a link represents
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.SafeLink.Link.ExpirationTime">
+            <summary>
+            The expiration time after which a link will no longer be valid; this is serialized as UTC, so a link can be properly validated
+            against its expiration date on another machine too.
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.SafeLink.Link.Decrypt(System.String,System.String)">
+            <summary>
+            Decodes link data and sets the instance properties
+            </summary>
+            <param name="encoded"></param>
+            <param name="key"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.SafeLink.Link.Encrypt(System.String)">
+            <summary>
+            Encodes link data to string
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Cartomatic.Utils.SafeLink.Link.IsExpired">
+            <summary>
+            Whether or not a link is expired
+            </summary>
+        </member>
+        <member name="T:Cartomatic.Utils.Serialization.JsonSerializationExtensions">
+            <summary>
+            simple json serialization utils
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Serialization.JsonSerializationExtensions.DeserializeFromJson``1(System.String,System.Boolean)">
+            <summary>
+            Deserializes json string to the type specified
+            </summary>
+            <typeparam name="T">Type to deserialize to</typeparam>
+            <param name="json"></param>
+            <param name="silent"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Serialization.JsonSerializationExtensions.DeserializeFromJson(System.String,System.Type,System.Boolean)">
+            <summary>
+            Deserializes object from json
+            </summary>
+            <param name="json"></param>
+            <param name="destinationType"></param>
+            <param name="silent"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Serialization.JsonSerializationExtensions.SerializeToJson(System.Object)">
+            <summary>
+            Serializes object to json string
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Serialization.XmlSerializationExtensions">
+            <summary>
+            xml serialization utils
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Serialization.XmlSerializationExtensions.DeserializeFromXml``1(System.String,System.Boolean)">
+            <summary>
+            Deserializes object to xml
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="xml"></param>
+            <param name="silent"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Serialization.XmlSerializationExtensions.DeserializeFromXml(System.String,System.Type,System.Boolean)">
+            <summary>
+            Deserializes object from xml
+            </summary>
+            <param name="xml"></param>
+            <param name="destinationType"></param>
+            <param name="silent"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Serialization.XmlSerializationExtensions.SerializeToXml(System.Object)">
+            <summary>
+            Serializes an object to xml
+            </summary>
+            <param name="o"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Serialization.XmlSerializationExtensions.SerializeToXml(System.Object,System.Xml.Serialization.XmlSerializerNamespaces)">
+            <summary>
+            Serializes object to xml and adds specified namespaces
+            </summary>
+            <param name="o"></param>
+            <param name="xmlns"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Sorting.ReadSorterExtensions">
+            <summary>
+            read sorter extensions
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Sorting.ReadSorterExtensions.ExtJsJsonSortersToReadSorters(System.String)">
+            <summary>
+            deserializes extjs filter into list of ReadFilter
+            </summary>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Sorting.ReadSorterExtensions.ReadSortersToExtJsJson(System.Collections.Generic.IEnumerable{Cartomatic.Utils.Sorting.ReadSorter})">
+            <summary>
+            Converts filters collection to json string
+            </summary>
+            <param name="filters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Sorting.ReadSorterExtensions.ApplyReadSorters``1(System.Linq.IQueryable{``0},System.Collections.Generic.IEnumerable{Cartomatic.Utils.Sorting.ReadSorter},System.String,System.String)">
+            <summary>
+            Applies sorting to IQueryable
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="query"></param>
+            <param name="sorters"></param>
+            <param name="defaultSortProperty"></param>
+            <param name="defaultSortOrder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Sorting.ReadSorterExtensions.OrderBy``1(System.Linq.IQueryable{``0},System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Helper method, sorting by reflections
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="query"></param>
+            <param name="property"></param>
+            <param name="ascending"></param>
+            <param name="firstProperty"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.Sorting.ReadSorter">
+            <summary>
+            abstracts sort properties applied when reading data
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Sorting.ReadSorter.Property">
+            <summary>
+            Object property to sort on
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Sorting.ReadSorter.Direction">
+            <summary>
+            ummm.... well... sort direction ;)
+            </summary>
+        </member>
+        <member name="T:Cartomatic.Utils.StreamExtensions">
+            <summary>
+            stream extensions
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.StreamExtensions.ReadStream(System.IO.Stream,System.Nullable{System.Int32})">
+            <summary>
+            Reads stream into a byte arr
+            </summary>
+            <param name="input"></param>
+            <param name="bufferSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.StreamExtensions.CopyStream(System.IO.Stream,System.Nullable{System.Int32})">
+            <summary>
+            copies stream to a new memory stream
+            </summary>
+            <param name="stream"></param>
+            <param name="bufferSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.StreamExtensions.CopyStreamAsync(System.IO.Stream,System.Nullable{System.Int32})">
+            <summary>
+            copies stream to a new memory stream
+            </summary>
+            <param name="stream"></param>
+            <param name="bufferSize"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

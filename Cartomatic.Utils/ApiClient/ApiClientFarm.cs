@@ -1,8 +1,10 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Org.BouncyCastle.Utilities;
 
 namespace Cartomatic.Utils.ApiClient
 {
@@ -14,16 +16,34 @@ namespace Cartomatic.Utils.ApiClient
         where T : IApiClient
     {
         /// <summary>
+        /// api farm configuration
+        /// </summary>
+        public IApiClientFarmConfiguration Config { get; set; }
+
+
+        protected IApiClientConfiguration[] _clientConfigsArr;
+
+        /// <summary>
         /// Client configurations
         /// </summary>
         protected internal IEnumerable<IApiClientConfiguration> ClientConfigs { get; set; }
-        IEnumerable<IApiClientConfiguration> IApiClientFarm<T>.ClientConfigs { get => ClientConfigs; set => ClientConfigs = value.ToList(); }
+        IEnumerable<IApiClientConfiguration> IApiClientFarm<T>.ClientConfigs { get => ClientConfigs; set => ClientConfigs = value; }
 
+        /// <summary>
+        /// Returns client config by id
+        /// </summary>
+        /// <param name="idx"></param>
+        /// <returns></returns>
+        protected internal IApiClientConfiguration GetClientConfig(int idx)
+        {
+            _clientConfigsArr ??= ClientConfigs.ToArray();
+            return _clientConfigsArr[idx];
+        }
 
         /// <summary>
         /// Counter used to calculate next client to be used
         /// </summary>
-        internal int  UsageCounter { get; set; }
+        internal long  UsageCounter { get; set; }
         
 
         /// <summary>
@@ -32,8 +52,16 @@ namespace Cartomatic.Utils.ApiClient
         /// <returns></returns>
         internal int GetNextConfigIdx()
         {
-            //make sure to handle int overflow
-            return Math.Abs(++UsageCounter) % (ClientConfigs.Count());
+            return (int)(++UsageCounter % ClientConfigs.Count());
+        }
+
+        /// <summary>
+        /// Gets the idx of the next mc config in row. uses round robin internally
+        /// </summary>
+        /// <returns></returns>
+        internal long GetNextConfigIdx(int idx)
+        {
+            return ++idx % ClientConfigs.Count();
         }
 
         /// <summary>
@@ -43,20 +71,125 @@ namespace Cartomatic.Utils.ApiClient
         {
             if(ClientConfigs == null || !ClientConfigs.Any())
                 throw new InvalidOperationException("There are no clients configured for this farm.");
-
-            //TODO - when marking inactive / inaccessible clients is implemented should test for the 'actual' client availability too
         }
 
         /// <summary>
         /// Gets a next available configured client
         /// </summary>
         /// <returns></returns>
+        /// <remarks>when a client implements IApiClientWithHealthCheck then a health check tracking is also performed</remarks>
         public T GetClient()
         {
-            TestClientAvailability();
-            return GetClient(ClientConfigs.ToArray()[GetNextConfigIdx()]);
+            var client = default(T);
+
+            Task.WaitAll(Task.Run(async () =>
+            {
+                client = await GetClientAsync();
+            }));
+
+            return client;
         }
-        IApiClient IApiClientFarm<T>.GetClient() => GetClient();
+
+        /// <summary>
+        /// Gets a next available configured client;
+        /// </summary>
+        /// <returns></returns>
+        /// <remarks>when a client implements IApiClientWithHealthCheck then a health check tracking is also performed</remarks>
+        public async Task<T> GetClientAsync()
+        {
+            TestClientAvailability();
+
+            var clientCfgIdx = GetNextConfigIdx();
+            var cfg = GetClientConfig(clientCfgIdx);
+            var client = GetClient(cfg);
+
+            
+
+            
+
+            return client;
+        }
+
+        protected internal async Task<bool> CheckIfClientHealthy(IApiClient client)
+        {
+            //monitoring not configured or client does not support health checking, so always ok
+            if (Config?.MonitorHealth != true || !(client is IApiClientWithHealthCheck clientWithHealthCheck))
+                return true;
+
+
+            var shouldCheckHealth = 
+                clientWithHealthCheck.HealthStatus != HealthStatus.Dead &&
+
+                //TODO - ! client is quarantined &&
+
+                (
+                    !(clientWithHealthCheck.LastHealthCheckTime.HasValue &&
+                      clientWithHealthCheck.LastHealthyResponseTime.HasValue) ||
+
+                    clientWithHealthCheck.LastHealthCheckTime.HasValue &&
+                    new TimeSpan(DateTime.Now.Ticks - clientWithHealthCheck.LastHealthCheckTime.Value).TotalSeconds < Config.HealthCheckIntervalSeconds ||
+
+                    clientWithHealthCheck.LastHealthyResponseTime.HasValue && 
+                    new TimeSpan(DateTime.Now.Ticks - clientWithHealthCheck.LastHealthyResponseTime.Value).TotalSeconds < Config.HealthCheckIntervalSeconds
+                );
+
+            if (shouldCheckHealth)
+                await clientWithHealthCheck.CheckHealthStatusAsync();
+
+            var clientOk = clientWithHealthCheck.HealthStatus == HealthStatus.Healthy;
+
+
+            if (!clientOk)
+            {
+                //uhuh, client not healthy, so need to mark it as unhealthy internally and keep track of this
+                HandleUnHealthyClient(clientWithHealthCheck);
+            }
+
+
+            return clientOk;
+        }
+
+        /// <summary>
+        /// keeps track of unhealthy clients
+        /// </summary>
+        protected Dictionary<IApiClientWithHealthCheck, int> UnhealthyClients = new Dictionary<IApiClientWithHealthCheck, int>();
+
+        /// <summary>
+        /// Tracks unhealthy client status
+        /// </summary>
+        /// <param name="client"></param>
+        protected void HandleUnHealthyClient(IApiClientWithHealthCheck client)
+        {
+            //ignore dead clients. once dead, always dead
+            if (client.HealthStatus == HealthStatus.Dead)
+                return;
+
+
+        }
+
+
+        protected virtual bool SkipClientBasedOnHealthCheckData(IHealthCheckData data)
+        {
+
+            return false;
+        }
+
+        //TODO - report Unhealthy client method stub
+
+        public virtual async Task ReportUnhealthyClient(IApiClient client)
+        {
+
+        }
+
+        public virtual void ReportClientData()
+        {
+            //TODO - output client report data, so can quickly check status of configured clients
+        }
+
+        /// <summary>
+        /// cached client instances, so can retrieve updated data such as health status
+        /// </summary>
+        private readonly Dictionary<IApiClientConfiguration, IApiClient> ClientInstances = new Dictionary<IApiClientConfiguration, IApiClient>();
 
         /// <summary>
         /// Creates a client instance for the provided config
@@ -65,9 +198,15 @@ namespace Cartomatic.Utils.ApiClient
         /// <returns></returns>
         private T GetClient(IApiClientConfiguration cfg)
         {
+            if (ClientInstances.ContainsKey(cfg))
+                return (T)ClientInstances[cfg];
+
             var client = (T)Activator.CreateInstance(typeof(T));
             client.SetConfig(cfg);
             client.Init();
+
+            ClientInstances[cfg] = client;
+
             return client;
         }
 
@@ -87,6 +226,5 @@ namespace Cartomatic.Utils.ApiClient
 
             return GetClient(cfg);
         }
-        IApiClient IApiClientFarm<T>.GetClient(string endPointId) => GetClient(endPointId);
     }
 }

@@ -58,5 +58,6 @@ namespace Cartomatic.Utils.ApiClient
         /// Two confogurations with the same settings actually point to the very same endpoint
         /// </summary>
         string EndPointId { get; }
+
     }
 }

@@ -14,6 +14,11 @@ namespace Cartomatic.Utils.ApiClient
         where T : IApiClient
     {
         /// <summary>
+        /// Client farm configuration
+        /// </summary>
+        IApiClientFarmConfiguration Config { get; set; }
+
+        /// <summary>
         /// client configs
         /// </summary>
         IEnumerable<IApiClientConfiguration> ClientConfigs { get; set; }
@@ -22,13 +27,19 @@ namespace Cartomatic.Utils.ApiClient
         /// Gets a client
         /// </summary>
         /// <returns></returns>
-        IApiClient GetClient();
+        T GetClient();
+
+        /// <summary>
+        /// Gets a client
+        /// </summary>
+        /// <returns></returns>
+        Task<T> GetClientAsync();
 
         /// <summary>
         /// Gets a client with a specified id
         /// </summary>
         /// <param name="endPointId"></param>
         /// <returns></returns>
-        IApiClient GetClient(string endPointId);
+        T GetClient(string endPointId);
     }
 }

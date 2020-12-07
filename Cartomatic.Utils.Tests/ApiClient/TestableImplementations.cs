@@ -20,6 +20,13 @@ namespace Cartomatic.Utils.ApiClient.Tests
         }
     }
 
+    class ClientWithHealthChecks : ApiClientWithHealthCheck<ClientConfiguration>
+    {
+        protected internal override void Init()
+        {
+        }
+    }
+
     class ClientFarm : ApiClientFarm<Client>
     {
         public static ClientFarm GetTestFarm()

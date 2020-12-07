@@ -11,7 +11,12 @@ use at your own risk...</Description>
     <Version>1.0.6</Version>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="C:\Users\mikie\.nuget\packages\rollbar\3.7.0\contentFiles\any\netcoreapp3.0\RollbarPayloadsStore.db" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.4.0" />
