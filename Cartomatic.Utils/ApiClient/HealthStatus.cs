@@ -16,7 +16,7 @@
         Unhealthy,
         
         /// <summary>
-        /// Cient has been marked as dead; usually when it was not possible to obtain a success result from a healthcheck 
+        /// Client has been marked as dead; usually when it was not possible to obtain a success result from a healthcheck 
         /// </summary>
         Dead
     }

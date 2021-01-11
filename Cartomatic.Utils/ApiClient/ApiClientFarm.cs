@@ -104,12 +104,56 @@ namespace Cartomatic.Utils.ApiClient
             var client = GetClient(cfg);
 
             
-
+            //TODO - check if client healthy and if not take action
+            //TODO - make sure to not enter endless loop while trying to obtain a healthy client
             
 
             return client;
         }
+        
+        /// <summary>
+        /// cached client instances, so can retrieve updated data such as health status
+        /// </summary>
+        private readonly Dictionary<IApiClientConfiguration, IApiClient> ClientInstances = new Dictionary<IApiClientConfiguration, IApiClient>();
 
+        /// <summary>
+        /// Creates a client instance for the provided config
+        /// </summary>
+        /// <param name="cfg"></param>
+        /// <returns></returns>
+        private T GetClient(IApiClientConfiguration cfg)
+        {
+            if (ClientInstances.ContainsKey(cfg))
+                return (T)ClientInstances[cfg];
+
+            var client = (T)Activator.CreateInstance(typeof(T));
+            client.SetConfig(cfg);
+            client.Init();
+
+            ClientInstances[cfg] = client;
+
+            return client;
+        }
+
+        /// <summary>
+        /// Gets client by endpoint id
+        /// </summary>
+        /// <param name="endPointId"></param>
+        /// <returns></returns>
+        public T GetClient(string endPointId)
+        {
+            TestClientAvailability();
+
+            var cfg = ClientConfigs.FirstOrDefault(cf => cf.EndPointId == endPointId);
+
+            if (cfg == null)
+                return (T)(object)null;
+
+            return GetClient(cfg);
+        }
+
+
+        //TODO - plug the method in
         protected internal async Task<bool> CheckIfClientHealthy(IApiClient client)
         {
             //monitoring not configured or client does not support health checking, so always ok
@@ -117,21 +161,7 @@ namespace Cartomatic.Utils.ApiClient
                 return true;
 
 
-            var shouldCheckHealth = 
-                clientWithHealthCheck.HealthStatus != HealthStatus.Dead &&
-
-                //TODO - ! client is quarantined &&
-
-                (
-                    !(clientWithHealthCheck.LastHealthCheckTime.HasValue &&
-                      clientWithHealthCheck.LastHealthyResponseTime.HasValue) ||
-
-                    clientWithHealthCheck.LastHealthCheckTime.HasValue &&
-                    new TimeSpan(DateTime.Now.Ticks - clientWithHealthCheck.LastHealthCheckTime.Value).TotalSeconds < Config.HealthCheckIntervalSeconds ||
-
-                    clientWithHealthCheck.LastHealthyResponseTime.HasValue && 
-                    new TimeSpan(DateTime.Now.Ticks - clientWithHealthCheck.LastHealthyResponseTime.Value).TotalSeconds < Config.HealthCheckIntervalSeconds
-                );
+            var shouldCheckHealth = ShouldCheckHealth(clientWithHealthCheck);
 
             if (shouldCheckHealth)
                 await clientWithHealthCheck.CheckHealthStatusAsync();
@@ -148,6 +178,38 @@ namespace Cartomatic.Utils.ApiClient
 
             return clientOk;
         }
+
+        /// <summary>
+        /// Whether or not a health check should be performed for given client
+        /// </summary>
+        /// <param name="client"></param>
+        /// <returns></returns>
+        protected internal bool ShouldCheckHealth(IApiClientWithHealthCheck client)
+        {
+
+            var shouldCheckHealth =
+                //no need to test dead clients - dead means dead
+                client.HealthStatus != HealthStatus.Dead &&
+
+                (
+                    //not yet tested
+                    !(client.LastHealthCheckTime.HasValue ||
+                      client.LastHealthyResponseTime.HasValue) ||
+
+                    //both health checks expired - when one is ok, we're still good
+                    !(
+                        client.LastHealthCheckTime.HasValue &&
+                        new TimeSpan(DateTime.Now.Ticks - client.LastHealthCheckTime.Value).TotalSeconds < Config.HealthCheckIntervalSeconds ||
+
+                        client.LastHealthyResponseTime.HasValue &&
+                        new TimeSpan(DateTime.Now.Ticks - client.LastHealthyResponseTime.Value).TotalSeconds < Config.HealthCheckIntervalSeconds
+                    )
+                    
+                );
+
+            return shouldCheckHealth;
+        }
+
 
         /// <summary>
         /// keeps track of unhealthy clients
@@ -184,47 +246,6 @@ namespace Cartomatic.Utils.ApiClient
         public virtual void ReportClientData()
         {
             //TODO - output client report data, so can quickly check status of configured clients
-        }
-
-        /// <summary>
-        /// cached client instances, so can retrieve updated data such as health status
-        /// </summary>
-        private readonly Dictionary<IApiClientConfiguration, IApiClient> ClientInstances = new Dictionary<IApiClientConfiguration, IApiClient>();
-
-        /// <summary>
-        /// Creates a client instance for the provided config
-        /// </summary>
-        /// <param name="cfg"></param>
-        /// <returns></returns>
-        private T GetClient(IApiClientConfiguration cfg)
-        {
-            if (ClientInstances.ContainsKey(cfg))
-                return (T)ClientInstances[cfg];
-
-            var client = (T)Activator.CreateInstance(typeof(T));
-            client.SetConfig(cfg);
-            client.Init();
-
-            ClientInstances[cfg] = client;
-
-            return client;
-        }
-
-        /// <summary>
-        /// Gets client by id
-        /// </summary>
-        /// <param name="endPointId"></param>
-        /// <returns></returns>
-        public T GetClient(string endPointId)
-        {
-            TestClientAvailability();
-
-            var cfg = ClientConfigs.FirstOrDefault(cf => cf.EndPointId == endPointId);
-
-            if (cfg == null)
-                return (T)(object)null;
-
-            return GetClient(cfg);
         }
     }
 }

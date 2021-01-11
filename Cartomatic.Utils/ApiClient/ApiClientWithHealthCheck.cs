@@ -45,7 +45,7 @@ namespace Cartomatic.Utils.ApiClient
         public long? LastHealthyResponseTime { get; protected set; }
 
         /// <summary>
-        /// Logs time of a last healthy response
+        /// Logs time of a last healthy response - should be called when a healthy response was received
         /// </summary>
         protected internal virtual void LogLastHealthyResponse()
         {

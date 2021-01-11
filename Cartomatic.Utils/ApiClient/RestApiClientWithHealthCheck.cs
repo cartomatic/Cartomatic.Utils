@@ -51,7 +51,7 @@ namespace Cartomatic.Utils.ApiClient
 #if NETCOREAPP3_1
                         aex.ResponseStatus == HttpStatusCode.TooManyRequests ||
 #else
-                        (int)aex.ResponseStatus == 429 ||
+                        (int)aex.ResponseStatus == 429 || //Too many requests
 #endif
 
                         aex.ResponseStatus == HttpStatusCode.RequestTimeout
@@ -59,10 +59,20 @@ namespace Cartomatic.Utils.ApiClient
                     MarkServiceAsUnHealthy();
 
                 //other codes so far ok - 400, 404, etc.
-                //how about 500 - this may mean external api is problematic with given call, but may not be dead really
+
+                //how about 500 - this may mean external api is problematic with given call, but may not be dead really - handle this via extension hook at the discretion of the actual api client implementation
+                HandleCustomErrors(aex);
 
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Extension hook for handling custom errors based on the exception data
+        /// </summary>
+        protected internal virtual void HandleCustomErrors(ApiCallException aex)
+        {
+            
         }
     }
 }
