@@ -170,17 +170,6 @@
             <returns></returns>
             <remarks>when a client implements IApiClientWithHealthCheck then a health check tracking is also performed</remarks>
         </member>
-        <member name="F:Cartomatic.Utils.ApiClient.ApiClientFarm`1.UnhealthyClients">
-            <summary>
-            keeps track of unhealthy clients
-            </summary>
-        </member>
-        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.HandleUnHealthyClient(Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck)">
-            <summary>
-            Tracks unhealthy client status
-            </summary>
-            <param name="client"></param>
-        </member>
         <member name="F:Cartomatic.Utils.ApiClient.ApiClientFarm`1.ClientInstances">
             <summary>
             cached client instances, so can retrieve updated data such as health status
@@ -195,10 +184,75 @@
         </member>
         <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.GetClient(System.String)">
             <summary>
-            Gets client by id
+            Gets client by endpoint id
             </summary>
             <param name="endPointId"></param>
             <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.CheckIfClientHealthy(Cartomatic.Utils.ApiClient.IApiClient)">
+            <summary>
+            Whether or not client is healthy; always true when farm configuration MonitorHealth is falsy or client is not IApiClientWithHealthCheck
+            </summary>
+            <param name="client"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.ShouldCheckHealth(Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck)">
+            <summary>
+            Whether or not a health check should be performed for given client
+            </summary>
+            <param name="client"></param>
+            <returns></returns>
+        </member>
+        <member name="F:Cartomatic.Utils.ApiClient.ApiClientFarm`1.UnhealthyClients">
+            <summary>
+            keeps track of unhealthy clients
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.HandleUnHealthyClient(Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck,System.Boolean)">
+            <summary>
+            Tracks unhealthy client status
+            </summary>
+            <param name="client"></param>
+            <param name="healthChecked"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.SkipClientBasedOnHealthCheckData(Cartomatic.Utils.ApiClient.IHealthCheckData)">
+            <summary>
+            Whether or not a client should be skipped based on the health check data;
+            extension hook for allowing extra client tests based on the actual data a health check returned
+            </summary>
+            <param name="data"></param>
+            <remarks>Basic extension for obtaining the IHealthCheckData is via client's CheckHealthStatusAsync</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.ReportDeadClient(Cartomatic.Utils.ApiClient.IApiClient)">
+            <summary>
+            Reports a dead client;
+            extension hook
+            </summary>
+            <param name="client"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.ReportClientData(System.String)">
+            <summary>
+            Reports client data;
+            extension hook
+            </summary>
+            <param name="endPointId"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.MarkClientAsHealthy(System.String)">
+            <summary>
+            Marks client as healthy - this is to bring a client back to live once it went dead and then was fixed
+            </summary>
+            <param name="endPointId"></param>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarmConfiguration.MonitorHealth">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarmConfiguration.HealthCheckIntervalSeconds">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarmConfiguration.AllowedHealthCheckFailures">
+            <inheritdoc />
         </member>
         <member name="T:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1">
             <summary>
@@ -224,9 +278,10 @@
         <member name="M:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.CheckHealthStatusAsync">
             <summary>
             Checks current health status of a backend service
+            extension hook
             </summary>
             <returns></returns>
-            <remarks>Default implementation always sets health check status to healthy</remarks>
+            <remarks>It is a place where LastHealthCheckData should be set if used</remarks>
         </member>
         <member name="P:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.LastHealthyResponseTime">
             <summary>
@@ -235,7 +290,7 @@
         </member>
         <member name="M:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.LogLastHealthyResponse">
             <summary>
-            Logs time of a last healthy response
+            Logs time of a last healthy response - should be called when a healthy response was received
             </summary>
         </member>
         <member name="P:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.LastUnHealthyResponseTime">
@@ -243,14 +298,27 @@
             Last time an unhealthy response has been retrieved (in ticks)
             </summary>
         </member>
-        <member name="M:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.MarkServiceAsDead">
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.DeadReason">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.DeadReasonMessage">
+            <inheritdoc />
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.MarkAsDead(System.Net.HttpStatusCode,System.String)">
             <summary>
             Marks client as dead
             </summary>
+            <param name="statusCode"></param>
+            <param name="message"></param>
         </member>
-        <member name="M:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.MarkServiceAsUnHealthy">
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.MarkAsUnHealthy">
             <summary>
             Marks client as unhealthy
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.MarkAsHealthy">
+            <summary>
+            Marks client as healthy
             </summary>
         </member>
         <member name="T:Cartomatic.Utils.ApiClient.HealthStatus">
@@ -270,7 +338,7 @@
         </member>
         <member name="F:Cartomatic.Utils.ApiClient.HealthStatus.Dead">
             <summary>
-            Cient has been marked as dead; usually when it was not possible to obtain a success result from a healthcheck 
+            Client has been marked as dead; usually when it was not possible to obtain a success result from a healthcheck 
             </summary>
         </member>
         <member name="T:Cartomatic.Utils.ApiClient.IApiClient`1">
@@ -403,6 +471,11 @@
             How often should the health check be performed
             </summary>
         </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientFarmConfiguration.AllowedHealthCheckFailures">
+            <summary>
+            How many times should a client be health-checked before it is marked as dead
+            </summary>
+        </member>
         <member name="P:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.HealthStatus">
             <summary>
             Current health status if provided
@@ -423,6 +496,16 @@
             Last time an unhealthy response has been retrieved (in ticks)
             </summary>
         </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.DeadReason">
+            <summary>
+            Status code that describes a reason a client went dead
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.DeadReasonMessage">
+            <summary>
+            Text message that describes a reason a client went dead
+            </summary>
+        </member>
         <member name="M:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.CheckHealthStatusAsync">
             <summary>
             initiates a health check procedure
@@ -434,6 +517,18 @@
             returns current health check data if any
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.MarkAsHealthy">
+            <summary>
+            Marks client as healthy
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.MarkAsDead(System.Net.HttpStatusCode,System.String)">
+            <summary>
+            Marks client as dead
+            </summary>
+            <param name="statusCode"></param>
+            <param name="message"></param>
         </member>
         <member name="T:Cartomatic.Utils.ApiClient.IHealthCheckData">
             <summary>
@@ -510,6 +605,14 @@
             <param name="method"></param>
             <param name="queryParams"></param>
             <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.RestApiClientWithHealthCheck`1.HandleCustomErrors(System.Nullable{Cartomatic.Utils.ApiClient.HealthStatus},Cartomatic.Utils.ApiClient.ApiCallException)">
+            <summary>
+            Extension hook for handling custom errors based on the exception data; place to decide whether a service is alive or dead
+            </summary>
+            <param name="clientStatus">Status of the client decided by the caller</param>
+            <param name="aex">Api exception</param>
             <returns></returns>
         </member>
         <member name="T:Cartomatic.Utils.Cache.AbstractCache`1">

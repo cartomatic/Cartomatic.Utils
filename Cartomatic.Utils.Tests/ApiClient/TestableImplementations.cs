@@ -22,8 +22,12 @@ namespace Cartomatic.Utils.ApiClient.Tests
 
     class ClientWithHealthChecks : ApiClientWithHealthCheck<ClientConfiguration>
     {
-        protected internal override void Init()
+        protected internal override void Init() { }
+
+        public override async Task CheckHealthStatusAsync()
         {
+            HealthStatus = ApiClient.HealthStatus.Healthy;
+            LastHealthCheckTime = DateTime.Now.Ticks;
         }
     }
 
@@ -43,6 +47,18 @@ namespace Cartomatic.Utils.ApiClient.Tests
 
 
             return cf;
+        }
+
+        protected override bool SkipClientBasedOnHealthCheckData(IHealthCheckData data) => false;
+
+        protected override Task ReportDeadClient(IApiClient client)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Task ReportClientData(string endPointId)
+        {
+            throw new NotImplementedException();
         }
     }
     

@@ -40,39 +40,66 @@ namespace Cartomatic.Utils.ApiClient
             }
             catch(ApiCallException aex)
             {
+                //status to be passed to a custom handler
+                HealthStatus? status = null;
+                var msg = string.Empty;
+
                 if (
+                    aex.ResponseStatus == HttpStatusCode.InternalServerError ||
                     aex.ResponseStatus == HttpStatusCode.ServiceUnavailable ||
                     aex.ResponseStatus == HttpStatusCode.GatewayTimeout ||
                     aex.ResponseStatus == HttpStatusCode.BadGateway
                 )
-                    MarkAsDead();
+                {
+                    status = ApiClient.HealthStatus.Dead; //potentially could mark as unhealthy and let a farm handle marking as dead
+                    msg = aex.Message;
+                }
 
                 if (
 #if NETCOREAPP3_1
                         aex.ResponseStatus == HttpStatusCode.TooManyRequests ||
 #else
-                        (int)aex.ResponseStatus == 429 || //Too many requests
+                    (int) aex.ResponseStatus == 429 || //Too many requests
 #endif
 
-                        aex.ResponseStatus == HttpStatusCode.RequestTimeout
+                    aex.ResponseStatus == HttpStatusCode.RequestTimeout
                 )
-                    MarkAsUnHealthy();
+                {
+                    status = ApiClient.HealthStatus.Unhealthy;
+                }
+                    
 
-                //other codes so far ok - 400, 404, etc.
+                //other codes ignored, so 400, 404, etc by default will not cause marking a client as unhealthy.
 
-                //how about 500 - this may mean external api is problematic with given call, but may not be dead really - handle this via extension hook at the discretion of the actual api client implementation
-                HandleCustomErrors(aex);
+                //custom err handling as required
+                var (customStatus, customMessage) = HandleCustomErrors(status, aex);
+
+                if (customStatus.HasValue)
+                    status = customStatus;
+
+                if (!string.IsNullOrWhiteSpace(customMessage))
+                    msg = customMessage;
+
+                switch (status)
+                {
+                    case ApiClient.HealthStatus.Unhealthy:
+                        MarkAsUnHealthy();
+                        break;
+                    case ApiClient.HealthStatus.Dead:
+                        MarkAsDead(aex.ResponseStatus ?? 0, msg);
+                        break;
+                }
 
                 throw;
             }
         }
 
         /// <summary>
-        /// Extension hook for handling custom errors based on the exception data
+        /// Extension hook for handling custom errors based on the exception data; place to decide whether a service is alive or dead
         /// </summary>
-        protected internal virtual void HandleCustomErrors(ApiCallException aex)
-        {
-            
-        }
+        /// <param name="clientStatus">Status of the client decided by the caller</param>
+        /// <param name="aex">Api exception</param>
+        /// <returns></returns>
+        protected internal abstract (ApiClient.HealthStatus? clientStatus, string message) HandleCustomErrors(ApiClient.HealthStatus? clientStatus, ApiCallException aex);
     }
 }

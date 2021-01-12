@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,6 +34,16 @@ namespace Cartomatic.Utils.ApiClient
         long? LastUnHealthyResponseTime { get; }
 
         /// <summary>
+        /// Status code that describes a reason a client went dead
+        /// </summary>
+        HttpStatusCode? DeadReason { get; }
+
+        /// <summary>
+        /// Text message that describes a reason a client went dead
+        /// </summary>
+        string DeadReasonMessage { get; }
+
+        /// <summary>
         /// initiates a health check procedure
         /// </summary>
         /// <returns></returns>
@@ -48,5 +59,12 @@ namespace Cartomatic.Utils.ApiClient
         /// Marks client as healthy
         /// </summary>
         void MarkAsHealthy();
+
+        /// <summary>
+        /// Marks client as dead
+        /// </summary>
+        /// <param name="statusCode"></param>
+        /// <param name="message"></param>
+        void MarkAsDead(HttpStatusCode statusCode, string message);
     }
 }

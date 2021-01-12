@@ -82,7 +82,7 @@ namespace Cartomatic.Utils.ApiClient.Tests
 
             var start = DateTime.Now.Ticks;
 
-            client.MarkAsDead();
+            client.MarkAsDead(0, "test");
 
             client.HealthStatus.Should().Be(HealthStatus.Dead);
             client.LastUnHealthyResponseTime.Should().BeGreaterOrEqualTo(start);

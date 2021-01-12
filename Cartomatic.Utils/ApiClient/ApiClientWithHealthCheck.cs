@@ -30,14 +30,11 @@ namespace Cartomatic.Utils.ApiClient
 
         /// <summary>
         /// Checks current health status of a backend service
+        /// extension hook
         /// </summary>
         /// <returns></returns>
-        /// <remarks>Default implementation always sets health check status to healthy; also default implementation does not set LastHealthCheckData</remarks>
-        public virtual async Task CheckHealthStatusAsync()
-        {
-            HealthStatus = ApiClient.HealthStatus.Healthy;
-            LastHealthCheckTime = DateTime.Now.Ticks;
-        }
+        /// <remarks>It is a place where LastHealthCheckData should be set if used</remarks>
+        public abstract Task CheckHealthStatusAsync();
 
         /// <summary>
         /// Last time a healthy response has been retrieved (in ticks)
@@ -58,10 +55,18 @@ namespace Cartomatic.Utils.ApiClient
         /// </summary>
         public long? LastUnHealthyResponseTime { get; protected internal set; }
 
+        /// <inheritdoc />
+        public HttpStatusCode? DeadReason { get; protected internal set; }
+
+        /// <inheritdoc />
+        public string DeadReasonMessage { get; protected internal set; }
+
         /// <summary>
         /// Marks client as dead
         /// </summary>
-        protected internal virtual void MarkAsDead()
+        /// <param name="statusCode"></param>
+        /// <param name="message"></param>
+        public virtual void MarkAsDead(HttpStatusCode statusCode, string message)
         {
             LastUnHealthyResponseTime = DateTime.Now.Ticks;
             HealthStatus = ApiClient.HealthStatus.Dead;

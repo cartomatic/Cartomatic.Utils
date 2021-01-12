@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Org.BouncyCastle.Asn1.Anssi;
 using Org.BouncyCastle.Utilities;
 
 namespace Cartomatic.Utils.ApiClient
@@ -59,10 +60,12 @@ namespace Cartomatic.Utils.ApiClient
         /// Gets the idx of the next mc config in row. uses round robin internally
         /// </summary>
         /// <returns></returns>
-        internal long GetNextConfigIdx(int idx)
+        internal int GetNextConfigIdx(int idx)
         {
             return ++idx % ClientConfigs.Count();
         }
+
+        internal const string NO_CLIENTS_CONFIGURED_ERR_MSG = "There are no clients configured for this farm.";
 
         /// <summary>
         /// Tests if can return a client
@@ -70,7 +73,7 @@ namespace Cartomatic.Utils.ApiClient
         internal void TestClientAvailability()
         {
             if(ClientConfigs == null || !ClientConfigs.Any())
-                throw new InvalidOperationException("There are no clients configured for this farm.");
+                throw new InvalidOperationException(NO_CLIENTS_CONFIGURED_ERR_MSG);
         }
 
         /// <summary>
@@ -90,6 +93,8 @@ namespace Cartomatic.Utils.ApiClient
             return client;
         }
 
+        internal const string NO_HEALTHY_CLIENTS_ERR_MSG = "No healthy clients left in the farm.";
+
         /// <summary>
         /// Gets a next available configured client;
         /// </summary>
@@ -104,10 +109,23 @@ namespace Cartomatic.Utils.ApiClient
             
             var client = GetClient(cfg);
 
-            
-            //TODO - check if client healthy and if not take action
-            //TODO - make sure to not enter endless loop while trying to obtain a healthy client
-            
+            var clientHealthy = await CheckIfClientHealthy(client);
+            while (!clientHealthy)
+            {
+                clientCfgIdx = GetNextConfigIdx(clientCfgIdx);
+                cfg = GetClientConfig(clientCfgIdx);
+                var newClient = GetClient(cfg);
+
+                //spin until client repeats. if all were dead and we come back to the initial client, then BOOM
+                if (Equals(newClient, client))
+                {
+                    throw new Exception(NO_HEALTHY_CLIENTS_ERR_MSG);
+                }
+
+                clientHealthy = await CheckIfClientHealthy(newClient);
+                if (clientHealthy)
+                    client = newClient;
+            }
 
             return client;
         }
@@ -176,7 +194,7 @@ namespace Cartomatic.Utils.ApiClient
             if (!clientOk)
             {
                 //uhuh, client not healthy, so need to mark it as unhealthy internally and keep track of this
-                HandleUnHealthyClient(clientWithHealthCheck);
+                await HandleUnHealthyClient(clientWithHealthCheck, shouldCheckHealth);
             }
 
             return clientOk;
@@ -223,15 +241,30 @@ namespace Cartomatic.Utils.ApiClient
         /// Tracks unhealthy client status
         /// </summary>
         /// <param name="client"></param>
-        protected void HandleUnHealthyClient(IApiClientWithHealthCheck client)
+        /// <param name="healthChecked"></param>
+        protected async Task HandleUnHealthyClient(IApiClientWithHealthCheck client, bool healthChecked)
         {
             //ignore dead clients. once dead, always dead
             if (client.HealthStatus == HealthStatus.Dead)
                 return;
 
+            //only handle clients that were just health-checked; health check for other clients is pending
+            if (healthChecked)
+            {
+                if (!UnhealthyClients.ContainsKey(client))
+                {
+                    UnhealthyClients[client] = 0;
+                }
 
-            //TODO - for unhealthy clients check the counters
+                UnhealthyClients[client]++;
 
+                if (Config.AllowedHealthCheckFailures.HasValue &&
+                    UnhealthyClients[client] > Config.AllowedHealthCheckFailures)
+                {
+                    client.MarkAsDead(0, $"Health check failed {UnhealthyClients[client]} times");
+                    await ReportDeadClient(client as IApiClient);
+                }
+            }
         }
 
         /// <summary>
@@ -241,13 +274,7 @@ namespace Cartomatic.Utils.ApiClient
         /// <param name="data"></param>
         /// <remarks>Basic extension for obtaining the IHealthCheckData is via client's CheckHealthStatusAsync</remarks>
         /// <returns></returns>
-        protected virtual bool SkipClientBasedOnHealthCheckData(IHealthCheckData data)
-        {
-
-            return false;
-        }
-
-        //TODO - report Unhealthy client method stub
+        protected abstract bool SkipClientBasedOnHealthCheckData(IHealthCheckData data);
 
         /// <summary>
         /// Reports a dead client;
@@ -255,20 +282,14 @@ namespace Cartomatic.Utils.ApiClient
         /// </summary>
         /// <param name="client"></param>
         /// <returns></returns>
-        public virtual async Task ReportDeadClient(IApiClient client)
-        {
-            //TODO - need to reoprt a client once it goes dead
-        }
+        protected abstract Task ReportDeadClient(IApiClient client);
 
         /// <summary>
         /// Reports client data;
         /// extension hook
         /// </summary>
         /// <param name="endPointId"></param>
-        public virtual void ReportClientData(string endPointId)
-        {
-            //TODO - output client report data, so can quickly check status of configured clients
-        }
+        public abstract Task ReportClientData(string endPointId);
 
         /// <summary>
         /// Marks client as healthy - this is to bring a client back to live once it went dead and then was fixed
@@ -280,9 +301,13 @@ namespace Cartomatic.Utils.ApiClient
             if (client is IApiClientWithHealthCheck clientWithHealthCheck)
             {
                 clientWithHealthCheck.MarkAsHealthy();
-            }
 
-            //TODO - reset client unhealthy status counters
+                //reset client unhealthy status counters
+                if (UnhealthyClients.ContainsKey(clientWithHealthCheck))
+                {
+                    UnhealthyClients[clientWithHealthCheck] = 0;
+                }
+            }
         }
     }
 }

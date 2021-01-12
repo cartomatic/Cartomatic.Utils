@@ -69,7 +69,7 @@ namespace Cartomatic.Utils.ApiClient.Tests
             var farm = GetTestableApiClientFarm();
             var client = farm.GetClient();
 
-            client.LastHealthCheckTime = DateTime.Now.AddSeconds(-(farm.Config.HealthCheckIntervalSeconds ?? 0 + 1)).Ticks;
+            client.LastHealthCheckTime = DateTime.Now.AddSeconds(-((farm.Config.HealthCheckIntervalSeconds ?? 0) + 1)).Ticks;
 
             farm.ShouldCheckHealth(client).Should().BeTrue();
         }
@@ -80,7 +80,7 @@ namespace Cartomatic.Utils.ApiClient.Tests
             var farm = GetTestableApiClientFarm();
             var client = farm.GetClient();
 
-            client.LastHealthyResponseTime = DateTime.Now.AddSeconds(-(farm.Config.HealthCheckIntervalSeconds ?? 0 + 1)).Ticks;
+            client.LastHealthyResponseTime = DateTime.Now.AddSeconds(-((farm.Config.HealthCheckIntervalSeconds ?? 0) + 1)).Ticks;
 
             farm.ShouldCheckHealth(client).Should().BeTrue();
         }
@@ -107,21 +107,48 @@ namespace Cartomatic.Utils.ApiClient.Tests
             farm.ShouldCheckHealth(client).Should().BeFalse();
         }
 
-        TestableApiClientFarm GetTestableApiClientFarm() => new TestableApiClientFarm { ClientConfigs = new[] { new TestApiClientConfiguration() }, Config = new TestableApiClientFarmConfiguration {HealthCheckIntervalSeconds = 1, MonitorHealth = true}};
+        TestableApiClientFarm GetTestableApiClientFarm() => new TestableApiClientFarm
+        {
+            ClientConfigs = new[] { new TestApiClientConfiguration() }, 
+            Config = new TestableApiClientFarmConfiguration
+            {
+                HealthCheckIntervalSeconds = 1,
+                MonitorHealth = false //false, so the default health check is skipped when obtaining a client
+            }
+        };
 
     }
 
     class TestableRestApiClient : RestApiClientWithHealthCheck<ApiClientConfiguration>
     {
-        protected internal override void Init()
+        protected internal override void Init() { }
+
+        public override async Task CheckHealthStatusAsync()
         {
-            //nothing so far
+            HealthStatus = ApiClient.HealthStatus.Healthy;
+            LastHealthCheckTime = DateTime.Now.Ticks;
         }
+
+        protected internal override (HealthStatus? clientStatus, string message) HandleCustomErrors(
+            HealthStatus? clientStatus, ApiCallException aex) => (null, null);
     }
 
     class TestableApiClientFarmConfiguration : ApiClientFarmConfiguration { }
 
-    class TestableApiClientFarm : ApiClientFarm<TestableRestApiClient> { }
+    class TestableApiClientFarm : ApiClientFarm<TestableRestApiClient>
+    {
+        protected override bool SkipClientBasedOnHealthCheckData(IHealthCheckData data) => false;
+
+        protected override Task ReportDeadClient(IApiClient client)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Task ReportClientData(string endPointId)
+        {
+            throw new NotImplementedException();
+        }
+    }
 
     class TestApiClientConfiguration : ApiClientConfiguration { }
 }

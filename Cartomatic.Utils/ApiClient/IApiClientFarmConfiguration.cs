@@ -21,5 +21,9 @@ namespace Cartomatic.Utils.ApiClient
         /// </summary>
         int? HealthCheckIntervalSeconds { get; set; }
 
+        /// <summary>
+        /// How many times should a client be health-checked before it is marked as dead
+        /// </summary>
+        int? AllowedHealthCheckFailures { get; set; }
     }
 }
