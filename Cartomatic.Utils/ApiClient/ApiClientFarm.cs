@@ -101,6 +101,7 @@ namespace Cartomatic.Utils.ApiClient
 
             var clientCfgIdx = GetNextConfigIdx();
             var cfg = GetClientConfig(clientCfgIdx);
+            
             var client = GetClient(cfg);
 
             
@@ -153,13 +154,16 @@ namespace Cartomatic.Utils.ApiClient
         }
 
 
-        //TODO - plug the method in
+        /// <summary>
+        /// Whether or not client is healthy; always true when farm configuration MonitorHealth is falsy or client is not IApiClientWithHealthCheck
+        /// </summary>
+        /// <param name="client"></param>
+        /// <returns></returns>
         protected internal async Task<bool> CheckIfClientHealthy(IApiClient client)
         {
             //monitoring not configured or client does not support health checking, so always ok
             if (Config?.MonitorHealth != true || !(client is IApiClientWithHealthCheck clientWithHealthCheck))
                 return true;
-
 
             var shouldCheckHealth = ShouldCheckHealth(clientWithHealthCheck);
 
@@ -174,7 +178,6 @@ namespace Cartomatic.Utils.ApiClient
                 //uhuh, client not healthy, so need to mark it as unhealthy internally and keep track of this
                 HandleUnHealthyClient(clientWithHealthCheck);
             }
-
 
             return clientOk;
         }
@@ -227,9 +230,17 @@ namespace Cartomatic.Utils.ApiClient
                 return;
 
 
+            //TODO - for unhealthy clients check the counters
+
         }
 
-
+        /// <summary>
+        /// Whether or not a client should be skipped based on the health check data;
+        /// extension hook for allowing extra client tests based on the actual data a health check returned
+        /// </summary>
+        /// <param name="data"></param>
+        /// <remarks>Basic extension for obtaining the IHealthCheckData is via client's CheckHealthStatusAsync</remarks>
+        /// <returns></returns>
         protected virtual bool SkipClientBasedOnHealthCheckData(IHealthCheckData data)
         {
 
@@ -238,14 +249,40 @@ namespace Cartomatic.Utils.ApiClient
 
         //TODO - report Unhealthy client method stub
 
-        public virtual async Task ReportUnhealthyClient(IApiClient client)
+        /// <summary>
+        /// Reports a dead client;
+        /// extension hook
+        /// </summary>
+        /// <param name="client"></param>
+        /// <returns></returns>
+        public virtual async Task ReportDeadClient(IApiClient client)
         {
-
+            //TODO - need to reoprt a client once it goes dead
         }
 
-        public virtual void ReportClientData()
+        /// <summary>
+        /// Reports client data;
+        /// extension hook
+        /// </summary>
+        /// <param name="endPointId"></param>
+        public virtual void ReportClientData(string endPointId)
         {
             //TODO - output client report data, so can quickly check status of configured clients
+        }
+
+        /// <summary>
+        /// Marks client as healthy - this is to bring a client back to live once it went dead and then was fixed
+        /// </summary>
+        /// <param name="endPointId"></param>
+        public virtual void MarkClientAsHealthy(string endPointId)
+        {
+            var client = GetClient(endPointId);
+            if (client is IApiClientWithHealthCheck clientWithHealthCheck)
+            {
+                clientWithHealthCheck.MarkAsHealthy();
+            }
+
+            //TODO - reset client unhealthy status counters
         }
     }
 }

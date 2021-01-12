@@ -45,7 +45,7 @@ namespace Cartomatic.Utils.ApiClient
                     aex.ResponseStatus == HttpStatusCode.GatewayTimeout ||
                     aex.ResponseStatus == HttpStatusCode.BadGateway
                 )
-                    MarkServiceAsDead();
+                    MarkAsDead();
 
                 if (
 #if NETCOREAPP3_1
@@ -56,7 +56,7 @@ namespace Cartomatic.Utils.ApiClient
 
                         aex.ResponseStatus == HttpStatusCode.RequestTimeout
                 )
-                    MarkServiceAsUnHealthy();
+                    MarkAsUnHealthy();
 
                 //other codes so far ok - 400, 404, etc.
 

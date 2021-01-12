@@ -34,12 +34,21 @@ namespace Cartomatic.Utils.ApiClient.Tests
         }
 
         [Test]
-        public static async Task ApiClient_CheckHealthStatus_ShouldProperlySetStatusAndCheckTime()
+        public void ApiClient_WhenNewInstance_HealthStatusIsUnset()
         {
             var client = new ClientWithHealthChecks();
 
             client.HealthStatus.Should().BeNull();
             client.LastHealthCheckTime.Should().BeNull();
+
+            client.LastHealthyResponseTime.Should().BeNull();
+            client.LastUnHealthyResponseTime.Should().BeNull();
+        }
+
+        [Test]
+        public static async Task ApiClient_CheckHealthStatus_ShouldProperlySetStatusAndCheckTime()
+        {
+            var client = new ClientWithHealthChecks();
 
             var start = DateTime.Now.Ticks;
 
@@ -56,9 +65,6 @@ namespace Cartomatic.Utils.ApiClient.Tests
         {
             var client = new ClientWithHealthChecks();
 
-            client.HealthStatus.Should().BeNull();
-            client.LastHealthyResponseTime.Should().BeNull();
-
             var start = DateTime.Now.Ticks;
 
             client.LogLastHealthyResponse();
@@ -74,12 +80,9 @@ namespace Cartomatic.Utils.ApiClient.Tests
         {
             var client = new ClientWithHealthChecks();
 
-            client.HealthStatus.Should().BeNull();
-            client.LastUnHealthyResponseTime.Should().BeNull();
-
             var start = DateTime.Now.Ticks;
 
-            client.MarkServiceAsDead();
+            client.MarkAsDead();
 
             client.HealthStatus.Should().Be(HealthStatus.Dead);
             client.LastUnHealthyResponseTime.Should().BeGreaterOrEqualTo(start);
@@ -92,17 +95,25 @@ namespace Cartomatic.Utils.ApiClient.Tests
         {
             var client = new ClientWithHealthChecks();
 
-            client.HealthStatus.Should().BeNull();
-            client.LastUnHealthyResponseTime.Should().BeNull();
-
             var start = DateTime.Now.Ticks;
 
-            client.MarkServiceAsUnHealthy();
+            client.MarkAsUnHealthy();
 
             client.HealthStatus.Should().Be(HealthStatus.Unhealthy);
             client.LastUnHealthyResponseTime.Should().BeGreaterOrEqualTo(start);
             client.LastUnHealthyResponseTime.Should().BeLessOrEqualTo(DateTime.Now.Ticks);
 
+        }
+
+        [Test]
+        public static void ApiClient_MarkServiceAsHealthy_ShouldProperlySetStatusAndCheckTime()
+        {
+            var client = new ClientWithHealthChecks();
+
+            client.MarkAsHealthy();
+
+            client.HealthStatus.Should().Be(HealthStatus.Healthy);
+            client.LastHealthyResponseTime.Should().BeNull();
         }
     }
 }

@@ -44,5 +44,9 @@ namespace Cartomatic.Utils.ApiClient
         /// <returns></returns>
         IHealthCheckData LastHealthCheckData { get; }
 
+        /// <summary>
+        /// Marks client as healthy
+        /// </summary>
+        void MarkAsHealthy();
     }
 }
