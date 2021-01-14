@@ -49,14 +49,8 @@ namespace Cartomatic.Utils.ApiClient.Tests
             return cf;
         }
 
-        protected override bool SkipClientBasedOnHealthCheckData(IHealthCheckData data) => false;
-
-        protected override Task ReportDeadClient(IApiClient client)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override Task ReportClientData(string endPointId)
+        protected override bool SkipClientBasedOnHealthCheckData(IApiClientWithHealthCheck client) => false;
+        protected override string GetApiName()
         {
             throw new NotImplementedException();
         }

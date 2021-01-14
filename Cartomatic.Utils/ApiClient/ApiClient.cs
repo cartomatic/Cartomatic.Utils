@@ -24,7 +24,10 @@ namespace Cartomatic.Utils.ApiClient
         /// this means two independent client instances with the same config are in fact using the same endpoint and therefore share the id
         /// </summary>
         public string EndPointId => ClientConfiguration?.EndPointId;
-        
+
+        /// <inheritdoc />
+        public string EndPointUrl => ClientConfiguration?.GetUrl();
+
         /// <summary>
         /// Sets a client configuration
         /// </summary>

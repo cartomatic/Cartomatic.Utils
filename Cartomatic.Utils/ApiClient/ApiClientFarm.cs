@@ -1,11 +1,11 @@
-﻿using System;
-using System.CodeDom;
+﻿using Cartomatic.Utils.Email;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Net;
 using System.Threading.Tasks;
-using Org.BouncyCastle.Asn1.Anssi;
-using Org.BouncyCastle.Utilities;
+
 
 namespace Cartomatic.Utils.ApiClient
 {
@@ -44,8 +44,8 @@ namespace Cartomatic.Utils.ApiClient
         /// <summary>
         /// Counter used to calculate next client to be used
         /// </summary>
-        internal long  UsageCounter { get; set; }
-        
+        internal long UsageCounter { get; set; }
+
 
         /// <summary>
         /// Gets the idx of the next available mc config. uses round robin internally
@@ -72,7 +72,7 @@ namespace Cartomatic.Utils.ApiClient
         /// </summary>
         internal void TestClientAvailability()
         {
-            if(ClientConfigs == null || !ClientConfigs.Any())
+            if (ClientConfigs == null || !ClientConfigs.Any())
                 throw new InvalidOperationException(NO_CLIENTS_CONFIGURED_ERR_MSG);
         }
 
@@ -106,7 +106,7 @@ namespace Cartomatic.Utils.ApiClient
 
             var clientCfgIdx = GetNextConfigIdx();
             var cfg = GetClientConfig(clientCfgIdx);
-            
+
             var client = GetClient(cfg);
 
             var clientHealthy = await CheckIfClientHealthy(client);
@@ -129,7 +129,7 @@ namespace Cartomatic.Utils.ApiClient
 
             return client;
         }
-        
+
         /// <summary>
         /// cached client instances, so can retrieve updated data such as health status
         /// </summary>
@@ -190,6 +190,9 @@ namespace Cartomatic.Utils.ApiClient
 
             var clientOk = clientWithHealthCheck.HealthStatus == HealthStatus.Healthy;
 
+            //allows for temporarily omitting a client based on health check data - for example if client is too busy to handle new requests swiftly
+            if (clientOk && SkipClientBasedOnHealthCheckData(clientWithHealthCheck))
+                return false;
 
             if (!clientOk)
             {
@@ -225,7 +228,7 @@ namespace Cartomatic.Utils.ApiClient
                         client.LastHealthyResponseTime.HasValue &&
                         new TimeSpan(DateTime.Now.Ticks - client.LastHealthyResponseTime.Value).TotalSeconds < Config.HealthCheckIntervalSeconds
                     )
-                    
+
                 );
 
             return shouldCheckHealth;
@@ -261,8 +264,7 @@ namespace Cartomatic.Utils.ApiClient
                 if (Config.AllowedHealthCheckFailures.HasValue &&
                     UnhealthyClients[client] > Config.AllowedHealthCheckFailures)
                 {
-                    client.MarkAsDead(0, $"Health check failed {UnhealthyClients[client]} times");
-                    await ReportDeadClient(client as IApiClient);
+                    MarkClientAsDead(client, 0, $"Health check failed {UnhealthyClients[client]} times");
                 }
             }
         }
@@ -271,31 +273,129 @@ namespace Cartomatic.Utils.ApiClient
         /// Whether or not a client should be skipped based on the health check data;
         /// extension hook for allowing extra client tests based on the actual data a health check returned
         /// </summary>
-        /// <param name="data"></param>
-        /// <remarks>Basic extension for obtaining the IHealthCheckData is via client's CheckHealthStatusAsync</remarks>
+        /// <param name="client"></param>
         /// <returns></returns>
-        protected abstract bool SkipClientBasedOnHealthCheckData(IHealthCheckData data);
+        protected abstract bool SkipClientBasedOnHealthCheckData(IApiClientWithHealthCheck client);
 
         /// <summary>
-        /// Reports a dead client;
-        /// extension hook
+        /// Reports client status to a set of configured emails
+        /// </summary>
+        /// <returns></returns>
+        protected void ReportClientStatus(IApiClient client, HealthStatus status)
+        {
+            var emailTpl = GetClienStatustNotificationEmailTitleAndMsg(client, status);
+
+            if (Config.EmailSender == null || Config.ClientStatusNotificationEmails == null ||
+                !Config.ClientStatusNotificationEmails.Any())
+                return;
+
+            var emailSender = new EmailSender();
+
+            foreach (var email in Config.ClientStatusNotificationEmails)
+            {
+                emailSender.Send(Config.EmailSender, emailTpl, email);
+            }
+        }
+
+        /// <summary>
+        /// Returns a title for dead client notification email
         /// </summary>
         /// <param name="client"></param>
         /// <returns></returns>
-        protected abstract Task ReportDeadClient(IApiClient client);
+        protected virtual EmailTemplate GetClienStatustNotificationEmailTitleAndMsg(IApiClient client, HealthStatus status)
+        {
+            var title = string.Empty;
+            var msg = string.Empty;
+
+            switch (status)
+            {
+                case HealthStatus.Dead:
+                    title = "Api client DEAD!";
+                    msg = "One of the configured api clients went dead.";
+                    break;
+                case HealthStatus.Healthy:
+                    title = "Api client ALIVE!";
+                    msg = "Api client has been reactivated.";
+                    break;
+            }
+
+            title = $"[{GetApiName()}] {title}";
+
+            msg = $@"{msg}
+
+Client details:
+{JsonConvert.SerializeObject(GetClientData(client), Formatting.Indented)}
+";
+
+            return new EmailTemplate
+            {
+                Title = title,
+                Body = msg,
+                IsBodyHtml = false
+            };
+        }
 
         /// <summary>
-        /// Reports client data;
+        /// Gets a user friendly api name for the email communication
+        /// </summary>
+        /// <returns></returns>
+        protected abstract string GetApiName();
+
+        /// <summary>
+        /// Returns client specific data
+        /// </summary>
+        /// <param name="client"></param>
+        /// <returns></returns>
+        protected virtual Dictionary<string, object> GetClientData(IApiClient client)
+        {
+            if (client == null)
+                return null;
+
+            var clientData = new Dictionary<string, object>
+            {
+                { nameof(client.EndPointId), client.EndPointId },
+                { nameof(client.EndPointUrl), client.EndPointUrl }
+            };
+
+
+            if (client is IApiClientWithHealthCheck hcClient)
+            {
+                clientData.Add(nameof(hcClient.HealthStatus), hcClient.HealthStatus);
+                clientData.Add(nameof(hcClient.LastHealthyResponseTime), hcClient.LastHealthyResponseTime);
+                clientData.Add(nameof(hcClient.LastHealthCheckTime), hcClient.LastHealthCheckTime);
+                clientData.Add(nameof(hcClient.LastHealthCheckData), hcClient.LastHealthCheckData);
+                clientData.Add(nameof(hcClient.LastUnHealthyResponseTime), hcClient.LastUnHealthyResponseTime);
+                clientData.Add(nameof(hcClient.DeadReason), hcClient.DeadReason);
+                clientData.Add(nameof(hcClient.DeadReasonMessage), hcClient.DeadReasonMessage);
+            }
+
+            return clientData;
+        }
+
+        /// <summary>
+        /// Returns client data by endpoint id;
         /// extension hook
         /// </summary>
         /// <param name="endPointId"></param>
-        public abstract Task ReportClientData(string endPointId);
+        public virtual object GetClientData(string endPointId)
+        {
+            return GetClientData(GetClient(endPointId)); ;
+        }
+
+        /// <summary>
+        /// Returns data for all clients
+        /// </summary>
+        /// <returns></returns>
+        public virtual IEnumerable<object> GetClientData()
+        {
+            return ClientConfigs.Select(cfg => GetClientData(GetClient(cfg)));
+        }
 
         /// <summary>
         /// Marks client as healthy - this is to bring a client back to live once it went dead and then was fixed
         /// </summary>
         /// <param name="endPointId"></param>
-        public virtual void MarkClientAsHealthy(string endPointId)
+        public void MarkClientAsHealthy(string endPointId)
         {
             var client = GetClient(endPointId);
             if (client is IApiClientWithHealthCheck clientWithHealthCheck)
@@ -308,6 +408,35 @@ namespace Cartomatic.Utils.ApiClient
                     UnhealthyClients[clientWithHealthCheck] = 0;
                 }
             }
+
+            ReportClientStatus(client, HealthStatus.Healthy);
+        }
+
+        /// <summary>
+        /// Marks client as dead
+        /// </summary>
+        /// <param name="endPointId"></param>
+        /// <param name="statusCode"></param>
+        /// <param name="msg"></param>
+        public void MarkClientAsDead(string endPointId, HttpStatusCode statusCode, string msg)
+        {
+            var client = GetClient(endPointId);
+            if (client is IApiClientWithHealthCheck clientWithHealthCheck)
+            {
+                MarkClientAsDead(clientWithHealthCheck, statusCode, msg);
+            }
+        }
+
+        /// <summary>
+        /// Marks client as dead
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="statusCode"></param>
+        /// <param name="msg"></param>
+        public void MarkClientAsDead(IApiClientWithHealthCheck client, HttpStatusCode statusCode, string msg)
+        {
+            client.MarkAsDead(statusCode, msg);
+            ReportClientStatus(client as IApiClient, HealthStatus.Dead);
         }
     }
 }

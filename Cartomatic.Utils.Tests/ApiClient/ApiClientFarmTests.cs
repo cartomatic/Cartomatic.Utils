@@ -137,14 +137,9 @@ namespace Cartomatic.Utils.ApiClient.Tests
 
     class TestableApiClientFarm : ApiClientFarm<TestableRestApiClient>
     {
-        protected override bool SkipClientBasedOnHealthCheckData(IHealthCheckData data) => false;
+        protected override bool SkipClientBasedOnHealthCheckData(IApiClientWithHealthCheck client) => false;
 
-        protected override Task ReportDeadClient(IApiClient client)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override Task ReportClientData(string endPointId)
+        protected override string GetApiName()
         {
             throw new NotImplementedException();
         }

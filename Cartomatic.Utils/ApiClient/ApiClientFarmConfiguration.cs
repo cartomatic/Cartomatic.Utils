@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Cartomatic.Utils.Email;
 
 namespace Cartomatic.Utils.ApiClient
 {
@@ -14,5 +15,11 @@ namespace Cartomatic.Utils.ApiClient
 
         /// <inheritdoc />
         public int? AllowedHealthCheckFailures { get; set; }
+
+        /// <inheritdoc />
+        public string[] ClientStatusNotificationEmails { get; set; }
+
+        /// <inheritdoc />
+        public EmailAccount EmailSender { get; set; }
     }
 }

@@ -47,6 +47,9 @@
             this means two independent client instances with the same config are in fact using the same endpoint and therefore share the id
             </summary>
         </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClient`1.EndPointUrl">
+            <inheritdoc />
+        </member>
         <member name="M:Cartomatic.Utils.ApiClient.ApiClient`1.SetConfig(Cartomatic.Utils.ApiClient.IApiClientConfiguration)">
             <summary>
             Sets a client configuration
@@ -215,35 +218,74 @@
             <param name="client"></param>
             <param name="healthChecked"></param>
         </member>
-        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.SkipClientBasedOnHealthCheckData(Cartomatic.Utils.ApiClient.IHealthCheckData)">
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.SkipClientBasedOnHealthCheckData(Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck)">
             <summary>
             Whether or not a client should be skipped based on the health check data;
             extension hook for allowing extra client tests based on the actual data a health check returned
             </summary>
-            <param name="data"></param>
-            <remarks>Basic extension for obtaining the IHealthCheckData is via client's CheckHealthStatusAsync</remarks>
+            <param name="client"></param>
             <returns></returns>
         </member>
-        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.ReportDeadClient(Cartomatic.Utils.ApiClient.IApiClient)">
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.ReportClientStatus(Cartomatic.Utils.ApiClient.IApiClient,Cartomatic.Utils.ApiClient.HealthStatus)">
             <summary>
-            Reports a dead client;
-            extension hook
+            Reports client status to a set of configured emails
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.GetClienStatustNotificationEmailTitleAndMsg(Cartomatic.Utils.ApiClient.IApiClient,Cartomatic.Utils.ApiClient.HealthStatus)">
+            <summary>
+            Returns a title for dead client notification email
             </summary>
             <param name="client"></param>
             <returns></returns>
         </member>
-        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.ReportClientData(System.String)">
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.GetApiName">
             <summary>
-            Reports client data;
+            Gets a user friendly api name for the email communication
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.GetClientData(Cartomatic.Utils.ApiClient.IApiClient)">
+            <summary>
+            Returns client specific data
+            </summary>
+            <param name="client"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.GetClientData(System.String)">
+            <summary>
+            Returns client data by endpoint id;
             extension hook
             </summary>
             <param name="endPointId"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.GetClientData">
+            <summary>
+            Returns data for all clients
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.MarkClientAsHealthy(System.String)">
             <summary>
             Marks client as healthy - this is to bring a client back to live once it went dead and then was fixed
             </summary>
             <param name="endPointId"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.MarkClientAsDead(System.String,System.Net.HttpStatusCode,System.String)">
+            <summary>
+            Marks client as dead
+            </summary>
+            <param name="endPointId"></param>
+            <param name="statusCode"></param>
+            <param name="msg"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.MarkClientAsDead(Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck,System.Net.HttpStatusCode,System.String)">
+            <summary>
+            Marks client as dead
+            </summary>
+            <param name="client"></param>
+            <param name="statusCode"></param>
+            <param name="msg"></param>
         </member>
         <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarmConfiguration.MonitorHealth">
             <inheritdoc />
@@ -252,6 +294,12 @@
             <inheritdoc />
         </member>
         <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarmConfiguration.AllowedHealthCheckFailures">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarmConfiguration.ClientStatusNotificationEmails">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarmConfiguration.EmailSender">
             <inheritdoc />
         </member>
         <member name="T:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1">
@@ -365,7 +413,12 @@
         </member>
         <member name="P:Cartomatic.Utils.ApiClient.IApiClient.EndPointId">
             <summary>
-            Returns an endpoint confogured via client confoguration object
+            Returns an endpoint id of a client
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClient.EndPointUrl">
+            <summary>
+            Returns endpoint's url configured via client configuration object
             </summary>
         </member>
         <member name="T:Cartomatic.Utils.ApiClient.IApiClientConfiguration">
@@ -474,6 +527,16 @@
         <member name="P:Cartomatic.Utils.ApiClient.IApiClientFarmConfiguration.AllowedHealthCheckFailures">
             <summary>
             How many times should a client be health-checked before it is marked as dead
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientFarmConfiguration.ClientStatusNotificationEmails">
+            <summary>
+            Emails to report to when a client status changed
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientFarmConfiguration.EmailSender">
+            <summary>
+            Email sender details for sending out client status notifications
             </summary>
         </member>
         <member name="P:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.HealthStatus">

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cartomatic.Utils.Email;
 
 namespace Cartomatic.Utils.ApiClient
 {
@@ -25,5 +26,15 @@ namespace Cartomatic.Utils.ApiClient
         /// How many times should a client be health-checked before it is marked as dead
         /// </summary>
         int? AllowedHealthCheckFailures { get; set; }
+
+        /// <summary>
+        /// Emails to report to when a client status changed
+        /// </summary>
+        string[] ClientStatusNotificationEmails { get; set; }
+
+        /// <summary>
+        /// Email sender details for sending out client status notifications
+        /// </summary>
+        EmailAccount EmailSender { get; set; }
     }
 }
