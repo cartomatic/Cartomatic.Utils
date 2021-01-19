@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -41,5 +42,32 @@ namespace Cartomatic.Utils.ApiClient
         /// <param name="endPointId"></param>
         /// <returns></returns>
         T GetClient(string endPointId);
+
+        /// <summary>
+        /// Gets status data of a client with the given endpoint id
+        /// </summary>
+        /// <param name="endPointId"></param>
+        /// <returns></returns>
+        object GetClientData(string endPointId);
+
+        /// <summary>
+        /// Gets status data of all clients
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<object> GetClientData();
+
+        /// <summary>
+        /// Marks client as healthy - this is to bring a client back to live once it went dead and then was fixed
+        /// </summary>
+        /// <param name="endPointId"></param>
+        void MarkClientAsHealthy(string endPointId);
+
+        /// <summary>
+        /// Marks client as dead
+        /// </summary>
+        /// <param name="endPointId"></param>
+        /// <param name="statusCode"></param>
+        /// <param name="msg"></param>
+        void MarkClientAsDead(string endPointId, HttpStatusCode statusCode, string msg);
     }
 }

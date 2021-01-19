@@ -44,7 +44,7 @@ namespace Cartomatic.Utils.ApiClient
         string DeadReasonMessage { get; }
 
         /// <summary>
-        /// initiates a health check procedure
+        /// Checks health of the client. Should set the <see cref="HealthStatus"/> and <see cref="LastHealthCheckData"/> if required; 
         /// </summary>
         /// <returns></returns>
         Task CheckHealthStatusAsync();

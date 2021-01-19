@@ -28,12 +28,7 @@ namespace Cartomatic.Utils.ApiClient
         /// </summary>
         public long? LastHealthCheckTime { get; protected internal set; }
 
-        /// <summary>
-        /// Checks current health status of a backend service
-        /// extension hook
-        /// </summary>
-        /// <returns></returns>
-        /// <remarks>It is a place where LastHealthCheckData should be set if used</remarks>
+        /// <inheritdoc />
         public abstract Task CheckHealthStatusAsync();
 
         /// <summary>

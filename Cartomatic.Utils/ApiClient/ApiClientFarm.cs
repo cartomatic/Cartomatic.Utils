@@ -372,29 +372,19 @@ Client details:
             return clientData;
         }
 
-        /// <summary>
-        /// Returns client data by endpoint id;
-        /// extension hook
-        /// </summary>
-        /// <param name="endPointId"></param>
+        /// <inheritdoc />
         public virtual object GetClientData(string endPointId)
         {
             return GetClientData(GetClient(endPointId)); ;
         }
 
-        /// <summary>
-        /// Returns data for all clients
-        /// </summary>
-        /// <returns></returns>
+        /// <inheritdoc />
         public virtual IEnumerable<object> GetClientData()
         {
             return ClientConfigs.Select(cfg => GetClientData(GetClient(cfg)));
         }
 
-        /// <summary>
-        /// Marks client as healthy - this is to bring a client back to live once it went dead and then was fixed
-        /// </summary>
-        /// <param name="endPointId"></param>
+        /// <inheritdoc />
         public void MarkClientAsHealthy(string endPointId)
         {
             var client = GetClient(endPointId);
@@ -412,12 +402,7 @@ Client details:
             ReportClientStatus(client, HealthStatus.Healthy);
         }
 
-        /// <summary>
-        /// Marks client as dead
-        /// </summary>
-        /// <param name="endPointId"></param>
-        /// <param name="statusCode"></param>
-        /// <param name="msg"></param>
+        /// <inheritdoc />
         public void MarkClientAsDead(string endPointId, HttpStatusCode statusCode, string msg)
         {
             var client = GetClient(endPointId);
@@ -433,7 +418,7 @@ Client details:
         /// <param name="client"></param>
         /// <param name="statusCode"></param>
         /// <param name="msg"></param>
-        public void MarkClientAsDead(IApiClientWithHealthCheck client, HttpStatusCode statusCode, string msg)
+        protected void MarkClientAsDead(IApiClientWithHealthCheck client, HttpStatusCode statusCode, string msg)
         {
             client.MarkAsDead(statusCode, msg);
             ReportClientStatus(client as IApiClient, HealthStatus.Dead);
