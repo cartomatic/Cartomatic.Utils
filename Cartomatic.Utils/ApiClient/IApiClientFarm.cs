@@ -69,5 +69,19 @@ namespace Cartomatic.Utils.ApiClient
         /// <param name="statusCode"></param>
         /// <param name="msg"></param>
         void MarkClientAsDead(string endPointId, HttpStatusCode statusCode, string msg);
+
+        /// <summary>
+        /// Whether or not client is healthy; always true when farm configuration MonitorHealth is falsy or client is not IApiClientWithHealthCheck
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="force">Forces the check regardless internal tracking status</param>
+        /// <returns></returns>
+        Task<bool> CheckIfClientHealthy(IApiClient client, bool force = false);
+
+        /// <summary>
+        /// Returns clients status from the farm perspective
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<ApiClientFarmStatusInfo> GetFarmStatus();
     }
 }

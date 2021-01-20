@@ -172,12 +172,8 @@ namespace Cartomatic.Utils.ApiClient
         }
 
 
-        /// <summary>
-        /// Whether or not client is healthy; always true when farm configuration MonitorHealth is falsy or client is not IApiClientWithHealthCheck
-        /// </summary>
-        /// <param name="client"></param>
-        /// <returns></returns>
-        protected internal async Task<bool> CheckIfClientHealthy(IApiClient client)
+        /// <inheritdoc />
+        public async Task<bool> CheckIfClientHealthy(IApiClient client, bool force = false)
         {
             //monitoring not configured or client does not support health checking, so always ok
             if (Config?.MonitorHealth != true || !(client is IApiClientWithHealthCheck clientWithHealthCheck))
@@ -234,6 +230,49 @@ namespace Cartomatic.Utils.ApiClient
             return shouldCheckHealth;
         }
 
+        /// <inheritdoc />
+        public IEnumerable<ApiClientFarmStatusInfo> GetFarmStatus()
+        {
+            var output = new List<ApiClientFarmStatusInfo>();
+
+            foreach (var cfg in _clientConfigsArr)
+            {
+                var client = GetClient(cfg);
+
+                var farmStatus = new ApiClientFarmStatusInfo
+                {
+                    EndpointId = client.EndPointId,
+                    EndpointUrl = client.EndPointUrl,
+                    ApiClientFarmStatus = ApiClientFarmStatus.Operational
+                };
+
+                if (client is IApiClientWithHealthCheck hcClient)
+                {
+                    
+                    switch (hcClient.HealthStatus)
+                    {
+                        case HealthStatus.Dead:
+                            farmStatus.ApiClientFarmStatus = ApiClientFarmStatus.Disabled;
+                            break;
+                        case HealthStatus.Unhealthy:
+                            var hcCount = Config.AllowedHealthCheckFailures ?? 0;
+                            var remaining = hcCount;
+                            if (UnhealthyClients.ContainsKey(hcClient))
+                            {
+                                remaining -= UnhealthyClients[hcClient];
+                            }
+
+                            farmStatus.ApiClientFarmStatus = ApiClientFarmStatus.TemporarilyDisabled;
+                            farmStatus.Message = $"Temproarily disabled - remaining healthchecks: {remaining} of {hcCount}";
+                            break;
+                    }
+                }
+
+                output.Add(farmStatus);
+            }
+
+            return output;
+        }
 
         /// <summary>
         /// keeps track of unhealthy clients

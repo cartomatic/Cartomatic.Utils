@@ -192,12 +192,8 @@
             <param name="endPointId"></param>
             <returns></returns>
         </member>
-        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.CheckIfClientHealthy(Cartomatic.Utils.ApiClient.IApiClient)">
-            <summary>
-            Whether or not client is healthy; always true when farm configuration MonitorHealth is falsy or client is not IApiClientWithHealthCheck
-            </summary>
-            <param name="client"></param>
-            <returns></returns>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.CheckIfClientHealthy(Cartomatic.Utils.ApiClient.IApiClient,System.Boolean)">
+            <inheritdoc />
         </member>
         <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.ShouldCheckHealth(Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck)">
             <summary>
@@ -205,6 +201,9 @@
             </summary>
             <param name="client"></param>
             <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.GetFarmStatus">
+            <inheritdoc />
         </member>
         <member name="F:Cartomatic.Utils.ApiClient.ApiClientFarm`1.UnhealthyClients">
             <summary>
@@ -286,6 +285,31 @@
         </member>
         <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarmConfiguration.EmailSender">
             <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarmStatusInfo.EndpointId">
+            <summary>
+            client endpoint id
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarmStatusInfo.EndpointUrl">
+            <summary>
+            client endpoint url
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarmStatusInfo.ApiClientFarmStatus">
+            <summary>
+            status of a client as farm sees it
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarmStatusInfo.ApiClientFarmStatusVerbose">
+            <summary>
+            status of a client as farm sees it in a verbose form
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarmStatusInfo.Message">
+            <summary>
+            Extra info as required
+            </summary>
         </member>
         <member name="T:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1">
             <summary>
@@ -515,6 +539,20 @@
             <param name="endPointId"></param>
             <param name="statusCode"></param>
             <param name="msg"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.IApiClientFarm`1.CheckIfClientHealthy(Cartomatic.Utils.ApiClient.IApiClient,System.Boolean)">
+            <summary>
+            Whether or not client is healthy; always true when farm configuration MonitorHealth is falsy or client is not IApiClientWithHealthCheck
+            </summary>
+            <param name="client"></param>
+            <param name="force">Forces the check regardless internal tracking status</param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.IApiClientFarm`1.GetFarmStatus">
+            <summary>
+            Returns clients status from the farm perspective
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Cartomatic.Utils.ApiClient.IApiClientFarmConfiguration">
             <summary>
