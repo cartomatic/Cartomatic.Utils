@@ -186,6 +186,11 @@ namespace Cartomatic.Utils.ApiClient
 
             var clientOk = clientWithHealthCheck.HealthStatus == HealthStatus.Healthy;
 
+            if (clientOk)
+            {
+                ResetUnhealthyChecksCount(client);
+            }
+
             //allows for temporarily omitting a client based on health check data - for example if client is too busy to handle new requests swiftly
             if (clientOk && SkipClientBasedOnHealthCheckData(clientWithHealthCheck))
                 return false;
@@ -442,13 +447,26 @@ Client details:
                 clientWithHealthCheck.MarkAsHealthy();
 
                 //reset client unhealthy status counters
+                ResetUnhealthyChecksCount(client);
+            }
+
+            ReportClientStatus(client, HealthStatus.Healthy);
+        }
+
+        /// <summary>
+        /// Reset failed healthchecks counter
+        /// </summary>
+        /// <param name="client"></param>
+        protected void ResetUnhealthyChecksCount(IApiClient client)
+        {
+            if (client is IApiClientWithHealthCheck clientWithHealthCheck)
+            {
+                //reset client unhealthy status counters
                 if (UnhealthyClients.ContainsKey(clientWithHealthCheck))
                 {
                     UnhealthyClients[clientWithHealthCheck] = 0;
                 }
             }
-
-            ReportClientStatus(client, HealthStatus.Healthy);
         }
 
         /// <inheritdoc />

@@ -260,6 +260,12 @@
         <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.MarkClientAsHealthy(System.String)">
             <inheritdoc />
         </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.ResetUnhealthyChecksCount(Cartomatic.Utils.ApiClient.IApiClient)">
+            <summary>
+            Reset failed healthchecks counter
+            </summary>
+            <param name="client"></param>
+        </member>
         <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.MarkClientAsDead(System.String,System.Net.HttpStatusCode,System.String)">
             <inheritdoc />
         </member>
