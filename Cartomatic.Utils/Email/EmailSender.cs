@@ -84,5 +84,73 @@ namespace Cartomatic.Utils.Email
             });
         }
 
+        /// <summary>
+        /// Sends an email
+        /// </summary>
+        /// <param name="emailAccount"></param>
+        /// <param name="emailTemplate"></param>
+        /// <param name="recipient"></param>
+        /// <returns></returns>
+        public async Task SendAsync(IEmailAccount emailAccount, IEmailTemplate emailTemplate, string recipient)
+        {
+            await Task.Run(() =>
+            {
+                var mail = new MailMessage();
+
+                mail.To.Add(recipient);
+
+                mail.From = new MailAddress(emailAccount.Sender);
+
+                mail.Subject = emailTemplate.Title;
+                mail.SubjectEncoding = Encoding.UTF8;
+
+                mail.Body = emailTemplate.Body;
+                mail.IsBodyHtml = emailTemplate.IsBodyHtml;
+                mail.BodyEncoding = Encoding.UTF8;
+
+                var smtp = new SmtpClient
+                {
+                    Host = emailAccount.SmtpHost,
+                    Port = emailAccount.SmtpPort ?? 587,
+                    Credentials = new System.Net.NetworkCredential(emailAccount.User, emailAccount.Pass),
+                    EnableSsl = emailAccount.Ssl ?? false
+                };
+
+                var actionId = DateTime.Now.Ticks;
+
+                try
+                {
+
+                    //Log($"{actionId} :: Attempting to send email to {recipient}; time start: {DateTime.Now.ToShortDateString()}-{DateTime.Now.ToShortTimeString()}");
+                    smtp.Send(mail);
+                    //Log($"{actionId} :: Email sent to {recipient}", $"Time taken in seconds: {new TimeSpan(DateTime.Now.Ticks - actionId).TotalSeconds}");
+                }
+                catch (Exception ex)
+                {
+                    var msgs = new List<string>
+                    {
+                        $"{actionId} :: Failed to send emails to {recipient}", $"Time taken in seconds: {new TimeSpan(DateTime.Now.Ticks - actionId).TotalSeconds}",
+                        $"Sender details - host: {emailAccount.SmtpHost}, port: {emailAccount.SmtpPort}, sender: {emailAccount.Sender}, user: {emailAccount.User}, pass: {emailAccount.Pass}, ssl: {emailAccount.Ssl}",
+                    };
+
+                    var e = ex;
+                    var tab = string.Empty;
+
+                    while (e != null)
+                    {
+
+                        msgs.Add($"{tab}{e.Message}");
+                        e = ex.InnerException;
+                        tab += '\t';
+                    }
+
+                    //debug
+                    //TODO - use proper logging utils!
+                    //Log(
+                    //    msgs.ToArray()
+                    //);
+                }
+            });
+        }
     }
 }

@@ -1678,6 +1678,15 @@
             <param name="emailTemplate">Email data to be sent out</param>
             <param name="recipient">Email of a recipient</param>
         </member>
+        <member name="M:Cartomatic.Utils.Email.EmailSender.SendAsync(Cartomatic.Utils.Email.IEmailAccount,Cartomatic.Utils.Email.IEmailTemplate,System.String)">
+            <summary>
+            Sends an email
+            </summary>
+            <param name="emailAccount"></param>
+            <param name="emailTemplate"></param>
+            <param name="recipient"></param>
+            <returns></returns>
+        </member>
         <member name="T:Cartomatic.Utils.Email.EmailTemplate">
             <summary>
             Email template as fed to email sender

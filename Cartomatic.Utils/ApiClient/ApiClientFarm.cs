@@ -308,7 +308,7 @@ namespace Cartomatic.Utils.ApiClient
                 if (Config.AllowedHealthCheckFailures.HasValue &&
                     UnhealthyClients[client] > Config.AllowedHealthCheckFailures)
                 {
-                    MarkClientAsDead(client, 0, $"Health check failed {UnhealthyClients[client]} times");
+                    await MarkClientAsDead(client, 0, $"Health check failed {UnhealthyClients[client]} times");
                 }
             }
         }
@@ -325,7 +325,7 @@ namespace Cartomatic.Utils.ApiClient
         /// Reports client status to a set of configured emails
         /// </summary>
         /// <returns></returns>
-        protected void ReportClientStatus(IApiClient client, HealthStatus status)
+        protected async Task ReportClientStatus(IApiClient client, HealthStatus status)
         {
             var emailTpl = GetClienStatustNotificationEmailTitleAndMsg(client, status);
 
@@ -337,7 +337,7 @@ namespace Cartomatic.Utils.ApiClient
 
             foreach (var email in Config.ClientStatusNotificationEmails)
             {
-                emailSender.Send(Config.EmailSender, emailTpl, email);
+                await emailSender.SendAsync(Config.EmailSender, emailTpl, email);
             }
         }
 
@@ -417,6 +417,7 @@ Client details:
                 clientData.Add(nameof(hcClient.LastUnHealthyResponseTime), hcClient.LastUnHealthyResponseTime.HasValue ? new DateTime(hcClient.LastUnHealthyResponseTime.Value) : (DateTime?)null);
 
                 clientData.Add(nameof(hcClient.DeadReason), hcClient.DeadReason);
+                clientData.Add($"{nameof(hcClient.DeadReason)}Info", $"{hcClient.DeadReason}");
                 clientData.Add(nameof(hcClient.DeadReasonMessage), hcClient.DeadReasonMessage);
 
                 clientData.Add("LastHealthCheckData", hcClient.GetLastHealthCheckData());
@@ -440,7 +441,7 @@ Client details:
         }
 
         /// <inheritdoc />
-        public void MarkClientAsHealthy(string endPointId)
+        public async Task MarkClientAsHealthy(string endPointId)
         {
             var client = GetClient(endPointId);
             if (client is IApiClientWithHealthCheck clientWithHealthCheck)
@@ -451,7 +452,7 @@ Client details:
                 ResetUnhealthyChecksCount(client);
             }
 
-            ReportClientStatus(client, HealthStatus.Healthy);
+            await ReportClientStatus(client, HealthStatus.Healthy);
         }
 
         /// <summary>
@@ -471,12 +472,12 @@ Client details:
         }
 
         /// <inheritdoc />
-        public void MarkClientAsDead(string endPointId, HttpStatusCode statusCode, string msg)
+        public async Task MarkClientAsDead(string endPointId, HttpStatusCode statusCode, string msg)
         {
             var client = GetClient(endPointId);
             if (client is IApiClientWithHealthCheck clientWithHealthCheck)
             {
-                MarkClientAsDead(clientWithHealthCheck, statusCode, msg);
+                await MarkClientAsDead(clientWithHealthCheck, statusCode, msg);
             }
         }
 
@@ -486,10 +487,10 @@ Client details:
         /// <param name="client"></param>
         /// <param name="statusCode"></param>
         /// <param name="msg"></param>
-        protected void MarkClientAsDead(IApiClientWithHealthCheck client, HttpStatusCode statusCode, string msg)
+        protected async Task MarkClientAsDead(IApiClientWithHealthCheck client, HttpStatusCode statusCode, string msg)
         {
             client.MarkAsDead(statusCode, msg);
-            ReportClientStatus(client as IApiClient, HealthStatus.Dead);
+            await ReportClientStatus(client as IApiClient, HealthStatus.Dead);
         }
     }
 }

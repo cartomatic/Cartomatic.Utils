@@ -64,6 +64,7 @@ namespace Cartomatic.Utils.ApiClient
         {
             LastUnHealthyResponseTime = DateTime.Now.Ticks;
             HealthStatus = ApiClient.HealthStatus.Dead;
+            DeadReason = statusCode;
             DeadReasonMessage = message;
         }
 
