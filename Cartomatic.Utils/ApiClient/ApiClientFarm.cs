@@ -405,6 +405,7 @@ Client details:
             if (client is IApiClientWithHealthCheck hcClient)
             {
                 clientData.Add(nameof(hcClient.HealthStatus), hcClient.HealthStatus);
+                clientData.Add($"{nameof(hcClient.HealthStatus)}Info", $"{hcClient.HealthStatus}");
 
                 clientData.Add($"{nameof(hcClient.LastHealthyResponseTime)}Ticks", hcClient.LastHealthyResponseTime);
                 clientData.Add(nameof(hcClient.LastHealthyResponseTime), hcClient.LastHealthyResponseTime.HasValue ? new DateTime(hcClient.LastHealthyResponseTime.Value) : (DateTime?)null);
