@@ -50,10 +50,10 @@ namespace Cartomatic.Utils.ApiClient
         Task CheckHealthStatusAsync();
 
         /// <summary>
-        /// returns current health check data if any
+        /// Last api health check data if any
         /// </summary>
         /// <returns></returns>
-        IHealthCheckData LastHealthCheckData { get; }
+        object GetLastHealthCheckData();
 
         /// <summary>
         /// Marks client as healthy

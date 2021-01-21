@@ -14,11 +14,6 @@ namespace Cartomatic.Utils.ApiClient
         where T : IApiClientConfiguration
     {
         /// <summary>
-        /// Last api health check data returned by the backend
-        /// </summary>
-        public IHealthCheckData LastHealthCheckData { get; protected internal set; }
-
-        /// <summary>
         /// current health check status
         /// </summary>
         public HealthStatus? HealthStatus { get; protected internal set; }
@@ -30,6 +25,10 @@ namespace Cartomatic.Utils.ApiClient
 
         /// <inheritdoc />
         public abstract Task CheckHealthStatusAsync();
+
+        /// <inheritdoc />
+        public abstract object GetLastHealthCheckData();
+        
 
         /// <summary>
         /// Last time a healthy response has been retrieved (in ticks)

@@ -317,11 +317,6 @@
             </summary>
             <typeparam name="T"></typeparam>
         </member>
-        <member name="P:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.LastHealthCheckData">
-            <summary>
-            Last api health check data returned by the backend
-            </summary>
-        </member>
         <member name="P:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.HealthStatus">
             <summary>
             current health check status
@@ -333,6 +328,9 @@
             </summary>
         </member>
         <member name="M:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.CheckHealthStatusAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.GetLastHealthCheckData">
             <inheritdoc />
         </member>
         <member name="P:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.LastHealthyResponseTime">
@@ -616,13 +614,13 @@
         </member>
         <member name="M:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.CheckHealthStatusAsync">
             <summary>
-            Checks health of the client. Should set the <see cref="P:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.HealthStatus"/> and <see cref="P:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.LastHealthCheckData"/> if required; 
+            Checks health of the client. Should set the <see cref="P:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.HealthStatus"/> and <see cref="!:LastHealthCheckData"/> if required; 
             </summary>
             <returns></returns>
         </member>
-        <member name="P:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.LastHealthCheckData">
+        <member name="M:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.GetLastHealthCheckData">
             <summary>
-            returns current health check data if any
+            Last api health check data if any
             </summary>
             <returns></returns>
         </member>

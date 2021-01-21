@@ -235,7 +235,7 @@ namespace Cartomatic.Utils.ApiClient
         {
             var output = new List<ApiClientFarmStatusInfo>();
 
-            foreach (var cfg in _clientConfigsArr)
+            foreach (var cfg in ClientConfigs)
             {
                 var client = GetClient(cfg);
 
@@ -400,16 +400,26 @@ Client details:
             if (client is IApiClientWithHealthCheck hcClient)
             {
                 clientData.Add(nameof(hcClient.HealthStatus), hcClient.HealthStatus);
-                clientData.Add(nameof(hcClient.LastHealthyResponseTime), hcClient.LastHealthyResponseTime);
-                clientData.Add(nameof(hcClient.LastHealthCheckTime), hcClient.LastHealthCheckTime);
-                clientData.Add(nameof(hcClient.LastHealthCheckData), hcClient.LastHealthCheckData);
-                clientData.Add(nameof(hcClient.LastUnHealthyResponseTime), hcClient.LastUnHealthyResponseTime);
+
+                clientData.Add($"{nameof(hcClient.LastHealthyResponseTime)}Ticks", hcClient.LastHealthyResponseTime);
+                clientData.Add(nameof(hcClient.LastHealthyResponseTime), hcClient.LastHealthyResponseTime.HasValue ? new DateTime(hcClient.LastHealthyResponseTime.Value) : (DateTime?)null);
+
+                clientData.Add($"{nameof(hcClient.LastHealthCheckTime)}Ticks", hcClient.LastHealthCheckTime);
+                clientData.Add(nameof(hcClient.LastHealthCheckTime), hcClient.LastHealthCheckTime.HasValue ? new DateTime(hcClient.LastHealthCheckTime.Value) : (DateTime?)null);
+
+                clientData.Add($"{nameof(hcClient.LastUnHealthyResponseTime)}Ticks", hcClient.LastUnHealthyResponseTime);
+                clientData.Add(nameof(hcClient.LastUnHealthyResponseTime), hcClient.LastUnHealthyResponseTime.HasValue ? new DateTime(hcClient.LastUnHealthyResponseTime.Value) : (DateTime?)null);
+
                 clientData.Add(nameof(hcClient.DeadReason), hcClient.DeadReason);
                 clientData.Add(nameof(hcClient.DeadReasonMessage), hcClient.DeadReasonMessage);
+
+                clientData.Add("LastHealthCheckData", hcClient.GetLastHealthCheckData());
             }
 
             return clientData;
         }
+
+
 
         /// <inheritdoc />
         public virtual object GetClientData(string endPointId)
