@@ -84,6 +84,8 @@ namespace Cartomatic.Utils.ApiClient
         {
             LastHealthyResponseTime = null;
             HealthStatus = ApiClient.HealthStatus.Healthy;
+            DeadReason = null;
+            DeadReasonMessage = null;
         }
     }
 }

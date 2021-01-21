@@ -337,7 +337,9 @@ namespace Cartomatic.Utils.ApiClient
 
             foreach (var email in Config.ClientStatusNotificationEmails)
             {
-                await emailSender.SendAsync(Config.EmailSender, emailTpl, email);
+                //fire 'n' forget
+                emailSender.Send(Config.EmailSender, emailTpl, email);
+                //await emailSender.SendAsync(Config.EmailSender, emailTpl, email);
             }
         }
 
