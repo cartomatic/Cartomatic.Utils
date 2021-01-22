@@ -12,6 +12,8 @@ namespace Cartomatic.Utils.ApiClient
     /// </summary>
     public interface IApiClientFarmConfiguration
     {
+        public string ApiName { get; set; }
+
         /// <summary>
         /// Whether or not client farm should monitor health of its clients; client must implement IApiClientWithHealthCheck in order to be health-checked
         /// </summary>

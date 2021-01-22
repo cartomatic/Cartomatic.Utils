@@ -8,6 +8,9 @@ namespace Cartomatic.Utils.ApiClient
     public abstract class ApiClientFarmConfiguration : IApiClientFarmConfiguration
     {
         /// <inheritdoc />
+        public string ApiName { get; set; }
+
+        /// <inheritdoc />
         public bool? MonitorHealth { get; set; }
         
         /// <inheritdoc />

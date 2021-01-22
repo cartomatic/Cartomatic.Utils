@@ -95,7 +95,8 @@ namespace Cartomatic.Utils.ApiClient
         }
 
         /// <summary>
-        /// Extension hook for handling custom errors based on the exception data; place to decide whether a service is alive or dead
+        /// Extension hook for handling custom errors based on the exception data; place to decide whether a service is alive or dead;
+        /// This is called in the actual api call procedure when a call failed due to some reason and one may need to examine the service output to adjust the status client (for example waive off dead status based on the exception data)
         /// </summary>
         /// <param name="clientStatus">Status of the client decided by the caller</param>
         /// <param name="aex">Api exception</param>
