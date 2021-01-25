@@ -179,7 +179,7 @@ namespace Cartomatic.Utils.ApiClient
             if (Config?.MonitorHealth != true || !(client is IApiClientWithHealthCheck clientWithHealthCheck))
                 return true;
 
-            var shouldCheckHealth = ShouldCheckHealth(clientWithHealthCheck);
+            var shouldCheckHealth = force || ShouldCheckHealth(clientWithHealthCheck);
 
             if (shouldCheckHealth)
                 await clientWithHealthCheck.CheckHealthStatusAsync();
@@ -243,40 +243,51 @@ namespace Cartomatic.Utils.ApiClient
             foreach (var cfg in ClientConfigs)
             {
                 var client = GetClient(cfg);
-
-                var farmStatus = new ApiClientFarmStatusInfo
-                {
-                    EndpointId = client.EndPointId,
-                    EndpointUrl = client.EndPointUrl,
-                    ApiClientFarmStatus = ApiClientFarmStatus.Operational
-                };
-
-                if (client is IApiClientWithHealthCheck hcClient)
-                {
-                    
-                    switch (hcClient.HealthStatus)
-                    {
-                        case HealthStatus.Dead:
-                            farmStatus.ApiClientFarmStatus = ApiClientFarmStatus.Disabled;
-                            break;
-                        case HealthStatus.Unhealthy:
-                            var hcCount = Config.AllowedHealthCheckFailures ?? 0;
-                            var remaining = hcCount;
-                            if (UnhealthyClients.ContainsKey(hcClient))
-                            {
-                                remaining -= UnhealthyClients[hcClient];
-                            }
-
-                            farmStatus.ApiClientFarmStatus = ApiClientFarmStatus.TemporarilyDisabled;
-                            farmStatus.Message = $"Temproarily disabled - remaining healthchecks: {remaining} of {hcCount}";
-                            break;
-                    }
-                }
-
-                output.Add(farmStatus);
+                output.Add(GetApiClientFarmStatusInfo(client));
             }
 
             return output;
+        }
+
+        /// <summary>
+        /// Returns a client status from farm perspective
+        /// </summary>
+        /// <param name="client"></param>
+        /// <returns></returns>
+        protected ApiClientFarmStatusInfo GetApiClientFarmStatusInfo(IApiClient client)
+        {
+            var farmStatus = new ApiClientFarmStatusInfo
+            {
+                EndpointId = client.EndPointId,
+                EndpointUrl = client.EndPointUrl,
+                ApiClientFarmStatus = ApiClientFarmStatus.Operational
+            };
+
+            if (client is IApiClientWithHealthCheck hcClient)
+            {
+
+                switch (hcClient.HealthStatus)
+                {
+                    case HealthStatus.Dead:
+                        farmStatus.ApiClientFarmStatus = ApiClientFarmStatus.Disabled;
+                        farmStatus.Message = hcClient.DeadReasonMessage;
+                        break;
+
+                    case HealthStatus.Unhealthy:
+                        var hcCount = Config.AllowedHealthCheckFailures ?? 0;
+                        var remaining = hcCount;
+                        if (UnhealthyClients.ContainsKey(hcClient))
+                        {
+                            remaining -= UnhealthyClients[hcClient];
+                        }
+
+                        farmStatus.ApiClientFarmStatus = ApiClientFarmStatus.TemporarilyDisabled;
+                        farmStatus.Message = $"Temproarily disabled - remaining healthchecks: {remaining} of {hcCount}";
+                        break;
+                }
+            }
+
+            return farmStatus;
         }
 
         /// <summary>
@@ -407,7 +418,7 @@ Client details:
             if (client is IApiClientWithHealthCheck hcClient)
             {
                 clientData.Add(nameof(hcClient.HealthStatus), hcClient.HealthStatus);
-                clientData.Add($"{nameof(hcClient.HealthStatus)}Info", $"{hcClient.HealthStatus}");
+                clientData.Add($"{nameof(hcClient.HealthStatus)}Verbose", $"{hcClient.HealthStatus}");
 
                 clientData.Add($"{nameof(hcClient.LastHealthyResponseTime)}Ticks", hcClient.LastHealthyResponseTime);
                 clientData.Add(nameof(hcClient.LastHealthyResponseTime), hcClient.LastHealthyResponseTime.HasValue ? new DateTime(hcClient.LastHealthyResponseTime.Value) : (DateTime?)null);
@@ -419,11 +430,16 @@ Client details:
                 clientData.Add(nameof(hcClient.LastUnHealthyResponseTime), hcClient.LastUnHealthyResponseTime.HasValue ? new DateTime(hcClient.LastUnHealthyResponseTime.Value) : (DateTime?)null);
 
                 clientData.Add(nameof(hcClient.DeadReason), hcClient.DeadReason);
-                clientData.Add($"{nameof(hcClient.DeadReason)}Info", $"{hcClient.DeadReason}");
+                clientData.Add($"{nameof(hcClient.DeadReason)}Verbose", $"{hcClient.DeadReason}");
                 clientData.Add(nameof(hcClient.DeadReasonMessage), hcClient.DeadReasonMessage);
 
                 clientData.Add("LastHealthCheckData", hcClient.GetLastHealthCheckData());
             }
+
+            var farmStatus = GetApiClientFarmStatusInfo(client);
+            clientData.Add(nameof(farmStatus.ApiClientFarmStatus), farmStatus.ApiClientFarmStatus);
+            clientData.Add(nameof(farmStatus.ApiClientFarmStatusVerbose), farmStatus.ApiClientFarmStatusVerbose);
+            clientData.Add($"{nameof(farmStatus.ApiClientFarmStatus)}Message", farmStatus.Message);
 
             return clientData;
         }

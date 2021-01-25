@@ -205,6 +205,13 @@
         <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.GetFarmStatus">
             <inheritdoc />
         </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.GetApiClientFarmStatusInfo(Cartomatic.Utils.ApiClient.IApiClient)">
+            <summary>
+            Returns a client status from farm perspective
+            </summary>
+            <param name="client"></param>
+            <returns></returns>
+        </member>
         <member name="F:Cartomatic.Utils.ApiClient.ApiClientFarm`1.UnhealthyClients">
             <summary>
             keeps track of unhealthy clients
