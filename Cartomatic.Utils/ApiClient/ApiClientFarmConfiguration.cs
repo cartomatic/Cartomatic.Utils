@@ -12,7 +12,10 @@ namespace Cartomatic.Utils.ApiClient
 
         /// <inheritdoc />
         public bool? MonitorHealth { get; set; }
-        
+
+        /// <inheritdoc />
+        public int? AllowedUnhealthyClients { get; set; }
+
         /// <inheritdoc />
         public int? HealthCheckIntervalSeconds { get; set; }
 

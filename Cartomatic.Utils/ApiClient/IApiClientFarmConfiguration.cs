@@ -20,6 +20,11 @@ namespace Cartomatic.Utils.ApiClient
         bool? MonitorHealth { get; set; }
 
         /// <summary>
+        /// How many unhealthy clients are allowed before monitoring endpoint starts returning erroneous response
+        /// </summary>
+        int? AllowedUnhealthyClients { get; set; }
+
+        /// <summary>
         /// How often should the health check be performed
         /// </summary>
         int? HealthCheckIntervalSeconds { get; set; }

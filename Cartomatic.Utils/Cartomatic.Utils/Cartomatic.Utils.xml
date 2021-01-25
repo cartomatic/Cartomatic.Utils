@@ -290,6 +290,9 @@
         <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarmConfiguration.MonitorHealth">
             <inheritdoc />
         </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarmConfiguration.AllowedUnhealthyClients">
+            <inheritdoc />
+        </member>
         <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarmConfiguration.HealthCheckIntervalSeconds">
             <inheritdoc />
         </member>
@@ -576,6 +579,11 @@
         <member name="P:Cartomatic.Utils.ApiClient.IApiClientFarmConfiguration.MonitorHealth">
             <summary>
             Whether or not client farm should monitor health of its clients; client must implement IApiClientWithHealthCheck in order to be health-checked
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientFarmConfiguration.AllowedUnhealthyClients">
+            <summary>
+            How many unhealthy clients are allowed before monitoring endpoint starts returning erroneous response
             </summary>
         </member>
         <member name="P:Cartomatic.Utils.ApiClient.IApiClientFarmConfiguration.HealthCheckIntervalSeconds">
