@@ -181,7 +181,8 @@ namespace Cartomatic.Utils.ApiClient
 
             var shouldCheckHealth = force || ShouldCheckHealth(clientWithHealthCheck);
 
-            if (shouldCheckHealth)
+            //no health checks for dead clients, they need to be resurrected first!
+            if (clientWithHealthCheck.HealthStatus != HealthStatus.Dead && shouldCheckHealth)
                 await clientWithHealthCheck.CheckHealthStatusAsync();
 
             var clientOk = clientWithHealthCheck.HealthStatus == HealthStatus.Healthy;
