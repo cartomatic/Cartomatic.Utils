@@ -27,5 +27,8 @@ namespace Cartomatic.Utils.ApiClient
 
         /// <inheritdoc />
         public EmailAccount EmailSender { get; set; }
+
+        /// <inheritdoc />
+        public abstract IApiClientFarmConfiguration GetSafeCopy();
     }
 }

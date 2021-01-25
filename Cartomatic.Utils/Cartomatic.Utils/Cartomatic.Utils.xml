@@ -305,6 +305,9 @@
         <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarmConfiguration.EmailSender">
             <inheritdoc />
         </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarmConfiguration.GetSafeCopy">
+            <inheritdoc />
+        </member>
         <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarmStatusInfo.EndpointId">
             <summary>
             client endpoint id
@@ -605,6 +608,12 @@
             <summary>
             Email sender details for sending out client status notifications
             </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.IApiClientFarmConfiguration.GetSafeCopy">
+            <summary>
+            Returns a safe copy of the config (without the sensitive information)
+            </summary>
+            <returns></returns>
         </member>
         <member name="P:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.HealthStatus">
             <summary>

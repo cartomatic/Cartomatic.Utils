@@ -43,5 +43,11 @@ namespace Cartomatic.Utils.ApiClient
         /// Email sender details for sending out client status notifications
         /// </summary>
         EmailAccount EmailSender { get; set; }
+
+        /// <summary>
+        /// Returns a safe copy of the config (without the sensitive information)
+        /// </summary>
+        /// <returns></returns>
+        IApiClientFarmConfiguration GetSafeCopy();
     }
 }
