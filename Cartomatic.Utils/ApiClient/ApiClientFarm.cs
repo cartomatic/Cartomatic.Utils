@@ -320,7 +320,7 @@ namespace Cartomatic.Utils.ApiClient
                 if (Config.AllowedHealthCheckFailures.HasValue &&
                     UnhealthyClients[client] > Config.AllowedHealthCheckFailures)
                 {
-                    await MarkClientAsDead(client, 0, $"Health check failed {UnhealthyClients[client]} times");
+                    await MarkClientAsDeadAsync(client, 0, $"Health check failed {UnhealthyClients[client]} times");
                 }
             }
         }
@@ -460,7 +460,7 @@ Client details:
         }
 
         /// <inheritdoc />
-        public async Task MarkClientAsHealthy(string endPointId)
+        public async Task MarkClientAsHealthyAsync(string endPointId)
         {
             var client = GetClient(endPointId);
             if (client is IApiClientWithHealthCheck clientWithHealthCheck)
@@ -491,12 +491,12 @@ Client details:
         }
 
         /// <inheritdoc />
-        public async Task MarkClientAsDead(string endPointId, HttpStatusCode statusCode, string msg)
+        public async Task MarkClientAsDeadAsync(string endPointId, HttpStatusCode statusCode, string msg)
         {
             var client = GetClient(endPointId);
             if (client is IApiClientWithHealthCheck clientWithHealthCheck)
             {
-                await MarkClientAsDead(clientWithHealthCheck, statusCode, msg);
+                await MarkClientAsDeadAsync(clientWithHealthCheck, statusCode, msg);
             }
         }
 
@@ -506,7 +506,7 @@ Client details:
         /// <param name="client"></param>
         /// <param name="statusCode"></param>
         /// <param name="msg"></param>
-        protected async Task MarkClientAsDead(IApiClientWithHealthCheck client, HttpStatusCode statusCode, string msg)
+        protected async Task MarkClientAsDeadAsync(IApiClientWithHealthCheck client, HttpStatusCode statusCode, string msg)
         {
             client.MarkAsDead(statusCode, msg);
             await ReportClientStatus(client as IApiClient, HealthStatus.Dead);

@@ -264,7 +264,7 @@
         <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.GetClientData">
             <inheritdoc />
         </member>
-        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.MarkClientAsHealthy(System.String)">
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.MarkClientAsHealthyAsync(System.String)">
             <inheritdoc />
         </member>
         <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.ResetUnhealthyChecksCount(Cartomatic.Utils.ApiClient.IApiClient)">
@@ -273,10 +273,10 @@
             </summary>
             <param name="client"></param>
         </member>
-        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.MarkClientAsDead(System.String,System.Net.HttpStatusCode,System.String)">
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.MarkClientAsDeadAsync(System.String,System.Net.HttpStatusCode,System.String)">
             <inheritdoc />
         </member>
-        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.MarkClientAsDead(Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck,System.Net.HttpStatusCode,System.String)">
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.MarkClientAsDeadAsync(Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck,System.Net.HttpStatusCode,System.String)">
             <summary>
             Marks client as dead
             </summary>
@@ -546,13 +546,13 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Cartomatic.Utils.ApiClient.IApiClientFarm`1.MarkClientAsHealthy(System.String)">
+        <member name="M:Cartomatic.Utils.ApiClient.IApiClientFarm`1.MarkClientAsHealthyAsync(System.String)">
             <summary>
             Marks client as healthy - this is to bring a client back to live once it went dead and then was fixed
             </summary>
             <param name="endPointId"></param>
         </member>
-        <member name="M:Cartomatic.Utils.ApiClient.IApiClientFarm`1.MarkClientAsDead(System.String,System.Net.HttpStatusCode,System.String)">
+        <member name="M:Cartomatic.Utils.ApiClient.IApiClientFarm`1.MarkClientAsDeadAsync(System.String,System.Net.HttpStatusCode,System.String)">
             <summary>
             Marks client as dead
             </summary>

@@ -60,7 +60,7 @@ namespace Cartomatic.Utils.ApiClient
         /// Marks client as healthy - this is to bring a client back to live once it went dead and then was fixed
         /// </summary>
         /// <param name="endPointId"></param>
-        Task MarkClientAsHealthy(string endPointId);
+        Task MarkClientAsHealthyAsync(string endPointId);
 
         /// <summary>
         /// Marks client as dead
@@ -68,7 +68,7 @@ namespace Cartomatic.Utils.ApiClient
         /// <param name="endPointId"></param>
         /// <param name="statusCode"></param>
         /// <param name="msg"></param>
-        Task MarkClientAsDead(string endPointId, HttpStatusCode statusCode, string msg);
+        Task MarkClientAsDeadAsync(string endPointId, HttpStatusCode statusCode, string msg);
 
         /// <summary>
         /// Whether or not client is healthy; always true when farm configuration MonitorHealth is falsy or client is not IApiClientWithHealthCheck
