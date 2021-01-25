@@ -282,7 +282,7 @@ namespace Cartomatic.Utils.ApiClient
                         }
 
                         farmStatus.ApiClientFarmStatus = ApiClientFarmStatus.TemporarilyDisabled;
-                        farmStatus.Message = $"Temproarily disabled - remaining healthchecks: {remaining} of {hcCount}";
+                        farmStatus.Message = $"Temporarily disabled - remaining healthchecks: {remaining} of {hcCount}";
                         break;
                 }
             }
