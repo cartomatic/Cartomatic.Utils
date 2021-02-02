@@ -29,6 +29,12 @@ namespace Cartomatic.Utils.ApiClient.Tests
             HealthStatus = ApiClient.HealthStatus.Healthy;
             LastHealthCheckTime = DateTime.Now.Ticks;
         }
+
+        /// <inheritdoc />
+        public override object GetLastHealthCheckData()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     class ClientFarm : ApiClientFarm<Client>

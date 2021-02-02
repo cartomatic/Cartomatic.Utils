@@ -129,11 +129,24 @@ namespace Cartomatic.Utils.ApiClient.Tests
             LastHealthCheckTime = DateTime.Now.Ticks;
         }
 
+        /// <inheritdoc />
+        public override object GetLastHealthCheckData()
+        {
+            throw new NotImplementedException();
+        }
+
         protected internal override (HealthStatus? clientStatus, string message) HandleCustomErrors(
             HealthStatus? clientStatus, ApiCallException aex) => (null, null);
     }
 
-    class TestableApiClientFarmConfiguration : ApiClientFarmConfiguration { }
+    class TestableApiClientFarmConfiguration : ApiClientFarmConfiguration
+    {
+        /// <inheritdoc />
+        public override IApiClientFarmConfiguration GetSafeCopy()
+        {
+            throw new NotImplementedException();
+        }
+    }
 
     class TestableApiClientFarm : ApiClientFarm<TestableRestApiClient>
     {
