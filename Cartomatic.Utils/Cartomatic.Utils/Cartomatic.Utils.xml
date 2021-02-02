@@ -1638,34 +1638,25 @@
             </summary>
         </member>
         <member name="P:Cartomatic.Utils.Email.EmailAccount.Sender">
-            <summary>
-            Sender email - from 
-            </summary>
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.Email.EmailAccount.SenderName">
+            <inheritdoc />
         </member>
         <member name="P:Cartomatic.Utils.Email.EmailAccount.SmtpHost">
-            <summary>
-            Smtp host to be used to connect to the smtp server
-            </summary>
+            <inheritdoc />
         </member>
         <member name="P:Cartomatic.Utils.Email.EmailAccount.SmtpPort">
-            <summary>
-            Smtp port
-            </summary>
+            <inheritdoc />
         </member>
         <member name="P:Cartomatic.Utils.Email.EmailAccount.User">
-            <summary>
-            Email account user used to login to the smtp server
-            </summary>
+            <inheritdoc />
         </member>
         <member name="P:Cartomatic.Utils.Email.EmailAccount.Pass">
-            <summary>
-            Password used to login to the smtp server
-            </summary>
+            <inheritdoc />
         </member>
         <member name="P:Cartomatic.Utils.Email.EmailAccount.Ssl">
-            <summary>
-            Whether or not the communication should be encrypted
-            </summary>
+            <inheritdoc />
         </member>
         <member name="M:Cartomatic.Utils.Email.EmailAccount.SeemsComplete">
             <summary>
@@ -1757,6 +1748,11 @@
         <member name="P:Cartomatic.Utils.Email.IEmailAccount.Sender">
             <summary>
             Sender email - from 
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Email.IEmailAccount.SenderName">
+            <summary>
+            Name of the sender; if not provided, email will be sent from Sender[Sender]
             </summary>
         </member>
         <member name="P:Cartomatic.Utils.Email.IEmailAccount.SmtpHost">
