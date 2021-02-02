@@ -11,6 +11,11 @@
         string Sender { get; set; }
 
         /// <summary>
+        /// Name of the sender; if not provided, email will be sent from Sender[Sender]
+        /// </summary>
+        string SenderName { get; set; }
+
+        /// <summary>
         /// Smtp host to be used to connect to the smtp server
         /// </summary>
         string SmtpHost { get; set; }

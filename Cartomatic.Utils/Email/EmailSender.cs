@@ -30,7 +30,7 @@ namespace Cartomatic.Utils.Email
 
                 mail.To.Add(recipient);
 
-                mail.From = new MailAddress(emailAccount.Sender);
+                mail.From = new MailAddress(emailAccount.Sender, !string.IsNullOrWhiteSpace(emailAccount.SenderName) ? emailAccount.SenderName : emailAccount.Sender);
 
                 mail.Subject = emailTemplate.Title;
                 mail.SubjectEncoding = Encoding.UTF8;
