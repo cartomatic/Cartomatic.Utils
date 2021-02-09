@@ -1,7 +1,14 @@
-﻿#if NETFULL
-using System;
+﻿using System;
 using System.Linq;
+
+#if NETFULL
 using System.Web;
+#endif
+
+#if NETSTANDARD2_0 || NETCOREAPP3_1
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
+#endif
 
 namespace Cartomatic.Utils.Web
 {
@@ -37,13 +44,17 @@ namespace Cartomatic.Utils.Web
         {
             var urlParams = System.Web.HttpUtility.UrlDecode(uri.Query.Replace("?", "&")).Split('&');
 
-            var baseUrl = (urlParams.FirstOrDefault(s => s.StartsWith(urlParam ?? DefaultUrlParam)) ?? string.Empty).Replace($"{urlParam ?? DefaultUrlParam}=", "");
-            var prms = string.Join("&", urlParams.Where(s => !string.IsNullOrEmpty(s) && !s.StartsWith(urlParam ?? DefaultUrlParam)));
+            var baseUrl =
+                (urlParams.FirstOrDefault(s => s.StartsWith(urlParam ?? DefaultUrlParam)) ?? string.Empty).Replace(
+                    $"{urlParam ?? DefaultUrlParam}=", "");
+            var prms = string.Join("&",
+                urlParams.Where(s => !string.IsNullOrEmpty(s) && !s.StartsWith(urlParam ?? DefaultUrlParam)));
 
             var url = $"{baseUrl}?{prms}";
 
             return url;
         }
+
 
         /// <summary>
         /// Proxies a given request
@@ -53,8 +64,14 @@ namespace Cartomatic.Utils.Web
         /// <param name="completeRequest"></param>
         public static void Proxy(this HttpContext context, string urlParam = null, bool completeRequest = true)
         {
+#if NETFULL
             context.Request.Url.ExtractProxiedUrl(urlParam).Proxy(context, completeRequest);
+#endif
+#if NETSTANDARD2_0 || NETCOREAPP3_1
+            context.Request.GetDisplayUrl().ExtractProxiedUrl(urlParam).Proxy(context, completeRequest);
+#endif
         }
+
 
         /// <summary>
         /// Executes a request to a specified url using specified context
@@ -74,10 +91,14 @@ namespace Cartomatic.Utils.Web
             //complete the request if required
             if (completeRequest)
             {
+#if NETFULL
                 System.Web.HttpContext.Current.ApplicationInstance.CompleteRequest();
+#endif
+#if NETSTANDARD2_0 || NETCOREAPP3_1
+
+#endif
             }
         }
 
     }
 }
-#endif
