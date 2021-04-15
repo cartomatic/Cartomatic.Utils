@@ -37,7 +37,7 @@
         </member>
         <member name="P:Cartomatic.Utils.ApiClient.ApiClient`1.ClientConfiguration">
             <summary>
-            Api client confoguration
+            Api client configuration
             </summary>
         </member>
         <member name="P:Cartomatic.Utils.ApiClient.ApiClient`1.EndPointId">
@@ -46,6 +46,9 @@
             <para/>
             this means two independent client instances with the same config are in fact using the same endpoint and therefore share the id
             </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClient`1.EndPointUrl">
+            <inheritdoc />
         </member>
         <member name="M:Cartomatic.Utils.ApiClient.ApiClient`1.SetConfig(Cartomatic.Utils.ApiClient.IApiClientConfiguration)">
             <summary>
@@ -108,7 +111,7 @@
             <summary>
             Gets an identifier of an endpoint. This is pretty much a server identifier as it is based on the combination of protocol, host and port and this is unique per server.
             <para />
-            Two confogurations with the same settings actually point to the very same endpoint
+            Two configurations with the same settings actually point to the very same endpoint
             </summary>
         </member>
         <member name="T:Cartomatic.Utils.ApiClient.ApiClientFarm`1">
@@ -117,10 +120,22 @@
             </summary>
             <typeparam name="T"></typeparam>
         </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarm`1.Config">
+            <summary>
+            api farm configuration
+            </summary>
+        </member>
         <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarm`1.ClientConfigs">
             <summary>
             Client configurations
             </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.GetClientConfig(System.Int32)">
+            <summary>
+            Returns client config by id
+            </summary>
+            <param name="idx"></param>
+            <returns></returns>
         </member>
         <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarm`1.UsageCounter">
             <summary>
@@ -130,6 +145,12 @@
         <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.GetNextConfigIdx">
             <summary>
             Gets the idx of the next available mc config. uses round robin internally
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.GetNextConfigIdx(System.Int32)">
+            <summary>
+            Gets the idx of the next mc config in row. uses round robin internally
             </summary>
             <returns></returns>
         </member>
@@ -143,6 +164,19 @@
             Gets a next available configured client
             </summary>
             <returns></returns>
+            <remarks>when a client implements IApiClientWithHealthCheck then a health check tracking is also performed</remarks>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.GetClientAsync">
+            <summary>
+            Gets a next available configured client;
+            </summary>
+            <returns></returns>
+            <remarks>when a client implements IApiClientWithHealthCheck then a health check tracking is also performed</remarks>
+        </member>
+        <member name="F:Cartomatic.Utils.ApiClient.ApiClientFarm`1.ClientInstances">
+            <summary>
+            cached client instances, so can retrieve updated data such as health status
+            </summary>
         </member>
         <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.GetClient(Cartomatic.Utils.ApiClient.IApiClientConfiguration)">
             <summary>
@@ -153,10 +187,231 @@
         </member>
         <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.GetClient(System.String)">
             <summary>
-            Gets client by id
+            Gets client by endpoint id
             </summary>
             <param name="endPointId"></param>
             <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.CheckIfClientHealthy(Cartomatic.Utils.ApiClient.IApiClient,System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.ShouldCheckHealth(Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck)">
+            <summary>
+            Whether or not a health check should be performed for given client
+            </summary>
+            <param name="client"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.GetFarmStatus">
+            <inheritdoc />
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.GetApiClientFarmStatusInfo(Cartomatic.Utils.ApiClient.IApiClient)">
+            <summary>
+            Returns a client status from farm perspective
+            </summary>
+            <param name="client"></param>
+            <returns></returns>
+        </member>
+        <member name="F:Cartomatic.Utils.ApiClient.ApiClientFarm`1.UnhealthyClients">
+            <summary>
+            keeps track of unhealthy clients
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.HandleUnHealthyClient(Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck,System.Boolean)">
+            <summary>
+            Tracks unhealthy client status
+            </summary>
+            <param name="client"></param>
+            <param name="healthChecked"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.SkipClientBasedOnHealthCheckData(Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck)">
+            <summary>
+            Whether or not a client should be skipped based on the health check data;
+            extension hook for allowing extra client tests based on the actual data a health check returned
+            </summary>
+            <param name="client"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.ReportClientStatus(Cartomatic.Utils.ApiClient.IApiClient,Cartomatic.Utils.ApiClient.HealthStatus)">
+            <summary>
+            Reports client status to a set of configured emails
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.GetClienStatustNotificationEmailTitleAndMsg(Cartomatic.Utils.ApiClient.IApiClient,Cartomatic.Utils.ApiClient.HealthStatus)">
+            <summary>
+            Returns a title for dead client notification email
+            </summary>
+            <param name="client"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.GetApiName">
+            <summary>
+            Gets a user friendly api name for the email communication
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.GetClientData(Cartomatic.Utils.ApiClient.IApiClient)">
+            <summary>
+            Returns client specific data
+            </summary>
+            <param name="client"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.GetClientData(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.GetClientData">
+            <inheritdoc />
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.MarkClientAsHealthyAsync(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.ResetUnhealthyChecksCount(Cartomatic.Utils.ApiClient.IApiClient)">
+            <summary>
+            Reset failed healthchecks counter
+            </summary>
+            <param name="client"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.MarkClientAsDeadAsync(System.String,System.Net.HttpStatusCode,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarm`1.MarkClientAsDeadAsync(Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck,System.Net.HttpStatusCode,System.String)">
+            <summary>
+            Marks client as dead
+            </summary>
+            <param name="client"></param>
+            <param name="statusCode"></param>
+            <param name="msg"></param>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarmConfiguration.ApiName">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarmConfiguration.MonitorHealth">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarmConfiguration.AllowedUnhealthyClients">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarmConfiguration.HealthCheckIntervalSeconds">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarmConfiguration.AllowedHealthCheckFailures">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarmConfiguration.ClientStatusNotificationEmails">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarmConfiguration.EmailSender">
+            <inheritdoc />
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientFarmConfiguration.GetSafeCopy">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarmStatusInfo.EndpointId">
+            <summary>
+            client endpoint id
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarmStatusInfo.EndpointUrl">
+            <summary>
+            client endpoint url
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarmStatusInfo.ApiClientFarmStatus">
+            <summary>
+            status of a client as farm sees it
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarmStatusInfo.ApiClientFarmStatusVerbose">
+            <summary>
+            status of a client as farm sees it in a verbose form
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientFarmStatusInfo.Message">
+            <summary>
+            Extra info as required
+            </summary>
+        </member>
+        <member name="T:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1">
+            <summary>
+            Api client base
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.HealthStatus">
+            <summary>
+            current health check status
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.LastHealthCheckTime">
+            <summary>
+            Last time a health check has been performed (in ticks)
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.CheckHealthStatusAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.GetLastHealthCheckData">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.LastHealthyResponseTime">
+            <summary>
+            Last time a healthy response has been retrieved (in ticks)
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.LogLastHealthyResponse">
+            <summary>
+            Logs time of a last healthy response - should be called when a healthy response was received
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.LastUnHealthyResponseTime">
+            <summary>
+            Last time an unhealthy response has been retrieved (in ticks)
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.DeadReason">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.DeadReasonMessage">
+            <inheritdoc />
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.MarkAsDead(System.Net.HttpStatusCode,System.String)">
+            <summary>
+            Marks client as dead
+            </summary>
+            <param name="statusCode"></param>
+            <param name="message"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.MarkAsUnHealthy">
+            <summary>
+            Marks client as unhealthy
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.ApiClientWithHealthCheck`1.MarkAsHealthy">
+            <summary>
+            Marks client as healthy
+            </summary>
+        </member>
+        <member name="T:Cartomatic.Utils.ApiClient.HealthStatus">
+            <summary>
+            health status
+            </summary>
+        </member>
+        <member name="F:Cartomatic.Utils.ApiClient.HealthStatus.Healthy">
+            <summary>
+            client is ok and responds properly to both standard calls and health check calls
+            </summary>
+        </member>
+        <member name="F:Cartomatic.Utils.ApiClient.HealthStatus.Unhealthy">
+            <summary>
+            client is unhealthy - the most recent health check returned non-successful result or timed out
+            </summary>
+        </member>
+        <member name="F:Cartomatic.Utils.ApiClient.HealthStatus.Dead">
+            <summary>
+            Client has been marked as dead; usually when it was not possible to obtain a success result from a healthcheck 
+            </summary>
         </member>
         <member name="T:Cartomatic.Utils.ApiClient.IApiClient`1">
             <summary>
@@ -182,7 +437,12 @@
         </member>
         <member name="P:Cartomatic.Utils.ApiClient.IApiClient.EndPointId">
             <summary>
-            Returns an endpoint confogured via client confoguration object
+            Returns an endpoint id of a client
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClient.EndPointUrl">
+            <summary>
+            Returns endpoint's url configured via client configuration object
             </summary>
         </member>
         <member name="T:Cartomatic.Utils.ApiClient.IApiClientConfiguration">
@@ -244,12 +504,23 @@
             </summary>
             <typeparam name="T"></typeparam>
         </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientFarm`1.Config">
+            <summary>
+            Client farm configuration
+            </summary>
+        </member>
         <member name="P:Cartomatic.Utils.ApiClient.IApiClientFarm`1.ClientConfigs">
             <summary>
             client configs
             </summary>
         </member>
         <member name="M:Cartomatic.Utils.ApiClient.IApiClientFarm`1.GetClient">
+            <summary>
+            Gets a client
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.IApiClientFarm`1.GetClientAsync">
             <summary>
             Gets a client
             </summary>
@@ -262,27 +533,173 @@
             <param name="endPointId"></param>
             <returns></returns>
         </member>
-        <member name="T:Cartomatic.Utils.ApiClient.RestApiClient`1">
+        <member name="M:Cartomatic.Utils.ApiClient.IApiClientFarm`1.GetClientData(System.String)">
             <summary>
-            base for rest api clients
+            Gets status data of a client with the given endpoint id
             </summary>
-            <typeparam name="T"></typeparam>
+            <param name="endPointId"></param>
+            <returns></returns>
         </member>
-        <member name="T:Cartomatic.Utils.ApiClient.RestApiClient`1.RestApiCallOutput`1">
+        <member name="M:Cartomatic.Utils.ApiClient.IApiClientFarm`1.GetClientData">
+            <summary>
+            Gets status data of all clients
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.IApiClientFarm`1.MarkClientAsHealthyAsync(System.String)">
+            <summary>
+            Marks client as healthy - this is to bring a client back to live once it went dead and then was fixed
+            </summary>
+            <param name="endPointId"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.IApiClientFarm`1.MarkClientAsDeadAsync(System.String,System.Net.HttpStatusCode,System.String)">
+            <summary>
+            Marks client as dead
+            </summary>
+            <param name="endPointId"></param>
+            <param name="statusCode"></param>
+            <param name="msg"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.IApiClientFarm`1.CheckIfClientHealthy(Cartomatic.Utils.ApiClient.IApiClient,System.Boolean)">
+            <summary>
+            Whether or not client is healthy; always true when farm configuration MonitorHealth is falsy or client is not IApiClientWithHealthCheck
+            </summary>
+            <param name="client"></param>
+            <param name="force">Forces the check regardless internal tracking status</param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.IApiClientFarm`1.GetFarmStatus">
+            <summary>
+            Returns clients status from the farm perspective
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.ApiClient.IApiClientFarmConfiguration">
+            <summary>
+            IApiClient configuration
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientFarmConfiguration.MonitorHealth">
+            <summary>
+            Whether or not client farm should monitor health of its clients; client must implement IApiClientWithHealthCheck in order to be health-checked
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientFarmConfiguration.AllowedUnhealthyClients">
+            <summary>
+            How many unhealthy clients are allowed before monitoring endpoint starts returning erroneous response
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientFarmConfiguration.HealthCheckIntervalSeconds">
+            <summary>
+            How often should the health check be performed
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientFarmConfiguration.AllowedHealthCheckFailures">
+            <summary>
+            How many times should a client be health-checked before it is marked as dead
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientFarmConfiguration.ClientStatusNotificationEmails">
+            <summary>
+            Emails to report to when a client status changed
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientFarmConfiguration.EmailSender">
+            <summary>
+            Email sender details for sending out client status notifications
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.IApiClientFarmConfiguration.GetSafeCopy">
+            <summary>
+            Returns a safe copy of the config (without the sensitive information)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.HealthStatus">
+            <summary>
+            Current health status if provided
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.LastHealthCheckTime">
+            <summary>
+            Last time a health check has been performed (in ticks)
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.LastHealthyResponseTime">
+            <summary>
+            Last time a healthy response has been retrieved (in ticks)
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.LastUnHealthyResponseTime">
+            <summary>
+            Last time an unhealthy response has been retrieved (in ticks)
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.DeadReason">
+            <summary>
+            Status code that describes a reason a client went dead
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.DeadReasonMessage">
+            <summary>
+            Text message that describes a reason a client went dead
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.CheckHealthStatusAsync">
+            <summary>
+            Checks health of the client. Should set the <see cref="P:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.HealthStatus"/> and <see cref="!:LastHealthCheckData"/> if required; 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.GetLastHealthCheckData">
+            <summary>
+            Last api health check data if any
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.MarkAsHealthy">
+            <summary>
+            Marks client as healthy
+            </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.IApiClientWithHealthCheck.MarkAsDead(System.Net.HttpStatusCode,System.String)">
+            <summary>
+            Marks client as dead
+            </summary>
+            <param name="statusCode"></param>
+            <param name="message"></param>
+        </member>
+        <member name="T:Cartomatic.Utils.ApiClient.IHealthCheckData">
+            <summary>
+            Health check call output data container
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.ApiClient.IHealthCheckData.ResponseStatus">
+            <summary>
+            Raw response object
+            </summary>
+        </member>
+        <member name="T:Cartomatic.Utils.ApiClient.RestApiCallOutput`1">
             <summary>
             Api call output data container
             </summary>
             <typeparam name="TOut"></typeparam>
         </member>
-        <member name="P:Cartomatic.Utils.ApiClient.RestApiClient`1.RestApiCallOutput`1.Output">
+        <member name="P:Cartomatic.Utils.ApiClient.RestApiCallOutput`1.Output">
             <summary>
             Output deserialized to a specified type
             </summary>
         </member>
-        <member name="P:Cartomatic.Utils.ApiClient.RestApiClient`1.RestApiCallOutput`1.Response">
+        <member name="P:Cartomatic.Utils.ApiClient.RestApiCallOutput`1.Response">
             <summary>
             Raw response object
             </summary>
+        </member>
+        <member name="T:Cartomatic.Utils.ApiClient.RestApiClient`1">
+            <summary>
+            base for rest api clients
+            </summary>
+            <typeparam name="T"></typeparam>
         </member>
         <member name="M:Cartomatic.Utils.ApiClient.RestApiClient`1.ApiCallAsync``1(System.String,RestSharp.Method,System.Collections.Generic.Dictionary{System.String,System.String},System.Object)">
             <summary>
@@ -293,6 +710,49 @@
             <param name="method"></param>
             <param name="queryParams"></param>
             <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.ApiClient.RestApiClientUtils">
+            <summary>
+            base for rest api clients
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.RestApiClientUtils.ApiCallAsync``1(System.String,RestSharp.Method,System.Collections.Generic.Dictionary{System.String,System.String},System.Object)">
+            <summary>
+            Calls a specified REST backend at the specified url and using the specified method and params and parses the response to the appropriate output type
+            </summary>
+            <typeparam name="TOut"></typeparam>
+            <param name="url"></param>
+            <param name="method"></param>
+            <param name="queryParams"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Cartomatic.Utils.ApiClient.RestApiClientWithHealthCheck`1">
+            <summary>
+            base for rest api clients
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.RestApiClientWithHealthCheck`1.ApiCallAsync``1(System.String,RestSharp.Method,System.Collections.Generic.Dictionary{System.String,System.String},System.Object)">
+            <summary>
+            Calls a specified REST backend at the specified url and using the specified method and params and parses the response to the appropriate output type
+            </summary>
+            <typeparam name="TOut"></typeparam>
+            <param name="url"></param>
+            <param name="method"></param>
+            <param name="queryParams"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.ApiClient.RestApiClientWithHealthCheck`1.HandleCustomErrors(System.Nullable{Cartomatic.Utils.ApiClient.HealthStatus},Cartomatic.Utils.ApiClient.ApiCallException)">
+            <summary>
+            Extension hook for handling custom errors based on the exception data; place to decide whether a service is alive or dead;
+            This is called in the actual api call procedure when a call failed due to some reason and one may need to examine the service output to adjust the status client (for example waive off dead status based on the exception data)
+            </summary>
+            <param name="clientStatus">Status of the client decided by the caller</param>
+            <param name="aex">Api exception</param>
             <returns></returns>
         </member>
         <member name="T:Cartomatic.Utils.Cache.AbstractCache`1">
@@ -1209,34 +1669,25 @@
             </summary>
         </member>
         <member name="P:Cartomatic.Utils.Email.EmailAccount.Sender">
-            <summary>
-            Sender email - from 
-            </summary>
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.Email.EmailAccount.SenderName">
+            <inheritdoc />
         </member>
         <member name="P:Cartomatic.Utils.Email.EmailAccount.SmtpHost">
-            <summary>
-            Smtp host to be used to connect to the smtp server
-            </summary>
+            <inheritdoc />
         </member>
         <member name="P:Cartomatic.Utils.Email.EmailAccount.SmtpPort">
-            <summary>
-            Smtp port
-            </summary>
+            <inheritdoc />
         </member>
         <member name="P:Cartomatic.Utils.Email.EmailAccount.User">
-            <summary>
-            Email account user used to login to the smtp server
-            </summary>
+            <inheritdoc />
         </member>
         <member name="P:Cartomatic.Utils.Email.EmailAccount.Pass">
-            <summary>
-            Password used to login to the smtp server
-            </summary>
+            <inheritdoc />
         </member>
         <member name="P:Cartomatic.Utils.Email.EmailAccount.Ssl">
-            <summary>
-            Whether or not the communication should be encrypted
-            </summary>
+            <inheritdoc />
         </member>
         <member name="M:Cartomatic.Utils.Email.EmailAccount.SeemsComplete">
             <summary>
@@ -1276,6 +1727,15 @@
             <param name="emailAccount">EmailAccount deails</param>
             <param name="emailTemplate">Email data to be sent out</param>
             <param name="recipient">Email of a recipient</param>
+        </member>
+        <member name="M:Cartomatic.Utils.Email.EmailSender.SendAsync(Cartomatic.Utils.Email.IEmailAccount,Cartomatic.Utils.Email.IEmailTemplate,System.String)">
+            <summary>
+            Sends an email
+            </summary>
+            <param name="emailAccount"></param>
+            <param name="emailTemplate"></param>
+            <param name="recipient"></param>
+            <returns></returns>
         </member>
         <member name="T:Cartomatic.Utils.Email.EmailTemplate">
             <summary>
@@ -1319,6 +1779,11 @@
         <member name="P:Cartomatic.Utils.Email.IEmailAccount.Sender">
             <summary>
             Sender email - from 
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Email.IEmailAccount.SenderName">
+            <summary>
+            Name of the sender; if not provided, email will be sent from Sender[Sender]
             </summary>
         </member>
         <member name="P:Cartomatic.Utils.Email.IEmailAccount.SmtpHost">

@@ -1,8 +1,7 @@
-﻿using System;
+﻿using RestSharp;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Cartomatic.Utils.ApiClient
@@ -12,10 +11,10 @@ namespace Cartomatic.Utils.ApiClient
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public abstract class ApiClient<T> : IApiClient<T>
-        where T:IApiClientConfiguration
+        where T : IApiClientConfiguration
     {
         /// <summary>
-        /// Api client confoguration
+        /// Api client configuration
         /// </summary>
         protected internal IApiClientConfiguration ClientConfiguration { get; private set; }
 
@@ -26,6 +25,8 @@ namespace Cartomatic.Utils.ApiClient
         /// </summary>
         public string EndPointId => ClientConfiguration?.EndPointId;
 
+        /// <inheritdoc />
+        public string EndPointUrl => ClientConfiguration?.GetUrl();
 
         /// <summary>
         /// Sets a client configuration
@@ -40,6 +41,7 @@ namespace Cartomatic.Utils.ApiClient
         /// Internal client initialisation procedure
         /// </summary>
         protected internal abstract void Init();
+
         void IApiClient.Init() => Init();
     }
 }

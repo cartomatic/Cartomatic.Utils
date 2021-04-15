@@ -20,6 +20,23 @@ namespace Cartomatic.Utils.ApiClient.Tests
         }
     }
 
+    class ClientWithHealthChecks : ApiClientWithHealthCheck<ClientConfiguration>
+    {
+        protected internal override void Init() { }
+
+        public override async Task CheckHealthStatusAsync()
+        {
+            HealthStatus = ApiClient.HealthStatus.Healthy;
+            LastHealthCheckTime = DateTime.Now.Ticks;
+        }
+
+        /// <inheritdoc />
+        public override object GetLastHealthCheckData()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     class ClientFarm : ApiClientFarm<Client>
     {
         public static ClientFarm GetTestFarm()
@@ -36,6 +53,12 @@ namespace Cartomatic.Utils.ApiClient.Tests
 
 
             return cf;
+        }
+
+        protected override bool SkipClientBasedOnHealthCheckData(IApiClientWithHealthCheck client) => false;
+        protected override string GetApiName()
+        {
+            throw new NotImplementedException();
         }
     }
     

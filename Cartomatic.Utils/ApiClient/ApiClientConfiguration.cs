@@ -61,7 +61,7 @@ namespace Cartomatic.Utils.ApiClient
         /// <summary>
         /// Gets an identifier of an endpoint. This is pretty much a server identifier as it is based on the combination of protocol, host and port and this is unique per server.
         /// <para />
-        /// Two confogurations with the same settings actually point to the very same endpoint
+        /// Two configurations with the same settings actually point to the very same endpoint
         /// </summary>
         public virtual string EndPointId
         {

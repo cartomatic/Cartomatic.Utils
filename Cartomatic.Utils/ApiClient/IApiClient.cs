@@ -33,8 +33,13 @@ namespace Cartomatic.Utils.ApiClient
         void Init();
 
         /// <summary>
-        /// Returns an endpoint confogured via client confoguration object
+        /// Returns an endpoint id of a client
         /// </summary>
         string EndPointId { get; }
+
+        /// <summary>
+        /// Returns endpoint's url configured via client configuration object
+        /// </summary>
+        string EndPointUrl { get; }
     }
 }

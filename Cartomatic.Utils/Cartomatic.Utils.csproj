@@ -8,11 +8,15 @@ use at your own risk...</Description>
     <RepositoryUrl>https://github.com/cartomatic/Cartomatic.Utils</RepositoryUrl>
     <License>https://github.com/cartomatic/Cartomatic.Utils/blob/master/license.txt</License>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.8</Version>
+    <Version>1.0.9</Version>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <LangVersion>8</LangVersion>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="C:\Users\mikie\.nuget\packages\rollbar\3.7.0\contentFiles\any\netcoreapp3.0\RollbarPayloadsStore.db" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.4.0" />
@@ -73,13 +77,13 @@ use at your own risk...</Description>
       <Version>3.1.0</Version>
     </PackageReference>
   </ItemGroup>
-  
+
 
   <!--.NET standard 2.0 refs, compilation flags & build opts-->
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
     <DefineConstants>NETSTANDARD2_0</DefineConstants>
   </PropertyGroup>
-  
+
 <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <PackageReference Include="Microsoft.EntityFrameworkCore">
       <Version>2.1.4</Version>
@@ -118,7 +122,7 @@ use at your own risk...</Description>
   </PackageReference>
   </ItemGroup>
 
-  
+
   <!--NET 4.6.2 refs, compilation flags & build opts-->
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net462'">
     <DefineConstants>NET462;NETFULL</DefineConstants>
