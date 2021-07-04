@@ -1167,6 +1167,11 @@
             Whether or not default service Db name should be used when db name not provided - applicable to Npgsql only
             </summary>
         </member>
+        <member name="P:Cartomatic.Utils.Data.DataSourceCredentials.OtherConnSettings">
+            <summary>
+            other connection settings as read from a connection string
+            </summary>
+        </member>
         <member name="M:Cartomatic.Utils.Data.DataSourceCredentials.GetDefaultDbName">
             <summary>
             Returns a default Db name
