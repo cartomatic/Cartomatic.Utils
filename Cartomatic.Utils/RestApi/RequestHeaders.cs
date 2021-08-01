@@ -1,4 +1,4 @@
-﻿#if NETCOREAPP3_1 || NET5_0_OR_GREATER
+﻿#if NETSTANDARD2_0 || NETCOREAPP3_1 || NET5_0_OR_GREATER
 using Microsoft.AspNetCore.Http;
 using RestSharp;
 using System;
