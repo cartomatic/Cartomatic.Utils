@@ -2235,6 +2235,11 @@
             </summary>
             <typeparam name="T"></typeparam>
         </member>
+        <member name="T:Cartomatic.Utils.JsonSerializableObjects.SerializableDictionaryOfInt">
+            <summary>
+            explicit implementation of a serializable dictionary for int
+            </summary>
+        </member>
         <member name="T:Cartomatic.Utils.JsonSerializableObjects.SerializableDictionaryOfObject">
             <summary>
             explicit implementation of a serializable dictionary for object
