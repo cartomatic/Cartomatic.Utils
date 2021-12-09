@@ -1,4 +1,4 @@
-﻿#if NETCOREAPP3_1 || NET5_0_OR_GREATER
+﻿#if NETCOREAPP3_1 || NET5_0_OR_GREATER || NET6_0_OR_GREATER
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -16,7 +16,8 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 
-#if NETSTANDARD2_0 || NETCOREAPP3_1 || NET5_0_OR_GREATER
+
+#if NETSTANDARD2_0 || NETCOREAPP3_1 || NET5_0_OR_GREATER || NET6_0_OR_GREATER
 
 using Microsoft.AspNetCore.Http;
 
@@ -45,7 +46,7 @@ namespace Cartomatic.Utils
         }
 
 
-#if NETCOREAPP3_1 || NET5_0_OR_GREATER
+#if NETCOREAPP3_1 || NET5_0_OR_GREATER || NET6_0_OR_GREATER
 
         /// <summary>
         /// returns a resp message based on the response
@@ -279,7 +280,7 @@ namespace Cartomatic.Utils
             //only brotli so far, as this is the default mh apis outgoing compression
             if (resp.ContentEncoding == "br")
             {
-#if NETCOREAPP3_1 || NET5_0_OR_GREATER
+#if NETCOREAPP3_1 || NET5_0_OR_GREATER || NET6_0_OR_GREATER
                 using (var ms = new MemoryStream(resp.RawBytes))
                 using (var bs = new BrotliStream(ms, CompressionMode.Decompress))
                 using (var sr = new StreamReader(bs))
