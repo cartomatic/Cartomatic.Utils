@@ -1454,6 +1454,66 @@
             <param name="b"></param>
             <returns></returns>
         </member>
+        <member name="M:Cartomatic.Utils.Drawing.ColorUtilsExtensions.OpacityToAlpha(System.Double)">
+            <summary>
+            Converts opacity to alpha; opacity should be expressed as a value [0, 100]
+            </summary>
+            <param name="opacity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Drawing.ColorUtilsExtensions.OpacityToAlpha(System.Nullable{System.Double})">
+            <summary>
+            Converts opacity to alpha; opacity should be expressed as a value [0, 100]
+            </summary>
+            <param name="opacity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Drawing.GraphicsDrawingExtensions.DrawShadow(System.Drawing.Graphics,System.Drawing.Drawing2D.GraphicsPath,System.Drawing.Color,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Draws a shadow around a path
+            </summary>
+            <param name="g"></param>
+            <param name="path"></param>
+            <param name="color"></param>
+            <param name="offsetX"></param>
+            <param name="offsetY"></param>
+            <param name="feathering"></param>
+            <param name="opacity"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.Drawing.GraphicsDrawingExtensions.DrawShadow(System.Drawing.Graphics,System.Drawing.Rectangle,System.Drawing.Color,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Draws a shadow around a rect
+            </summary>
+            <param name="g"></param>
+            <param name="rect"></param>
+            <param name="color"></param>
+            <param name="offsetX"></param>
+            <param name="offsetY"></param>
+            <param name="feathering"></param>
+            <param name="opacity"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.Drawing.GraphicsDrawingExtensions.DrawGlow(System.Drawing.Graphics,System.Drawing.Drawing2D.GraphicsPath,System.Drawing.Color,System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Draws a glow around an object
+            </summary>
+            <param name="g"></param>
+            <param name="path"></param>
+            <param name="color"></param>
+            <param name="feathering"></param>
+            <param name="opacity"></param>
+            <param name="fillPath"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.Drawing.GraphicsDrawingExtensions.DrawGlow(System.Drawing.Graphics,System.Drawing.Rectangle,System.Drawing.Color,System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Draws a glow around a rectangle
+            </summary>
+            <param name="g"></param>
+            <param name="rect"></param>
+            <param name="color"></param>
+            <param name="feathering"></param>
+            <param name="opacity"></param>
+            <param name="fillPath"></param>
+        </member>
         <member name="T:Cartomatic.Utils.Drawing.ImagingExtensions">
             <summary>
             imaging utils
@@ -1463,6 +1523,20 @@
             <summary>
             returns ImageCodecInfo for given mime; used for setting up output format of image file
             </summary>
+        </member>
+        <member name="M:Cartomatic.Utils.Drawing.PenUtilsExtensions.GetLineJoin(System.String)">
+            <summary>
+            Gets a line join from a string
+            </summary>
+            <param name="lineJoin"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Drawing.RectangleExtensions.ToPath(System.Drawing.Rectangle)">
+            <summary>
+            Converts a rectangle to path
+            </summary>
+            <param name="r"></param>
+            <returns></returns>
         </member>
         <member name="M:Cartomatic.Utils.Drawing.ResolutionExtensions.DotsPerInchToDotsPerMm(System.Int32)">
             <summary>
