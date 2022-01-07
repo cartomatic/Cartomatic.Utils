@@ -1456,16 +1456,38 @@
         </member>
         <member name="M:Cartomatic.Utils.Drawing.ColorUtilsExtensions.OpacityToAlpha(System.Double)">
             <summary>
-            Converts opacity to alpha; opacity should be expressed as a value [0, 100]
+            Converts opacity to alpha; opacity should be expressed as a value [0, 1]
             </summary>
             <param name="opacity"></param>
             <returns></returns>
         </member>
         <member name="M:Cartomatic.Utils.Drawing.ColorUtilsExtensions.OpacityToAlpha(System.Nullable{System.Double})">
             <summary>
-            Converts opacity to alpha; opacity should be expressed as a value [0, 100]
+            Converts opacity to alpha; opacity should be expressed as a value [0, 1]
             </summary>
             <param name="opacity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Drawing.FontUtilsExtensions.GetFontStyle(System.String)">
+            <summary>
+            Works out a font style from string
+            </summary>
+            <param name="styleName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Drawing.FontUtilsExtensions.GetStringFormat(System.String)">
+            <summary>
+            Works out a string format position from string
+            </summary>
+            <param name="position"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Drawing.FontUtilsExtensions.GetFontSizeForResolution(System.Single,System.Int32)">
+            <summary>
+            Returns a font size for given resolution
+            </summary>
+            <param name="fSize"></param>
+            <param name="dpi"></param>
             <returns></returns>
         </member>
         <member name="M:Cartomatic.Utils.Drawing.GraphicsDrawingExtensions.DrawShadow(System.Drawing.Graphics,System.Drawing.Drawing2D.GraphicsPath,System.Drawing.Color,System.Int32,System.Int32,System.Int32,System.Int32)">
