@@ -2544,6 +2544,42 @@
             <param name="max"></param>
             <returns></returns>
         </member>
+        <member name="M:Cartomatic.Utils.Number.NumberExtensions.CloseEnough(System.Double,System.Double,System.Nullable{System.Double})">
+            <summary>
+            Whether or not 2 doubles can be considered equal
+            </summary>
+            <param name="number1"></param>
+            <param name="number2"></param>
+            <param name="tolerance"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Number.NumberExtensions.CloseEnough(System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double})">
+            <summary>
+            Whether or not 2 doubles can be considered equal
+            </summary>
+            <param name="number1"></param>
+            <param name="number2"></param>
+            <param name="tolerance"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Number.NumberExtensions.CloseEnough(System.Single,System.Single,System.Nullable{System.Single})">
+            <summary>
+            Whether or not 2 floats can be considered equal
+            </summary>
+            <param name="number1"></param>
+            <param name="number2"></param>
+            <param name="tolerance"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Number.NumberExtensions.CloseEnough(System.Nullable{System.Single},System.Nullable{System.Single},System.Nullable{System.Single})">
+            <summary>
+            Whether or not 2 floats can be considered equal
+            </summary>
+            <param name="number1"></param>
+            <param name="number2"></param>
+            <param name="tolerance"></param>
+            <returns></returns>
+        </member>
         <member name="T:Cartomatic.Utils.Number.StringExtensions">
             <summary>
             string extensions for numeric utils
