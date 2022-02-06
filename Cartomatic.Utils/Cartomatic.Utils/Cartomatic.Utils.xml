@@ -2178,6 +2178,178 @@
             <param name="collection"></param>
             <returns></returns>
         </member>
+        <member name="M:Cartomatic.Utils.Ftp.FtpUtils.CanConnectAsync(Cartomatic.Utils.Ftp.IFtpRequestSettings)">
+            <summary>
+            Whether or not a connection to an ftp server can be established
+            </summary>
+            <param name="ftpRequestSettings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Ftp.FtpUtils.DownloadFileAsync(Cartomatic.Utils.Ftp.IFtpRequestSettings,System.String,System.String)">
+            <summary>
+            Downloads a file from ftp
+            </summary>
+            <param name="ftpRequestSettings"></param>
+            <param name="fName"></param>
+            <param name="savePath"></param>
+        </member>
+        <member name="M:Cartomatic.Utils.Ftp.FtpUtils.UploadFileAsync(Cartomatic.Utils.Ftp.IFtpRequestSettings,System.String)">
+            <summary>
+            Uploads a file to ftp
+            </summary>
+            <param name="ftpRequestSettings"></param>
+            <param name="filePath"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Ftp.FtpUtils.EntryExistsAsync(Cartomatic.Utils.Ftp.IFtpRequestSettings,System.String)">
+            <summary>
+            Whether or not a file system entry exists in given ftp context
+            </summary>
+            <param name="ftpRequestSettings"></param>
+            <param name="entry"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Ftp.FtpUtils.FileExistsAsync(Cartomatic.Utils.Ftp.IFtpRequestSettings,System.String)">
+            <summary>
+            Whether or not a file exists in given ftp context
+            </summary>
+            <param name="ftpRequestSettings"></param>
+            <param name="fName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Ftp.FtpUtils.DirectoryExistsAsync(Cartomatic.Utils.Ftp.IFtpRequestSettings,System.String)">
+            <summary>
+            Whether or not a directory exists in given ftp context
+            </summary>
+            <param name="ftpRequestSettings"></param>
+            <param name="ftpDir"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Ftp.FtpUtils.CreateDirectoryAsync(Cartomatic.Utils.Ftp.IFtpRequestSettings,System.String)">
+            <summary>
+            Creates an ftp directory
+            </summary>
+            <param name="ftpRequestSettings"></param>
+            <param name="ftpDir"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Ftp.FtpUtils.GetEntryLastModifiedTimeAsync(Cartomatic.Utils.Ftp.IFtpRequestSettings,System.String)">
+            <summary>
+            Returns a last modified time for an entry
+            </summary>
+            <param name="ftpRequestSettings"></param>
+            <param name="entryName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Ftp.FtpUtils.GetFileLastModifiedTimeAsync(Cartomatic.Utils.Ftp.IFtpRequestSettings,System.String)">
+            <summary>
+            returns file last modified time
+            </summary>
+            <param name="ftpRequestSettings"></param>
+            <param name="fName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Ftp.FtpUtils.GetDirLastModifiedTimeAsync(Cartomatic.Utils.Ftp.IFtpRequestSettings,System.String)">
+            <summary>
+            returns directory last modified time
+            </summary>
+            <param name="ftpRequestSettings"></param>
+            <param name="dirName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Ftp.FtpUtils.GetEntriesAsync(Cartomatic.Utils.Ftp.IFtpRequestSettings)">
+            <summary>
+            Gets a list of entries available at given ftp context
+            </summary>
+            <param name="ftpRequestSettings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Ftp.FtpUtils.DeleteFileAsync(Cartomatic.Utils.Ftp.IFtpRequestSettings,System.String)">
+            <summary>
+            deletes a file
+            </summary>
+            <param name="ftpRequestSettings"></param>
+            <param name="fName"></param>
+            <returns>Whether or not file deletion succeeded</returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Ftp.FtpUtils.GetEffectiveUri(Cartomatic.Utils.Ftp.IFtpRequestSettings)">
+            <summary>
+            Gets an effective URI off ftp request cfg object
+            </summary>
+            <param name="ftpRequestSettings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cartomatic.Utils.Ftp.FtpUtils.ConfigureRequest(Cartomatic.Utils.Ftp.IFtpRequestSettings)">
+            <summary>
+            Configures an ftp request object
+            </summary>
+            <param name="ftpRequestSettings"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Cartomatic.Utils.Ftp.IFtpRequestSettings.Method">
+            <summary>
+            ftp method to execute; see WebRequestMethods.Ftp for details
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Ftp.IFtpRequestSettings.Uri">
+            <summary>
+            Uri of ftp server
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Ftp.IFtpRequestSettings.SubPath">
+            <summary>
+            Sub path
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Ftp.IFtpRequestSettings.UserName">
+            <summary>
+            FTP user name
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Ftp.IFtpRequestSettings.Password">
+            <summary>
+            FTP user pass
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Ftp.IFtpRequestSettings.UseBinary">
+            <summary>
+            Specifies data type for file transfer; defaults to true
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Ftp.IFtpRequestSettings.UsePassive">
+            <summary>
+            behavior of client app data transfer process; defaults to true
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Ftp.IFtpRequestSettings.KeepAlive">
+            <summary>
+            Whether or not a connection to the server should be closed after a request completes; defaults to true
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Ftp.FtpRequestSettings.Method">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.Ftp.FtpRequestSettings.Uri">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.Ftp.FtpRequestSettings.SubPath">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.Ftp.FtpRequestSettings.UserName">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.Ftp.FtpRequestSettings.Password">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.Ftp.FtpRequestSettings.UseBinary">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.Ftp.FtpRequestSettings.UsePassive">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.Ftp.FtpRequestSettings.KeepAlive">
+            <inheritdoc />
+        </member>
         <member name="T:Cartomatic.Utils.Git">
             <summary>
             Git utils
