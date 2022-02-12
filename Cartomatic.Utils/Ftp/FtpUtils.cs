@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace Cartomatic.Utils.Ftp
 {
@@ -209,6 +211,8 @@ namespace Cartomatic.Utils.Ftp
             => ftpRequestSettings.GetEntryLastModifiedTimeAsync(dirName);
 
 
+        private static string[] EntriesToSkip = new[] {".", ".."};
+
         /// <summary>
         /// Gets a list of entries available at given ftp context
         /// </summary>
@@ -230,6 +234,7 @@ namespace Cartomatic.Utils.Ftp
             string line;
             while (!string.IsNullOrWhiteSpace(line = await sr.ReadLineAsync()))
             {
+                if(EntriesToSkip.All(x => x != line))
                 entries.Add(line);
             }
 
