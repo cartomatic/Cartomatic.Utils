@@ -2207,6 +2207,16 @@
             <param name="collection"></param>
             <returns></returns>
         </member>
+        <member name="M:Cartomatic.Utils.Ftp.FtpUtils.Execute``1(System.Net.FtpWebRequest,Cartomatic.Utils.Ftp.IFtpRequestSettings,System.Func{System.Threading.Tasks.Task{``0}})">
+            <summary>
+            Executes a configured task with some extra ssl related tweaks
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="ftpReq"></param>
+            <param name="ftpRequestSettings"></param>
+            <param name="task"></param>
+            <returns></returns>
+        </member>
         <member name="M:Cartomatic.Utils.Ftp.FtpUtils.CanConnectAsync(Cartomatic.Utils.Ftp.IFtpRequestSettings)">
             <summary>
             Whether or not a connection to an ftp server can be established
@@ -2355,6 +2365,16 @@
             Whether or not a connection to the server should be closed after a request completes; defaults to true
             </summary>
         </member>
+        <member name="P:Cartomatic.Utils.Ftp.IFtpRequestSettings.EnableSsl">
+            <summary>
+            Whether or not enable ssl explicitly (instead of implicitly via uri schema - ftps, fteps, etc)
+            </summary>
+        </member>
+        <member name="P:Cartomatic.Utils.Ftp.IFtpRequestSettings.IgnoreInvalidSslCertificate">
+            <summary>
+            Whether or not should ignore invalid ssl certs; this is handy when a server uses a self signed cert or another cert considered to be weak / untrusted
+            </summary>
+        </member>
         <member name="P:Cartomatic.Utils.Ftp.FtpRequestSettings.Method">
             <inheritdoc />
         </member>
@@ -2377,6 +2397,12 @@
             <inheritdoc />
         </member>
         <member name="P:Cartomatic.Utils.Ftp.FtpRequestSettings.KeepAlive">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.Ftp.FtpRequestSettings.EnableSsl">
+            <inheritdoc />
+        </member>
+        <member name="P:Cartomatic.Utils.Ftp.FtpRequestSettings.IgnoreInvalidSslCertificate">
             <inheritdoc />
         </member>
         <member name="T:Cartomatic.Utils.Git">

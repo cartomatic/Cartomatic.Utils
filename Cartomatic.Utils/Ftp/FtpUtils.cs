@@ -21,8 +21,36 @@ namespace Cartomatic.Utils.Ftp
                 KeepAlive = orig.KeepAlive,
                 Method = orig.Method,
                 UseBinary = orig.UseBinary,
-                UsePassive = orig.UsePassive
+                UsePassive = orig.UsePassive,
+                EnableSsl = orig.EnableSsl,
+                IgnoreInvalidSslCertificate = orig.IgnoreInvalidSslCertificate
             };
+
+
+        /// <summary>
+        /// Executes a configured task with some extra ssl related tweaks
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="ftpReq"></param>
+        /// <param name="ftpRequestSettings"></param>
+        /// <param name="task"></param>
+        /// <returns></returns>
+        private static async Task<T> Execute<T>(this FtpWebRequest ftpReq, IFtpRequestSettings ftpRequestSettings, Func<Task<T>> task)
+        {
+            var serverCertificateValidationCallback = ServicePointManager.ServerCertificateValidationCallback;
+
+            try
+            {
+                if (ftpRequestSettings.IgnoreInvalidSslCertificate == true)
+                    ServicePointManager.ServerCertificateValidationCallback = (s, certificate, chain, sslPolicyErrors) => true;
+
+                return await task();
+            }
+            finally
+            {
+                ServicePointManager.ServerCertificateValidationCallback = serverCertificateValidationCallback;
+            }
+        }
 
 
         /// <summary>
@@ -37,9 +65,12 @@ namespace Cartomatic.Utils.Ftp
                 .SetMethod(WebRequestMethods.Ftp.ListDirectory)
                 .ConfigureRequest();
 
-            using var resp = (FtpWebResponse)await ftpReq.GetResponseAsync();
-            //return resp.StatusCode == FtpStatusCode.CommandOK;
-            return true;
+            return await ftpReq.Execute<bool>(ftpRequestSettings, async () =>
+            {
+                using var resp = (FtpWebResponse)await ftpReq.GetResponseAsync();
+                //return resp.StatusCode == FtpStatusCode.CommandOK;
+                return true;
+            });
         }
 
         /// <summary>
@@ -70,12 +101,15 @@ namespace Cartomatic.Utils.Ftp
                 .SetMethod(WebRequestMethods.Ftp.DownloadFile)
                 .ConfigureRequest();
 
-            using var resp = (FtpWebResponse)await ftpReq.GetResponseAsync();
+            return await ftpReq.Execute(ftpRequestSettings, async () =>
+            {
+                using var resp = (FtpWebResponse)await ftpReq.GetResponseAsync();
 
-            using var fileStream = File.Open(savePath, FileMode.CreateNew);
-            await resp.GetResponseStream().CopyToAsync(fileStream);
+                using var fileStream = File.Open(savePath, FileMode.CreateNew);
+                await resp.GetResponseStream().CopyToAsync(fileStream);
 
-            return true;
+                return true;
+            });
         }
 
         /// <summary>
@@ -92,17 +126,21 @@ namespace Cartomatic.Utils.Ftp
                 .SetMethod(WebRequestMethods.Ftp.UploadFile)
                 .ConfigureRequest();
 
-            using var fStr = File.OpenRead(filePath);
-            using var ftpReqStr = await ftpReq.GetRequestStreamAsync();
+            return await ftpReq.Execute(ftpRequestSettings, async () =>
+            {
+                using var fStr = File.OpenRead(filePath);
+                using var ftpReqStr = await ftpReq.GetRequestStreamAsync();
 
-            //todo: copy in parts and report progress via evt handler
-            await fStr.CopyToAsync(ftpReqStr);
+                //todo: copy in parts and report progress via evt handler
+                await fStr.CopyToAsync(ftpReqStr);
 
-            using var resp = (FtpWebResponse)await ftpReq.GetResponseAsync();
+                using var resp = (FtpWebResponse)await ftpReq.GetResponseAsync();
 
-            //return resp.StatusCode == FtpStatusCode.OpeningData;
-            //looks like if it does not throw upload succeeded
-            return true;
+                //return resp.StatusCode == FtpStatusCode.OpeningData;
+                //looks like if it does not throw upload succeeded
+                return true;
+            });
+            
         }
 
         /// <summary>
@@ -120,19 +158,23 @@ namespace Cartomatic.Utils.Ftp
                 .SetMethod(WebRequestMethods.Ftp.ListDirectory)
                 .ConfigureRequest();
 
-            using var resp = (FtpWebResponse)await ftpReq.GetResponseAsync();
-            using var str = resp.GetResponseStream();
-            using var sr = new StreamReader(str);
-
-            string line;
-            while (!string.IsNullOrWhiteSpace(line = await sr.ReadLineAsync()))
+            return await ftpReq.Execute(ftpRequestSettings, async () =>
             {
-                exists = line == entry;
-                if (exists)
-                    break;
-            }
+                using var resp = (FtpWebResponse)await ftpReq.GetResponseAsync();
+                using var str = resp.GetResponseStream();
+                using var sr = new StreamReader(str);
 
-            return exists;
+                string line;
+                while (!string.IsNullOrWhiteSpace(line = await sr.ReadLineAsync()))
+                {
+                    exists = line == entry;
+                    if (exists)
+                        break;
+                }
+
+                return exists;
+            });
+            
         }
 
         /// <summary>
@@ -167,8 +209,12 @@ namespace Cartomatic.Utils.Ftp
                 .SetMethod(WebRequestMethods.Ftp.MakeDirectory)
                 .ConfigureRequest();
 
-            using var resp = (FtpWebResponse)await ftpReq.GetResponseAsync();
-            return resp.StatusCode == FtpStatusCode.PathnameCreated;
+            return await ftpReq.Execute(ftpRequestSettings, async () =>
+            {
+                using var resp = (FtpWebResponse)await ftpReq.GetResponseAsync();
+                return resp.StatusCode == FtpStatusCode.PathnameCreated;
+            });
+
         }
 
 
@@ -186,9 +232,14 @@ namespace Cartomatic.Utils.Ftp
                 .SetMethod(WebRequestMethods.Ftp.GetDateTimestamp)
                 .ConfigureRequest();
 
-            using var resp = (FtpWebResponse)await ftpReq.GetResponseAsync();
+            return await ftpReq.Execute(ftpRequestSettings, async () =>
+            {
+                using var resp = (FtpWebResponse)await ftpReq.GetResponseAsync();
 
-            return resp.LastModified;
+                return resp.LastModified;
+            });
+
+            
         }
 
 
@@ -227,18 +278,22 @@ namespace Cartomatic.Utils.Ftp
                 .SetMethod(WebRequestMethods.Ftp.ListDirectory)
                 .ConfigureRequest();
 
-            using var resp = (FtpWebResponse)await ftpReq.GetResponseAsync();
-            using var str = resp.GetResponseStream();
-            using var sr = new StreamReader(str);
-
-            string line;
-            while (!string.IsNullOrWhiteSpace(line = await sr.ReadLineAsync()))
+            return await ftpReq.Execute(ftpRequestSettings, async () =>
             {
-                if(EntriesToSkip.All(x => x != line))
-                entries.Add(line);
-            }
+                using var resp = (FtpWebResponse)await ftpReq.GetResponseAsync();
+                using var str = resp.GetResponseStream();
+                using var sr = new StreamReader(str);
 
-            return entries;
+                string line;
+                while (!string.IsNullOrWhiteSpace(line = await sr.ReadLineAsync()))
+                {
+                    if (EntriesToSkip.All(x => x != line))
+                        entries.Add(line);
+                }
+
+                return entries;
+            });
+            
         }
 
 
@@ -256,8 +311,12 @@ namespace Cartomatic.Utils.Ftp
                 .SetMethod(WebRequestMethods.Ftp.DeleteFile)
                 .ConfigureRequest();
 
-            using var resp = (FtpWebResponse)await ftpReq.GetResponseAsync();
-            return true;
+            return await ftpReq.Execute(ftpRequestSettings, async () =>
+            {
+                using var resp = (FtpWebResponse)await ftpReq.GetResponseAsync();
+                return true;
+
+            });
         }
 
         private static IFtpRequestSettings SetUseBinary(this IFtpRequestSettings ftpRequestSettings, bool useBinary)
@@ -326,7 +385,8 @@ namespace Cartomatic.Utils.Ftp
                     break;
                 }
             }
-            
+            //use an explicit setting if required
+            ssl = ftpRequestSettings.EnableSsl ?? ssl;
 
             var ftpRequest = (FtpWebRequest)WebRequest.Create(uri);
             ftpRequest.EnableSsl = ssl;

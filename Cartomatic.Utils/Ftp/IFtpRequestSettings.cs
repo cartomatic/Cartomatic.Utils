@@ -46,6 +46,16 @@ namespace Cartomatic.Utils.Ftp
         /// Whether or not a connection to the server should be closed after a request completes; defaults to true
         /// </summary>
         bool? KeepAlive { get; set; }
+
+        /// <summary>
+        /// Whether or not enable ssl explicitly (instead of implicitly via uri schema - ftps, fteps, etc)
+        /// </summary>
+        bool? EnableSsl { get; set; }
+
+        /// <summary>
+        /// Whether or not should ignore invalid ssl certs; this is handy when a server uses a self signed cert or another cert considered to be weak / untrusted
+        /// </summary>
+        bool? IgnoreInvalidSslCertificate { get; set; }
     }
 
     public class FtpRequestSettings : IFtpRequestSettings
@@ -73,5 +83,11 @@ namespace Cartomatic.Utils.Ftp
 
         /// <inheritdoc />
         public bool? KeepAlive { get; set; }
+
+        /// <inheritdoc />
+        public bool? EnableSsl { get; set; }
+
+        /// <inheritdoc />
+        public bool? IgnoreInvalidSslCertificate { get; set; }
     }
 }
