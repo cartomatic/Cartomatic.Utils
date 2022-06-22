@@ -24,7 +24,7 @@ use at your own risk...</Description>
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <!--<PackageReference Include="msbump" Version="2.3.2" />-->
-    <PackageReference Include="newtonsoft.json" Version="12.0.3" />
+    <PackageReference Include="newtonsoft.json" Version="13.0.1" />
     
     <PackageReference Include="restsharp" Version="106.10.0" />
     <PackageReference Include="Rollbar" Version="3.7.0" />
