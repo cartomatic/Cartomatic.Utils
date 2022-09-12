@@ -256,9 +256,12 @@ namespace Cartomatic.Utils
             var output = default(TOut);
 
             var resp = await RestApiCall(origHttpRequest, url, route, method, queryParams, data, authToken, customHeaders, headersToSkip, transferAuthHdr, transferRequestHdrs);
-            if (resp.StatusCode == HttpStatusCode.OK)
+            
+            if (resp.IsSuccessful)
             {
-                output = (TOut)Newtonsoft.Json.JsonConvert.DeserializeObject(ExtractResponseContentAsString(resp), typeof(TOut));
+                var content = ExtractResponseContentAsString(resp);
+                if (!string.IsNullOrWhiteSpace(content))
+                    output = (TOut) Newtonsoft.Json.JsonConvert.DeserializeObject(content, typeof(TOut));
             }
 
             return new ApiCallOutput<TOut>
