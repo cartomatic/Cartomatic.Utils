@@ -29,7 +29,7 @@ use at your own risk...</Description>
     <PackageReference Include="restsharp" Version="106.10.0" />
     <PackageReference Include="Rollbar" Version="3.7.0" />
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
   </ItemGroup>
 
 
