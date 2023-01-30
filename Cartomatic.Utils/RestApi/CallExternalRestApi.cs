@@ -243,7 +243,7 @@ namespace Cartomatic.Utils
         /// <param name="data"></param>
         /// <param name="authToken">Allows for performing authorized calls against rest apis - should be in a form of Scheme Token, for example Bearer XXX, Basic XXX, etc</param>
         /// <param name="customHeaders"></param>
-        /// <param name="serializer"></param>
+        /// <param name="serializer">Serializer used to serialize the outgoing payload</param>
         /// <returns></returns>
         public static async Task<ApiCallOutput<TOut>> RestApiCall<TOut>(
             string url,
@@ -253,11 +253,12 @@ namespace Cartomatic.Utils
             object data = null,
             string authToken = null,
             Dictionary<string, string> customHeaders = null,
-            ISerializer serializer = null
+            ISerializer serializer = null,
+            params JsonConverter[] converters
         )
         {
             return await RestApiCall<TOut>(null, url, route, method, queryParams, data, authToken, customHeaders,
-                null, false, false, serializer);
+                null, false, false, serializer, converters);
         }
 
         /// <summary>
@@ -289,7 +290,8 @@ namespace Cartomatic.Utils
             List<string> headersToSkip = null,
             bool transferAuthHdr = true,
             bool transferRequestHdrs = true,
-            ISerializer serializer = null
+            ISerializer serializer = null,
+            params JsonConverter[] converters
         )
         {
             //because of some reason RestSharp is bitching around when deserializing the arr / list output...
@@ -302,8 +304,15 @@ namespace Cartomatic.Utils
             if (resp.IsSuccessful)
             {
                 var content = ExtractResponseContentAsString(resp);
-                if (!string.IsNullOrWhiteSpace(content))
-                    output = (TOut) Newtonsoft.Json.JsonConvert.DeserializeObject(content, typeof(TOut));
+                try
+                {
+                    if (!string.IsNullOrWhiteSpace(content))
+                        output = (TOut)Newtonsoft.Json.JsonConvert.DeserializeObject(content, typeof(TOut));
+                }
+                catch
+                {
+                    output = (TOut)Newtonsoft.Json.JsonConvert.DeserializeObject(content, typeof(TOut), converters);
+                }
             }
 
             return new ApiCallOutput<TOut>

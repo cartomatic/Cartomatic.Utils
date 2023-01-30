@@ -2941,7 +2941,7 @@
             <param name="serializer"></param>
             <returns></returns>
         </member>
-        <member name="M:Cartomatic.Utils.RestApi.RestApiCall``1(System.String,System.String,RestSharp.Method,System.Collections.Generic.Dictionary{System.String,System.Object},System.Object,System.String,System.Collections.Generic.Dictionary{System.String,System.String},RestSharp.Serializers.ISerializer)">
+        <member name="M:Cartomatic.Utils.RestApi.RestApiCall``1(System.String,System.String,RestSharp.Method,System.Collections.Generic.Dictionary{System.String,System.Object},System.Object,System.String,System.Collections.Generic.Dictionary{System.String,System.String},RestSharp.Serializers.ISerializer,Newtonsoft.Json.JsonConverter[])">
             <summary>
             Calls a REST API, auto deserializes output
             </summary>
@@ -2953,10 +2953,10 @@
             <param name="data"></param>
             <param name="authToken">Allows for performing authorized calls against rest apis - should be in a form of Scheme Token, for example Bearer XXX, Basic XXX, etc</param>
             <param name="customHeaders"></param>
-            <param name="serializer"></param>
+            <param name="serializer">Serializer used to serialize the outgoing payload</param>
             <returns></returns>
         </member>
-        <member name="M:Cartomatic.Utils.RestApi.RestApiCall``1(Microsoft.AspNetCore.Http.HttpRequest,System.String,System.String,RestSharp.Method,System.Collections.Generic.Dictionary{System.String,System.Object},System.Object,System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.Collections.Generic.List{System.String},System.Boolean,System.Boolean,RestSharp.Serializers.ISerializer)">
+        <member name="M:Cartomatic.Utils.RestApi.RestApiCall``1(Microsoft.AspNetCore.Http.HttpRequest,System.String,System.String,RestSharp.Method,System.Collections.Generic.Dictionary{System.String,System.Object},System.Object,System.String,System.Collections.Generic.Dictionary{System.String,System.String},System.Collections.Generic.List{System.String},System.Boolean,System.Boolean,RestSharp.Serializers.ISerializer,Newtonsoft.Json.JsonConverter[])">
             <summary>
             Calls a REST API, auto deserializes output
             </summary>
