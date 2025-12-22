@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;netstandard2.0;net462;net5.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;netstandard2.0;net481;net5.0;net6.0</TargetFrameworks>
     <Description>some utils simplifying common tasks
 use at your own risk...</Description>
     <RepositoryUrl>https://github.com/cartomatic/Cartomatic.Utils</RepositoryUrl>
@@ -20,15 +20,15 @@ use at your own risk...</Description>
 
   <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.5.1" />
-    <PackageReference Include="MailKit" Version="2.4.1" />
-    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
+    <PackageReference Include="MailKit" Version="4.14.1" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <!--<PackageReference Include="msbump" Version="2.3.2" />-->
-    <PackageReference Include="newtonsoft.json" Version="12.0.3" />
+    <PackageReference Include="newtonsoft.json" Version="13.0.4" />
     
-    <PackageReference Include="restsharp" Version="106.10.0" />
+    <PackageReference Include="restsharp" Version="106.15.0" />
     <PackageReference Include="Rollbar" Version="3.7.0" />
-    <PackageReference Include="System.Data.Common" Version="4.3.0" />
+    <!--<PackageReference Include="System.Data.Common" Version="4.3.0" />-->
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
   </ItemGroup>
 
@@ -98,7 +98,7 @@ use at your own risk...</Description>
       <PackageReference Include="npgsql" Version="5.0.0" />
 
     <PackageReference Include="Audit.EntityFramework.Core">
-      <Version>14.9.1</Version>
+      <Version>15.3.0</Version>
     </PackageReference>
 
     <PackageReference Include="Microsoft.EntityFrameworkCore">
@@ -146,7 +146,7 @@ use at your own risk...</Description>
     <PackageReference Include="npgsql" Version="8.0.7" />
 
     <PackageReference Include="Audit.EntityFramework.Core">
-      <Version>14.9.1</Version>
+      <Version>15.3.0</Version>
     </PackageReference>
 
     <PackageReference Include="Microsoft.EntityFrameworkCore">
@@ -230,9 +230,9 @@ use at your own risk...</Description>
   </ItemGroup>
 
 
-  <!--NET 4.6.2 refs, compilation flags & build opts-->
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net462'">
-    <DefineConstants>NET462;NETFULL</DefineConstants>
+  <!--NET 4.8.1 refs, compilation flags & build opts-->
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net481'">
+    <DefineConstants>NET481;NETFULL</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
     <DocumentationFile>Cartomatic.Utils\Cartomatic.Utils.xml</DocumentationFile>
@@ -240,7 +240,7 @@ use at your own risk...</Description>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp3.0|AnyCPU'">
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net462' ">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net481' ">
 
     <PackageReference Include="npgsql" Version="4.1.2" />
 

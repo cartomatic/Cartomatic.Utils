@@ -42,8 +42,8 @@ namespace Cartomatic.Utils.Email.MailKit
             await Task.Run(() =>
             {
                 var msg = new MimeMessage();
-                msg.To.Add(new MailboxAddress(recipient));
-                msg.From.Add(new MailboxAddress(emailAccount.Sender));
+                msg.To.Add(new MailboxAddress(recipient, recipient));
+                msg.From.Add(new MailboxAddress(emailAccount.Sender, emailAccount.Sender));
 
                 msg.Subject = emailTemplate.Title;
                 msg.Body = new TextPart(emailTemplate.IsBodyHtml ? TextFormat.Html : TextFormat.Plain)
