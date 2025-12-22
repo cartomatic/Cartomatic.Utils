@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-
-namespace Cartomatic.Utils
+﻿namespace Cartomatic.Utils
 {
 #if NETSTANDARD2_0 || NETCOREAPP3_1
     /// <summary>

@@ -1,5 +1,4 @@
-﻿using System;
-using AwesomeAssertions;
+﻿using AwesomeAssertions;
 using NUnit.Framework;
 
 namespace Cartomatic.Utils.Ef.Tests

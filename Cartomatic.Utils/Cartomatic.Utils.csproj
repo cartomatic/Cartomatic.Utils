@@ -22,7 +22,7 @@ use at your own risk...</Description>
   <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.5.1" />
     <PackageReference Include="MailKit" Version="4.14.1" />
-    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="6.0.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="newtonsoft.json" Version="13.0.4" />
     <PackageReference Include="restsharp" Version="106.15.0" />
@@ -243,8 +243,8 @@ use at your own risk...</Description>
     <PackageReference Include="npgsql" Version="4.1.14" />
 
     <PackageReference Include="EntityFramework" Version="6.2.0" />
-    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.6" />
-    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.6" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.3.0" />
 
     <Reference Include="System.Configuration" />
   </ItemGroup>
