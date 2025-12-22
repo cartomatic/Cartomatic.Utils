@@ -7,7 +7,11 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 
 #if NETSTANDARD2_0 || NETCOREAPP3_1 || NET5_0_OR_GREATER || NET6_0_OR_GREATER
 
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using RestSharp;
 using RestSharp.Serializers;
 
 namespace Cartomatic.Utils

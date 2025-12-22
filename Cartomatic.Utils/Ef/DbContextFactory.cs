@@ -1,4 +1,11 @@
-﻿#if NETSTANDARD2_0 || NETCOREAPP3_1
+﻿
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Reflection;
+using System.Runtime.Serialization;
+using Cartomatic.Utils.Data;
+#if NETSTANDARD2_0 || NETCOREAPP3_1
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 #endif
