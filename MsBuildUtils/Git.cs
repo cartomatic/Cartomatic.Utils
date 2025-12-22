@@ -127,7 +127,6 @@ namespace MSBuildTasks
         /// <summary>
         /// reads a version sring from a file 
         /// </summary>
-        /// <param name="basePath"></param>
         /// <returns></returns>
         protected static string GetGitVersionFromFile(string filePath)
         {
