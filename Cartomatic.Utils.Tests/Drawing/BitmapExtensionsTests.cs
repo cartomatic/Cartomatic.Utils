@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using AwesomeAssertions;
 using NUnit.Framework;
+#pragma warning disable CA1416
 
 namespace Cartomatic.Utils.Drawing.Tests
 {
