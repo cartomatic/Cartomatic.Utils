@@ -2,7 +2,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;netstandard2.0;net481;net5.0;net6.0</TargetFrameworks>
+    <!--<TargetFrameworks>netcoreapp3.1;netstandard2.0;net481;net5.0;net6.0</TargetFrameworks>-->
+    <TargetFrameworks>net481</TargetFrameworks>
     <Description>some utils simplifying common tasks
 use at your own risk...</Description>
     <RepositoryUrl>https://github.com/cartomatic/Cartomatic.Utils</RepositoryUrl>
@@ -30,7 +31,7 @@ use at your own risk...</Description>
   </ItemGroup>
 
 
-    <!--.NET 6 refs, compilation flags & build opts-->
+    <!--.NET 6 refs, compilation flags & build opts--><!--
     <PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0'">
         <DefineConstants>NET6_0</DefineConstants>
     </PropertyGroup>
@@ -81,7 +82,7 @@ use at your own risk...</Description>
     </ItemGroup>
 
 
-  <!--.NET 5 refs, compilation flags & build opts-->
+  --><!--.NET 5 refs, compilation flags & build opts--><!--
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net5.0'">
     <DefineConstants>NET5_0</DefineConstants>
   </PropertyGroup>
@@ -131,7 +132,7 @@ use at your own risk...</Description>
     </PackageReference>
   </ItemGroup>
 
-  <!--.NET standard 3.1 refs, compilation flags & build opts-->
+  --><!--.NET standard 3.1 refs, compilation flags & build opts--><!--
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1'">
     <DefineConstants>NETCOREAPP3_1</DefineConstants>
   </PropertyGroup>
@@ -180,7 +181,7 @@ use at your own risk...</Description>
   </ItemGroup>
 
 
-  <!--.NET standard 2.0 refs, compilation flags & build opts-->
+  --><!--.NET standard 2.0 refs, compilation flags & build opts--><!--
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
     <DefineConstants>NETSTANDARD2_0</DefineConstants>
   </PropertyGroup>
@@ -224,7 +225,7 @@ use at your own risk...</Description>
     <PackageReference Include="Microsoft.Extensions.Configuration.Json">
       <Version>2.1.1</Version>
     </PackageReference>
-  </ItemGroup>
+  </ItemGroup>-->
 
 
   <!--NET 4.8.1 refs, compilation flags & build opts-->

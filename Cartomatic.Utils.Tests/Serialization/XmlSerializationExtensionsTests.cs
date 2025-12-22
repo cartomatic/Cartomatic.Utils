@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Xml.Serialization;
-using FluentAssertions;
+using AwesomeAssertions;
 using NUnit.Framework;
 
 namespace Cartomatic.Utils.Serialization.Tests

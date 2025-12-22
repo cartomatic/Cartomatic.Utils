@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Cartomatic.Utils.Crypto;
-using FluentAssertions;
+using AwesomeAssertions;
 
 namespace Cartomatic.Utils.Crypto.Tests
 {

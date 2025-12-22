@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Cartomatic.Utils.Data;
 using NUnit.Framework;
-using FluentAssertions;
+using AwesomeAssertions;
 
 namespace Cartomatic.Utils.Data.Tests
 {
