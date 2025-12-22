@@ -83,13 +83,18 @@ namespace Cartomatic.Utils
             {
                 try
                 {
-                    RollbarLocator.RollbarInstance.Configure(new RollbarConfig
+                    RollbarLocator.RollbarInstance.Configure(new RollbarLoggerConfig(
+                        rollbarCfg.AccessToken,
+                        Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")
+                    )
                     {
-                        AccessToken = rollbarCfg.AccessToken,
-                        Environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"),
-                        Enabled = (rollbarCfg.Environments?.Select(x => x.ToLower()) ?? new string[0]).Contains(
-                            Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")?.ToLower())
+                        RollbarDeveloperOptions =
+                        {
+                         Enabled = (rollbarCfg.Environments?.Select(x => x.ToLower()) ?? new string[0]).Contains(
+                             Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")?.ToLower())
+                        }
                     });
+
                     RollbarLogger = RollbarLocator.RollbarInstance.Logger;
                 }
                 catch (Exception ex)
