@@ -1,4 +1,9 @@
-﻿#if NETCOREAPP3_1 || NET5_0_OR_GREATER || NET6_0_OR_GREATER
+﻿
+using System;
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
+#if NETCOREAPP3_1 || NET5_0_OR_GREATER || NET6_0_OR_GREATER
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
