@@ -166,7 +166,7 @@ namespace Cartomatic.Utils.Ftp
                 string line;
                 while (!string.IsNullOrWhiteSpace(line = await sr.ReadLineAsync()))
                 {
-                    exists = line == entry;
+                    exists = FixEntryPath(ftpRequestSettings.SubPath, line) == entry;
                     if (exists)
                         break;
                 }
@@ -216,7 +216,7 @@ namespace Cartomatic.Utils.Ftp
 
         }
 
-
+        
         /// <summary>
         /// Returns a last modified time for an entry
         /// </summary>
@@ -227,7 +227,7 @@ namespace Cartomatic.Utils.Ftp
         {
             var ftpReq = ftpRequestSettings
                 .Clone()
-                .AddSubPath(entryName)
+                .AddSubPath(FixEntryPath(ftpRequestSettings.SubPath, entryName))
                 .SetMethod(WebRequestMethods.Ftp.GetDateTimestamp)
                 .ConfigureRequest();
 
@@ -237,8 +237,20 @@ namespace Cartomatic.Utils.Ftp
 
                 return resp.LastModified;
             });
+        }
 
-            
+        private static string FixEntryPath(string subPath, string entryName)
+        {
+            if(string.IsNullOrWhiteSpace(subPath))
+                return entryName;
+
+            if (entryName.StartsWith(subPath))
+                entryName = entryName.Replace(subPath, string.Empty);
+
+            if(entryName.StartsWith("/"))
+                entryName = entryName.Substring(1);
+
+            return entryName;
         }
 
 
@@ -295,6 +307,33 @@ namespace Cartomatic.Utils.Ftp
             
         }
 
+        public static async Task<IEnumerable<string>> GetEntriesDetailedAsync(this IFtpRequestSettings ftpRequestSettings)
+        {
+            var entries = new List<string>();
+
+            var ftpReq = ftpRequestSettings
+                .Clone()
+                .SetMethod(WebRequestMethods.Ftp.ListDirectoryDetails)
+                .ConfigureRequest();
+
+            return await ftpReq.Execute(ftpRequestSettings, async () =>
+            {
+                using var resp = (FtpWebResponse)await ftpReq.GetResponseAsync();
+                using var str = resp.GetResponseStream();
+                using var sr = new StreamReader(str);
+
+                string line;
+                while (!string.IsNullOrWhiteSpace(line = await sr.ReadLineAsync()))
+                {
+                    if (EntriesToSkip.All(x => x != line))
+                        entries.Add(line);
+                }
+
+                return entries;
+            });
+
+        }
+
 
         /// <summary>
         /// deletes a file
@@ -304,9 +343,15 @@ namespace Cartomatic.Utils.Ftp
         /// <returns>Whether or not file deletion succeeded</returns>
         public static async Task<bool> DeleteFileAsync(this IFtpRequestSettings ftpRequestSettings, string fName)
         {
+            var fxd = FixEntryPath(ftpRequestSettings.SubPath, fName);
+            if(fxd.StartsWith("."))
+            {
+                return false;
+            }
+
             var ftpReq = ftpRequestSettings
                 .Clone()
-                .AddSubPath(fName)
+                .AddSubPath(fxd)
                 .SetMethod(WebRequestMethods.Ftp.DeleteFile)
                 .ConfigureRequest();
 
