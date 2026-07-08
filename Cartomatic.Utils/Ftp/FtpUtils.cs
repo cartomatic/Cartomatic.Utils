@@ -244,8 +244,11 @@ namespace Cartomatic.Utils.Ftp
             if(string.IsNullOrWhiteSpace(subPath))
                 return entryName;
 
+            if(!subPath.EndsWith("/"))
+                subPath += "/";
+
             if (entryName.StartsWith(subPath))
-                entryName = entryName.Replace(subPath, string.Empty);
+                entryName = entryName.Substring(subPath.Length);
 
             if(entryName.StartsWith("/"))
                 entryName = entryName.Substring(1);
