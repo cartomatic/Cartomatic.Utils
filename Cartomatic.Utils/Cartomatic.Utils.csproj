@@ -20,7 +20,7 @@ use at your own risk...</Description>
 
   <ItemGroup>
     
-    <PackageReference Include="MailKit" Version="4.14.1" />
+    <PackageReference Include="MailKit" Version="4.16.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="newtonsoft.json" Version="13.0.4" />
     <PackageReference Include="restsharp" Version="106.15.0" />
