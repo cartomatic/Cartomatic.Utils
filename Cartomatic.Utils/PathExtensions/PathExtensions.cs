@@ -18,7 +18,7 @@ namespace Cartomatic.Utils
         /// <param name="path"></param>
         public static bool IsAbsolute(this string path)
         {
-            if (path.IndexOfAny(System.IO.Path.GetInvalidPathChars()) >= 0)
+            if (path.IndexOfAny(Path.GetInvalidPathChars()) >= 0)
                 throw new Exception("Invalid path chars");
 
             //Note:

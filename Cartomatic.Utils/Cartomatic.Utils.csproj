@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;netstandard2.0;net462</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;netstandard2.0;net462;net48</TargetFrameworks>
     <Description>some utils simplifying common tasks
 use at your own risk...</Description>
     <RepositoryUrl>https://github.com/cartomatic/Cartomatic.Utils</RepositoryUrl>
@@ -21,7 +21,7 @@ use at your own risk...</Description>
     <!--<PackageReference Include="msbump" Version="2.3.2" />-->
     <PackageReference Include="newtonsoft.json" Version="12.0.3" />
     <PackageReference Include="npgsql" Version="4.1.2" />
-    <PackageReference Include="restsharp" Version="106.10.0" />
+    <PackageReference Include="restsharp" Version="106.15.0" />
     <PackageReference Include="Rollbar" Version="3.7.0" />
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.0" />
@@ -122,9 +122,7 @@ use at your own risk...</Description>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net462'">
     <DefineConstants>NET462;NETFULL</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
-    <DocumentationFile>E:\Cartomatic\Utils\Cartomatic.Utils\Cartomatic.Utils.xml</DocumentationFile>
-  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp3.0|AnyCPU'">
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
@@ -137,5 +135,16 @@ use at your own risk...</Description>
     <Reference Include="System.Configuration" />
   </ItemGroup>
 
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net48'">
+	  <DefineConstants>NET48;NETFULL</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net48' ">
+
+	  <PackageReference Include="EntityFramework" Version="6.2.0" />
+	  <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.6" />
+	  <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.6" />
+
+	  <Reference Include="System.Configuration" />
+  </ItemGroup>
 
 </Project>
