@@ -83,33 +83,33 @@ namespace Cartomatic.Utils
 #endif
 
 
-            if (rollbarCfg != null && !string.IsNullOrWhiteSpace(rollbarCfg.AccessToken))
-            {
-                try
-                {
-                    RollbarLocator.RollbarInstance.Configure(new RollbarLoggerConfig(
-                        rollbarCfg.AccessToken,
-                        Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")
-                    )
-                    {
-                        RollbarDeveloperOptions =
-                        {
-                         Enabled = (rollbarCfg.Environments?.Select(x => x.ToLower()) ?? new string[0]).Contains(
-                             Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")?.ToLower())
-                        }
-                    });
+            //if (rollbarCfg != null && !string.IsNullOrWhiteSpace(rollbarCfg.AccessToken))
+            //{
+            //    try
+            //    {
+            //        RollbarLocator.RollbarInstance.Configure(new RollbarLoggerConfig(
+            //            rollbarCfg.AccessToken,
+            //            Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")
+            //        )
+            //        {
+            //            RollbarDeveloperOptions =
+            //            {
+            //             Enabled = (rollbarCfg.Environments?.Select(x => x.ToLower()) ?? new string[0]).Contains(
+            //                 Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")?.ToLower())
+            //            }
+            //        });
 
-                    RollbarLogger = RollbarLocator.RollbarInstance.Logger;
-                }
-                catch (Exception ex)
-                {
-                    LogExceptions(ex);
-                }
-            }
-            else
-            {
-                LogExceptions(new Exception("Rollbar could not be configured."));
-            }
+            //        RollbarLogger = RollbarLocator.RollbarInstance.Logger;
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        LogExceptions(ex);
+            //    }
+            //}
+            //else
+            //{
+            //    LogExceptions(new Exception("Rollbar could not be configured."));
+            //}
 
             RollbarConfigured = true;
 
